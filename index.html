@@ -154,6 +154,16 @@ textarea.in{resize:vertical;min-height:88px}
   border-radius:50%;cursor:pointer}
 .lb-nav.prev{left:12px}.lb-nav.next{right:12px}
 
+.est-toggle{width:100%;margin-top:16px;background:#fff;border:1px solid var(--line2);
+  border-radius:10px;padding:13px 15px;font-size:15px;font-weight:500;color:var(--ink);
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  font-family:inherit;transition:border-color .15s}
+.est-toggle:active{border-color:var(--ac)}
+.est-toggle svg{width:18px;height:18px;stroke:var(--sub);fill:none;stroke-width:2;
+  transition:transform .25s}
+.est-toggle.open svg{transform:rotate(180deg)}
+.est{margin-top:10px}
+
 footer{padding:26px 0 34px;text-align:center;color:var(--sub);font-size:13px;
   border-top:1px solid var(--line)}
 footer a{color:var(--ac);text-decoration:none}
@@ -192,13 +202,18 @@ footer a{color:var(--ac);text-decoration:none}
   </div>
 
   <section id="services">
-    <h2>Services &amp; rates</h2>
-    <p class="lede">Straightforward pricing. No app fees, no surprises.</p>
+    <h2 id="svc-h">Services</h2>
+    <p class="lede" id="svc-lede"></p>
     <div id="svc-list"></div>
     <div class="note" id="svc-note"></div>
 
-    <div class="est">
-      <div class="est-h">Estimate your cost</div>
+    <button class="est-toggle" id="est-toggle">
+      <span>See a price estimate</span>
+      <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="est" id="est" hidden>
+      <div class="est-h">Rough estimate</div>
       <div class="est-row">
         <div><label for="e-svc">Service</label><select class="in" id="e-svc"></select></div>
         <div><label for="e-qty" id="e-qty-l">Nights</label><input class="in" type="number" id="e-qty" value="3" min="1"/></div>
@@ -213,7 +228,7 @@ footer a{color:var(--ac);text-decoration:none}
         <div id="e-break"></div>
         <div class="est-total"><span>Estimated total</span><span id="e-total">$0</span></div>
       </div>
-      <div class="est-fine">An estimate, not a quote — confirm when you book.</div>
+      <div class="est-fine">A rough guide only. I&rsquo;ll confirm the exact price before anything is booked.</div>
     </div>
   </section>
 
@@ -309,7 +324,10 @@ const SITE = {
     {name:"Dog walking",    desc:"A proper 30-minute walk, rain or shine.",                 price:22, unit:"per walk"},
     {name:"Daycare",        desc:"Daytime care while you're at work.",                      price:45, unit:"per day"},
   ],
-  servicesNote: "Discounts for multiple dogs and repeat clients. Holiday rates may differ — just ask.",
+  // Show rates next to each service? false keeps the list clean and lets
+  // people ask first. The estimator below still works either way.
+  showPrices: false,
+  servicesNote: "Rates depend on the dates, how many dogs, and what your dog needs. Ask and I'll give you a straight answer the same day.",
   // extra charge per additional dog, and the discount for longer stays
   extraDogRate: 15,
   weekDiscount: 10,   // % off stays of 7 nights or more
@@ -374,11 +392,19 @@ function render(){
   $("contact-note").textContent = SITE.contactNote||"";
 
   // services
+  const showP = SITE.showPrices !== false;
+  $("svc-h").textContent = showP ? "Services & rates" : "Services";
+  $("svc-lede").textContent = showP
+    ? "Straightforward pricing. No app fees, no surprises."
+    : "Whatever your dog needs while you are away.";
   $("svc-list").innerHTML = (SITE.services||[]).map(s=>
     '<div class="svc"><div><div class="svc-n">'+esc(s.name)+'</div>'+
     '<div class="svc-d">'+esc(s.desc)+'</div></div>'+
-    '<div class="svc-p"><div class="svc-amt">'+money(s.price)+'</div>'+
-    '<div class="svc-unit">'+esc(s.unit)+'</div></div></div>').join("");
+    (showP
+      ? '<div class="svc-p"><div class="svc-amt">'+money(s.price)+'</div>'+
+        '<div class="svc-unit">'+esc(s.unit)+'</div></div>'
+      : '<div class="svc-p"><div class="svc-unit">'+esc(s.unit)+'</div></div>')+
+    '</div>').join("");
   $("svc-note").textContent = SITE.servicesNote||"";
   $("f-svc").innerHTML = (SITE.services||[]).map(s=>
     '<option>'+esc(s.name)+'</option>').join("") + '<option>Not sure yet</option>';
@@ -524,6 +550,15 @@ function estimate(){
 function line(l,r){
   return '<div class="est-line"><span>'+esc(l)+'</span><b>'+esc(r)+'</b></div>';
 }
+$("est-toggle").addEventListener("click",()=>{
+  const box=$("est"), btn=$("est-toggle");
+  const open=!box.hasAttribute("hidden");
+  if(open){ box.setAttribute("hidden",""); btn.classList.remove("open");
+            btn.querySelector("span").textContent="See a price estimate"; }
+  else { box.removeAttribute("hidden"); btn.classList.add("open");
+         btn.querySelector("span").textContent="Hide estimate"; estimate(); }
+});
+
 $("e-book").addEventListener("click",()=>{
   const s=(SITE.services||[])[+$("e-svc").value];
   if(s && $("f-svc")) $("f-svc").value=s.name;
