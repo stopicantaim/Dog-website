@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Dillon Dog Sitting — Trusted Dog Sitting</title>
+<meta name="description" content="Insured, experienced dog sitting, boarding and drop-in visits. Book directly and skip the app fees."/>
+<meta name="theme-color" content="#1c3d5a"/>
+<meta property="og:title" content="Dillon Dog Sitting — Trusted Dog Sitting"/>
+<meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Book directly."/>
+<meta property="og:type" content="website"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#fff;--bg2:#f7f8fa;--line:#e4e7ec;--line2:#d0d5dd;
+  --ink:#101828;--sub:#667085;
+  --ac:#1c3d5a;--ac2:#16324a;--ac-bg:#eef3f8;
+  --ok:#067647;--ok-bg:#ecfdf3;
+  --r:12px;--max:600px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+img{max-width:100%;display:block}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:13px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;stroke:var(--ac);fill:none;stroke-width:1.7}
+.nav-cta{background:var(--ac);color:#fff;border:none;border-radius:8px;
+  font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;text-decoration:none;
+  white-space:nowrap;transition:opacity .15s}
+.nav-cta:active{opacity:.88}
+
+/* hero */
+.hero{padding:44px 0 34px;text-align:center}
+.eyebrow{display:inline-block;background:var(--ac-bg);color:var(--ac2);
+  font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:16px}
+h1{font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--sub);max-width:440px;margin:0 auto 24px}
+.btn{display:block;width:100%;background:var(--ac);color:#fff;border:1px solid var(--ac);
+  border-radius:10px;font-size:16px;font-weight:600;padding:14px;cursor:pointer;
+  text-decoration:none;text-align:center;transition:opacity .15s}
+.btn:active{opacity:.88}
+.btn.alt{background:#fff;color:var(--ink);border-color:var(--line2)}
+.btn-row{display:grid;gap:10px;max-width:340px;margin:0 auto}
+.trust{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:24px;
+  font-size:13px;color:var(--sub)}
+.trust span{display:flex;align-items:center;gap:6px}
+.trust svg{width:15px;height:15px;stroke:var(--ok);fill:none;stroke-width:2.2}
+
+/* sections */
+section{padding:38px 0;border-top:1px solid var(--line)}
+h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.lede{color:var(--sub);margin-bottom:22px}
+
+/* services */
+.svc{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.svc-n{font-size:16px;font-weight:600;margin-bottom:2px}
+.svc-d{font-size:14px;color:var(--sub);line-height:1.5}
+.svc-p{text-align:right;flex-shrink:0}
+.svc-amt{font-size:19px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.svc-unit{font-size:12px;color:var(--sub)}
+.note{font-size:13px;color:var(--sub);margin-top:14px;padding:13px 15px;
+  background:var(--bg2);border-radius:10px;line-height:1.6}
+
+/* about */
+.about{display:flex;gap:16px;align-items:flex-start}
+.about-img{width:96px;height:96px;border-radius:var(--r);background:var(--ac-bg);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.about-img svg{width:40px;height:40px;stroke:var(--ac);fill:none;stroke-width:1.5}
+.about p{font-size:15px;color:var(--sub)}
+.about p+p{margin-top:10px}
+
+/* gallery */
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gal-i{aspect-ratio:1;border-radius:var(--r);background:var(--bg2);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  color:var(--line2);font-size:12px;overflow:hidden}
+.gal-i img{width:100%;height:100%;object-fit:cover}
+
+/* reviews */
+.rev{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.stars{color:#f59e0b;font-size:13px;letter-spacing:2px;margin-bottom:8px}
+.rev p{font-size:15px;line-height:1.6}
+.rev-w{font-size:13px;color:var(--sub);margin-top:10px;font-weight:600}
+
+/* faq */
+.faq{border-bottom:1px solid var(--line)}
+.faq:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;text-align:left;cursor:pointer;
+  padding:15px 0;font-size:15px;font-weight:600;color:var(--ink);
+  display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q::after{content:"+";font-size:20px;color:var(--sub);font-weight:400;flex-shrink:0}
+.faq.open .faq-q::after{content:"−"}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,opacity .2s;
+  opacity:0;font-size:15px;color:var(--sub)}
+.faq.open .faq-a{max-height:400px;opacity:1;padding-bottom:15px}
+
+/* contact */
+.field{margin-bottom:14px}
+label{display:block;font-size:13px;font-weight:600;color:var(--sub);margin-bottom:6px}
+.in{width:100%;background:#fff;border:1px solid var(--line2);border-radius:10px;
+  color:var(--ink);padding:12px 13px;font-size:16px;outline:none;font-family:inherit;
+  transition:border-color .15s,box-shadow .18s}
+.in:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-bg)}
+textarea.in{resize:vertical;min-height:88px}
+.err{font-size:13px;color:#b42318;min-height:18px;margin-bottom:4px}
+
+/* sticky bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  padding:10px 20px calc(10px + env(safe-area-inset-bottom))}
+.bar-in{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bar .btn{padding:13px;font-size:15px}
+
+.avail{display:flex;align-items:center;gap:9px;background:var(--ok-bg);
+  border:1px solid #a6f4c5;border-radius:10px;padding:11px 14px;margin-top:6px;
+  font-size:14px;font-weight:500;color:#054f31}
+.avail svg{width:17px;height:17px;stroke:var(--ok);fill:none;stroke-width:1.9;flex-shrink:0}
+
+.est{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:18px;background:var(--bg2)}
+.est-h{font-size:15px;font-weight:600;margin-bottom:12px}
+.est-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.est .in{background:#fff}
+.est-go{padding:12px;font-size:15px;width:100%}
+.est-out{border-top:1px solid var(--line2);padding-top:12px;margin-top:2px}
+.est-line{display:flex;justify-content:space-between;font-size:14px;color:var(--sub);padding:4px 0}
+.est-line b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.est-total{display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:8px;padding-top:10px;border-top:1px solid var(--line2);font-size:15px;font-weight:600}
+.est-total span:last-child{font-size:24px;font-weight:700;letter-spacing:-.02em;
+  color:var(--ac);font-variant-numeric:tabular-nums}
+.est-fine{font-size:12px;color:var(--sub);margin-top:9px}
+
+.gal-i{cursor:pointer;transition:opacity .15s}
+.gal-i:active{opacity:.85}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(8,11,16,.95);display:none;
+  align-items:center;justify-content:center;padding:20px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:82vh;border-radius:8px;object-fit:contain}
+.lb-x{position:absolute;top:calc(14px + env(safe-area-inset-top));right:16px;
+  background:rgba(255,255,255,.14);border:none;color:#fff;font-size:26px;line-height:1;
+  width:40px;height:40px;border-radius:50%;cursor:pointer}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);
+  border:none;color:#fff;font-size:30px;line-height:1;width:44px;height:44px;
+  border-radius:50%;cursor:pointer}
+.lb-nav.prev{left:12px}.lb-nav.next{right:12px}
+
+footer{padding:26px 0 34px;text-align:center;color:var(--sub);font-size:13px;
+  border-top:1px solid var(--line)}
+footer a{color:var(--ac);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+  <div class="brand">
+    <svg viewBox="0 0 24 24"><ellipse cx="12" cy="15" rx="4.2" ry="3.4"/><ellipse cx="6.5" cy="10" rx="1.9" ry="2.4"/><ellipse cx="17.5" cy="10" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.4" rx="1.8" ry="2.2"/><ellipse cx="14.2" cy="6.4" rx="1.8" ry="2.2"/></svg>
+    <span id="nav-name">Dillon Dog Sitting</span>
+  </div>
+  <a class="nav-cta" href="#contact">Book now</a>
+</div></nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow" id="hero-area">Serving Wake Forest &amp; Raleigh</div>
+    <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
+    <p id="hero-p">Boarding, house sitting, drop-in visits and walks from someone who treats your dog like their own.</p>
+    <div class="btn-row">
+      <a class="btn" id="cta-text" href="#contact">Request a booking</a>
+      <a class="btn alt" id="cta-call" href="tel:">Call or text</a>
+    </div>
+    <div class="trust">
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t1">5+ years experience</span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t2">Insured &amp; bonded</span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t3">Daily photo updates</span></span>
+    </div>
+  </header>
+
+  <div class="avail" id="avail" style="display:none">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+    <span id="avail-text"></span>
+  </div>
+
+  <section id="services">
+    <h2>Services &amp; rates</h2>
+    <p class="lede">Straightforward pricing. No app fees, no surprises.</p>
+    <div id="svc-list"></div>
+    <div class="note" id="svc-note"></div>
+
+    <div class="est">
+      <div class="est-h">Estimate your cost</div>
+      <div class="est-row">
+        <div><label for="e-svc">Service</label><select class="in" id="e-svc"></select></div>
+        <div><label for="e-qty" id="e-qty-l">Nights</label><input class="in" type="number" id="e-qty" value="3" min="1"/></div>
+      </div>
+      <div class="est-row">
+        <div><label for="e-dogs">Dogs</label><input class="in" type="number" id="e-dogs" value="1" min="1" max="6"/></div>
+        <div style="display:flex;align-items:flex-end">
+          <a class="btn est-go" id="e-book" href="#contact">Book this</a>
+        </div>
+      </div>
+      <div class="est-out">
+        <div id="e-break"></div>
+        <div class="est-total"><span>Estimated total</span><span id="e-total">$0</span></div>
+      </div>
+      <div class="est-fine">An estimate, not a quote — confirm when you book.</div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <div class="about">
+      <div class="about-img" id="about-img">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke-linecap="round"/></svg>
+      </div>
+      <div id="about-text"></div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <h2>Recent guests</h2>
+    <p class="lede">A few of the dogs I&rsquo;ve looked after.</p>
+    <div class="gal" id="gal"></div>
+  </section>
+
+  <section id="reviews">
+    <h2>What clients say</h2>
+    <div id="rev-list"></div>
+  </section>
+
+  <section id="faq">
+    <h2>Common questions</h2>
+    <div id="faq-list" style="margin-top:14px"></div>
+  </section>
+
+  <section id="contact">
+    <h2>Request a booking</h2>
+    <p class="lede">Tell me the dates and I&rsquo;ll get back to you the same day.</p>
+    <div class="field"><label for="f-name">Your name</label>
+      <input class="in" id="f-name" autocomplete="name"/></div>
+    <div class="field"><label for="f-dog">Dog&rsquo;s name &amp; breed</label>
+      <input class="in" id="f-dog"/></div>
+    <div class="field"><label for="f-svc">Service</label>
+      <select class="in" id="f-svc"></select></div>
+    <div class="field"><label for="f-dates">Dates needed</label>
+      <input class="in" id="f-dates" placeholder="e.g. Sept 12–16"/></div>
+    <div class="field"><label for="f-msg">Anything I should know?</label>
+      <textarea class="in" id="f-msg" placeholder="Medications, anxiety, routine, other pets..."></textarea></div>
+    <div class="err" id="f-err"></div>
+    <a class="btn" id="f-send" href="#">Send request by text</a>
+    <a class="btn alt" id="f-email" href="#" style="margin-top:10px">Send by email instead</a>
+    <div class="note" id="contact-note"></div>
+  </section>
+
+</div>
+
+<div class="bar"><div class="bar-in">
+  <a class="btn alt" id="bar-call" href="tel:">Call</a>
+  <a class="btn" href="#contact">Request booking</a>
+</div></div>
+
+<footer class="wrap">
+  <div id="foot-name">Dillon Dog Sitting</div>
+  <div style="margin-top:5px" id="foot-contact"></div>
+  <div style="margin-top:10px;font-size:12px">Serving <span id="foot-area"></span></div>
+</footer>
+<div class="lb" id="lb"><button class="lb-x" id="lb-x">&times;</button>
+  <img id="lb-img" alt="Dog in my care"/>
+  <button class="lb-nav prev" id="lb-prev">&lsaquo;</button>
+  <button class="lb-nav next" id="lb-next">&rsaquo;</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   EDIT THIS BLOCK — everything on the page comes from here.
+   Change the text, save, re-upload. Nothing else needs touching.
+   ═══════════════════════════════════════════════════════════════ */
+const SITE = {
+  name:    "Dillon Dog Sitting",
+  phone:   "919-555-0100",          // used for call + text buttons
+  email:   "dillon@example.com",
+  area:    "Wake Forest, Rolesville & North Raleigh",
+
+  // Availability notice shown near the top. Set to "" to hide it.
+  availability: "Now booking for September — holiday dates filling up",
+  // Dates already full, so people don't ask. Format "YYYY-MM-DD".
+  bookedDates: [],
+
+  headline: "Your dog stays happy while you're away",
+  intro:    "Boarding, house sitting, drop-in visits and walks from someone who treats your dog like their own.",
+
+  // the three ticks under the buttons
+  trust: ["5+ years experience", "Insured & bonded", "Daily photo updates"],
+
+  services: [
+    {name:"Boarding",       desc:"Your dog stays at my home. Fed, walked and fussed over.", price:60, unit:"per night"},
+    {name:"House sitting",  desc:"I stay at your place so your dog keeps their routine.",   price:75, unit:"per night"},
+    {name:"Drop-in visits", desc:"30 minutes — feeding, potty break, playtime, updates.",   price:25, unit:"per visit"},
+    {name:"Dog walking",    desc:"A proper 30-minute walk, rain or shine.",                 price:22, unit:"per walk"},
+    {name:"Daycare",        desc:"Daytime care while you're at work.",                      price:45, unit:"per day"},
+  ],
+  servicesNote: "Discounts for multiple dogs and repeat clients. Holiday rates may differ — just ask.",
+  // extra charge per additional dog, and the discount for longer stays
+  extraDogRate: 15,
+  weekDiscount: 10,   // % off stays of 7 nights or more
+
+  about: [
+    "Hi, I'm Dillon. I've been caring for dogs in the area for over five years, everything from anxious rescues to nine-week-old puppies.",
+    "Your dog gets a real routine — proper walks, feeding on their schedule, and photos through the day so you're never wondering how things are going."
+  ],
+
+  // Photos: drop image files next to this page and list the filenames.
+  // Leave as-is to show placeholders until you have photos.
+  photos: [],
+
+  reviews: [
+    {stars:5, text:"Dillon took our anxious rescue for a week and sent photos every day. She came home relaxed instead of stressed.", who:"Sarah M."},
+    {stars:5, text:"Reliable, communicative, and genuinely good with dogs. We won't use anyone else now.", who:"Priya K."},
+    {stars:5, text:"Stayed at our place over the holidays and left it spotless. Our two were completely at ease.", who:"Marcus T."},
+  ],
+
+  faq: [
+    {q:"What's your service area?", a:"Wake Forest, Rolesville and North Raleigh. Message me if you're just outside — I can often still help."},
+    {q:"Do you take dogs of any size?", a:"Yes. I've cared for everything from small breeds to large working dogs. Just let me know what to expect."},
+    {q:"What about medications?", a:"Happy to give oral medication at no extra charge. For injections, let me know in advance so we can talk it through."},
+    {q:"How do I pay?", a:"Venmo, Zelle or cash, due at the end of the stay. I'll send a simple invoice."},
+    {q:"Can I meet you first?", a:"Please do — I recommend a free meet-and-greet before the first booking so you and your dog can size me up."},
+  ],
+
+  contactNote: "Prefer to talk first? Call or text any time between 8am and 8pm.",
+};
+/* ═══════════════ nothing below here needs editing ═══════════════ */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const digits = s => String(s||"").replace(/[^0-9+]/g,"");
+const money = n => "$"+(+n||0);
+
+function render(){
+  // identity
+  document.title = SITE.name + " — Trusted Dog Sitting";
+  $("nav-name").textContent = SITE.name;
+  $("foot-name").textContent = SITE.name;
+  $("hero-h1").textContent = SITE.headline;
+  $("hero-p").textContent = SITE.intro;
+  $("hero-area").textContent = "Serving " + SITE.area;
+  $("foot-area").textContent = SITE.area;
+
+  (SITE.trust||[]).slice(0,3).forEach((t,i)=>{
+    const el=$("t"+(i+1)); if(el) el.textContent=t;
+  });
+
+  // contact links
+  const tel = digits(SITE.phone);
+  ["cta-call","bar-call"].forEach(id=>{
+    const el=$(id); if(!el) return;
+    if(tel){ el.href="tel:"+tel; } else { el.style.display="none"; }
+  });
+  $("foot-contact").innerHTML =
+    (SITE.phone?'<a href="tel:'+esc(tel)+'">'+esc(SITE.phone)+'</a>':'')+
+    (SITE.phone&&SITE.email?' · ':'')+
+    (SITE.email?'<a href="mailto:'+esc(SITE.email)+'">'+esc(SITE.email)+'</a>':'');
+  $("contact-note").textContent = SITE.contactNote||"";
+
+  // services
+  $("svc-list").innerHTML = (SITE.services||[]).map(s=>
+    '<div class="svc"><div><div class="svc-n">'+esc(s.name)+'</div>'+
+    '<div class="svc-d">'+esc(s.desc)+'</div></div>'+
+    '<div class="svc-p"><div class="svc-amt">'+money(s.price)+'</div>'+
+    '<div class="svc-unit">'+esc(s.unit)+'</div></div></div>').join("");
+  $("svc-note").textContent = SITE.servicesNote||"";
+  $("f-svc").innerHTML = (SITE.services||[]).map(s=>
+    '<option>'+esc(s.name)+'</option>').join("") + '<option>Not sure yet</option>';
+
+  // about
+  $("about-text").innerHTML = (SITE.about||[]).map(p=>'<p>'+esc(p)+'</p>').join("");
+  if(SITE.aboutPhoto){
+    $("about-img").innerHTML='<img src="'+esc(SITE.aboutPhoto)+'" alt="'+esc(SITE.name)+'"/>';
+  }
+
+  // gallery — placeholders until real photos are added
+  const photos = SITE.photos||[];
+  const gal=$("gal");
+  if(photos.length){
+    gal.innerHTML = photos.slice(0,6).map((src,i)=>
+      '<div class="gal-i" data-i="'+i+'"><img src="'+esc(src)+'" alt="Dog in my care" loading="lazy"/></div>').join("");
+    gal.querySelectorAll("[data-i]").forEach(el=>
+      el.addEventListener("click",()=>openLightbox(+el.dataset.i)));
+  }else{
+    gal.innerHTML = Array.from({length:4},()=>'<div class="gal-i">photo</div>').join("");
+    document.querySelector("#gallery .lede").textContent =
+      "Add photos of dogs you've looked after — with the owner's blessing.";
+  }
+
+  // reviews
+  $("rev-list").innerHTML = (SITE.reviews||[]).map(r=>
+    '<div class="rev"><div class="stars">'+"★".repeat(Math.max(1,Math.min(5,r.stars||5)))+'</div>'+
+    '<p>'+esc(r.text)+'</p><div class="rev-w">— '+esc(r.who)+'</div></div>').join("");
+
+  // faq
+  $("faq-list").innerHTML = (SITE.faq||[]).map(f=>
+    '<div class="faq"><button class="faq-q">'+esc(f.q)+'</button>'+
+    '<div class="faq-a">'+esc(f.a)+'</div></div>').join("");
+  document.querySelectorAll(".faq-q").forEach(b=>b.addEventListener("click",()=>{
+    const box=b.parentElement, open=box.classList.contains("open");
+    document.querySelectorAll(".faq").forEach(f=>f.classList.remove("open"));
+    if(!open) box.classList.add("open");
+  }));
+}
+
+// ── booking request → prefilled text or email ─────────────────────────
+function buildMessage(){
+  const name=$("f-name").value.trim();
+  const dog=$("f-dog").value.trim();
+  const svc=$("f-svc").value;
+  const dates=$("f-dates").value.trim();
+  const msg=$("f-msg").value.trim();
+  if(!name) return {err:"Please add your name."};
+  if(!dates) return {err:"Which dates do you need?"};
+  const body=
+    "Hi "+SITE.name+" — I'd like to book.\n\n"+
+    "Name: "+name+"\n"+
+    (dog?"Dog: "+dog+"\n":"")+
+    "Service: "+svc+"\n"+
+    "Dates: "+dates+"\n"+
+    (msg?"\nNotes: "+msg+"\n":"");
+  return {body};
+}
+function wireForm(){
+  $("f-send").addEventListener("click",e=>{
+    e.preventDefault();
+    const r=buildMessage();
+    $("f-err").textContent=r.err||"";
+    if(r.err) return;
+    const tel=digits(SITE.phone);
+    if(!tel){ $("f-err").textContent="No phone number set — use email below."; return; }
+    // iOS wants ?& , Android wants ?body=
+    const sep = /iPhone|iPad|Macintosh/i.test(navigator.userAgent) ? "&" : "?";
+    location.href = "sms:"+tel+sep+"body="+encodeURIComponent(r.body);
+  });
+  $("f-email").addEventListener("click",e=>{
+    e.preventDefault();
+    const r=buildMessage();
+    $("f-err").textContent=r.err||"";
+    if(r.err) return;
+    if(!SITE.email){ $("f-err").textContent="No email set — use the text option."; return; }
+    location.href="mailto:"+SITE.email+
+      "?subject="+encodeURIComponent("Booking request — "+$("f-name").value.trim())+
+      "&body="+encodeURIComponent(r.body);
+  });
+}
+
+
+// ── availability notice ────────────────────────────────────────────────
+function renderAvailability(){
+  const box=$("avail");
+  const msg=(SITE.availability||"").trim();
+  const full=(SITE.bookedDates||[]).length;
+  if(!msg && !full){ box.style.display="none"; return; }
+  box.style.display="flex";
+  $("avail-text").textContent = msg + (full ? "  ·  "+full+" date"+(full===1?"":"s")+" already full" : "");
+}
+
+// ── price estimator ────────────────────────────────────────────────────
+function unitWord(unit){
+  return (unit||"").replace(/^per\s+/,"");
+}
+function renderEstimator(){
+  const sel=$("e-svc");
+  sel.innerHTML=(SITE.services||[]).map((s,i)=>
+    '<option value="'+i+'">'+esc(s.name)+'</option>').join("");
+  ["e-svc","e-qty","e-dogs"].forEach(id=>{
+    const el=$(id);
+    el.addEventListener("input",estimate);
+    el.addEventListener("change",estimate);
+  });
+  estimate();
+}
+function estimate(){
+  const svcs=SITE.services||[];
+  const s=svcs[+$("e-svc").value]||svcs[0];
+  if(!s) return;
+  const word=unitWord(s.unit);
+  $("e-qty-l").textContent = word.charAt(0).toUpperCase()+word.slice(1)+"s";
+
+  let qty=Math.max(1, Math.min(365, parseInt($("e-qty").value)||1));
+  let dogs=Math.max(1, Math.min(6, parseInt($("e-dogs").value)||1));
+
+  const base=s.price*qty;
+  const extraPer=+SITE.extraDogRate||0;
+  const extra=extraPer*(dogs-1)*qty;
+  const sub=base+extra;
+
+  // longer stays get a discount, but only for per-night services
+  const pct=+SITE.weekDiscount||0;
+  const nightly=/night/i.test(s.unit);
+  const disc=(nightly && pct>0 && qty>=7) ? sub*(pct/100) : 0;
+  const total=sub-disc;
+
+  const L=[];
+  L.push(line(qty+" "+word+(qty===1?"":"s")+" @ "+money(s.price), money(base)));
+  if(extra>0) L.push(line((dogs-1)+" extra dog"+(dogs-1===1?"":"s")+" @ "+money(extraPer), money(extra)));
+  if(disc>0) L.push(line(pct+"% long-stay discount", "−"+money(Math.round(disc))));
+  $("e-break").innerHTML=L.join("");
+  $("e-total").textContent=money(Math.round(total));
+
+  // carry the choice into the booking form
+  const bookSvc=$("f-svc");
+  if(bookSvc) bookSvc.value=s.name;
+  const dates=$("f-dates");
+  if(dates && !dates.value) dates.placeholder="e.g. "+qty+" "+word+(qty===1?"":"s");
+}
+function line(l,r){
+  return '<div class="est-line"><span>'+esc(l)+'</span><b>'+esc(r)+'</b></div>';
+}
+$("e-book").addEventListener("click",()=>{
+  const s=(SITE.services||[])[+$("e-svc").value];
+  if(s && $("f-svc")) $("f-svc").value=s.name;
+});
+
+// ── photo lightbox ─────────────────────────────────────────────────────
+let lbIdx=0;
+function openLightbox(i){
+  const photos=SITE.photos||[];
+  if(!photos.length) return;
+  lbIdx=(i+photos.length)%photos.length;
+  $("lb-img").src=photos[lbIdx];
+  $("lb").classList.add("on");
+  document.body.style.overflow="hidden";
+  const multi=photos.length>1;
+  $("lb-prev").style.display=multi?"":"none";
+  $("lb-next").style.display=multi?"":"none";
+}
+function closeLightbox(){
+  $("lb").classList.remove("on");
+  document.body.style.overflow="";
+}
+$("lb-x").addEventListener("click",closeLightbox);
+$("lb").addEventListener("click",e=>{ if(e.target===$("lb")) closeLightbox(); });
+$("lb-prev").addEventListener("click",e=>{e.stopPropagation();openLightbox(lbIdx-1)});
+$("lb-next").addEventListener("click",e=>{e.stopPropagation();openLightbox(lbIdx+1)});
+addEventListener("keydown",e=>{
+  if(!$("lb").classList.contains("on")) return;
+  if(e.key==="Escape") closeLightbox();
+  if(e.key==="ArrowLeft") openLightbox(lbIdx-1);
+  if(e.key==="ArrowRight") openLightbox(lbIdx+1);
+});
+// swipe between photos
+(function(){
+  let x0=null;
+  const lb=$("lb");
+  lb.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
+  lb.addEventListener("touchend",e=>{
+    if(x0===null) return;
+    const dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>50) openLightbox(lbIdx+(dx<0?1:-1));
+    x0=null;
+  },{passive:true});
+})();
+
+try{ render(); wireForm(); renderAvailability(); renderEstimator(); }
+catch(e){ console.error("Site error:",e); }
+</script>
+</body>
+</html>
