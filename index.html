@@ -39,29 +39,29 @@ img{max-width:100%;display:block}
 .nav-cta:active{opacity:.88}
 
 /* hero */
-.hero{padding:44px 0 34px;text-align:center}
+.hero{padding:32px 0 26px;text-align:center}
 .eyebrow{display:inline-block;background:var(--ac-bg);color:var(--ac2);
   font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:16px}
-h1{font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
-.hero p{font-size:17px;color:var(--sub);max-width:440px;margin:0 auto 24px}
+h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
+.hero p{font-size:16px;color:var(--sub);max-width:460px;margin:0 auto 20px}
 .btn{display:block;width:100%;background:var(--ac);color:#fff;border:1px solid var(--ac);
   border-radius:10px;font-size:16px;font-weight:600;padding:14px;cursor:pointer;
   text-decoration:none;text-align:center;transition:opacity .15s}
 .btn:active{opacity:.88}
 .btn.alt{background:#fff;color:var(--ink);border-color:var(--line2)}
 .btn-row{display:grid;gap:10px;max-width:340px;margin:0 auto}
-.trust{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:24px;
+.trust{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:20px;
   font-size:13px;color:var(--sub)}
 .trust span{display:flex;align-items:center;gap:6px}
 .trust svg{width:15px;height:15px;stroke:var(--ok);fill:none;stroke-width:2.2}
 
 /* sections */
-section{padding:38px 0;border-top:1px solid var(--line)}
+section{padding:30px 0;border-top:1px solid var(--line)}
 h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .lede{color:var(--sub);margin-bottom:22px}
 
 /* services */
-.svc{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:10px;
+.svc{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px;
   display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .svc-n{font-size:16px;font-weight:600;margin-bottom:2px}
 .svc-d{font-size:14px;color:var(--sub);line-height:1.5}
@@ -87,7 +87,7 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .gal-i img{width:100%;height:100%;object-fit:cover}
 
 /* reviews */
-.rev{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.rev{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px}
 .stars{color:#f59e0b;font-size:13px;letter-spacing:2px;margin-bottom:8px}
 .rev p{font-size:15px;line-height:1.6}
 .rev-w{font-size:13px;color:var(--sub);margin-top:10px;font-weight:600}
@@ -167,6 +167,41 @@ textarea.in{resize:vertical;min-height:88px}
 footer{padding:26px 0 34px;text-align:center;color:var(--sub);font-size:13px;
   border-top:1px solid var(--line)}
 footer a{color:var(--ac);text-decoration:none}
+
+/* ── larger screens: two columns instead of a lonely strip ── */
+@media (min-width:700px){
+  :root{--max:900px}
+  .hero{padding:52px 0 40px}
+  h1{font-size:44px;max-width:760px;margin-left:auto;margin-right:auto}
+  .hero p{font-size:18px;max-width:560px}
+  .btn-row{grid-template-columns:1fr 1fr;max-width:460px}
+  section{padding:44px 0}
+  h2{font-size:27px}
+
+  /* services and reviews side by side */
+  #svc-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  #svc-list .svc{margin-bottom:0}
+  #rev-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  #rev-list .rev{margin-bottom:0}
+  .gal{grid-template-columns:repeat(4,1fr)}
+
+  /* about reads better wider */
+  .about-img{width:130px;height:130px}
+  .about{gap:24px}
+
+  /* the form doesn't need to be full width */
+  #contact .field,#contact .btn,#contact .err,#contact .note{max-width:520px}
+  .est{max-width:560px}
+  .est-row{grid-template-columns:1fr 1fr 1fr}
+
+  /* the sticky bar is a phone thing */
+  .bar{display:none}
+  body{padding-bottom:0}
+}
+@media (min-width:1000px){
+  :root{--max:1000px}
+  .gal{grid-template-columns:repeat(4,1fr)}
+}
 </style>
 </head>
 <body>
