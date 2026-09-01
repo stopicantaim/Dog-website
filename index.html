@@ -91,10 +91,10 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .lede{color:var(--sub);margin-bottom:22px}
 
 /* services */
-.svc{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px;
-  display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
-.svc-n{font-size:16px;font-weight:600;margin-bottom:2px}
-.svc-d{font-size:14px;color:var(--sub);line-height:1.5}
+.svc{border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:8px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.svc-n{font-size:16px;font-weight:600;margin-bottom:4px}
+.svc-d{font-size:14px;color:var(--sub);line-height:1.6}
 .svc-p{text-align:right;flex-shrink:0}
 .svc-amt{font-size:19px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .svc-unit{font-size:12px;color:var(--sub)}
@@ -561,16 +561,24 @@ const SITE = {
   trust: ["Two of us, so someone's always around", "Free meet & greet first", "A home, not a kennel"],
 
   services: [
-    {name:"Boarding",       desc:"Your dog stays at our home. Fed, walked and fussed over.", price:60, unit:"per night"},
-    {name:"House sitting",  desc:"One of us stays at your place so your dog keeps their routine.", price:75, unit:"per night"},
-    {name:"Drop-in visits", desc:"30 minutes — feeding, potty break, playtime, updates.",   price:25, unit:"per visit"},
-    {name:"Dog walking",    desc:"A proper 30-minute walk, rain or shine.",                 price:22, unit:"per walk"},
-    {name:"Daycare",        desc:"Daytime care while you're at work.",                      price:45, unit:"per day"},
-  ],
-  // Show rates next to each service? false keeps the list clean and lets
+    {name:"Overnight boarding", unit:"per night",  price:60,
+     desc:"Your dog stays in our home, not a crate or a kennel run. Fed on their own schedule, walked twice a day, and settled in the same rooms we are. Photo updates every day."},
+
+    {name:"House sitting", unit:"per night",  price:75,
+     desc:"One of us stays overnight at your place so your dog keeps their own bed, their own routine and their own yard. We bring in mail, alternate lights and leave the house as we found it."},
+
+    {name:"Drop-in visits", unit:"per visit", price:25,
+     desc:"A 30-minute visit — feeding, fresh water, a potty break, medication if needed, and proper play or a short walk. You get a photo and a note after every visit."},
+
+    {name:"Dog walking", unit:"per walk",  price:22,
+     desc:"A full 30 minutes on the lead, rain or shine. Paced to suit your dog, whether that's a brisk loop for a young shepherd or a gentle amble for an older one. Paws wiped before we leave."},
+
+    {name:"Daycare", unit:"per day",   price:45,
+     desc:"Daytime care while you're at work, roughly 7am to 6pm. Your dog gets company, garden access and a midday walk instead of a long day alone at home."},
+  ],  // Show rates next to each service? false keeps the list clean and lets
   // people ask first. The estimator below still works either way.
   showPrices: false,
-  servicesNote: "Rates depend on the dates, how many dogs, and what your dog needs. Ask and we'll give you a straight answer the same day.",
+  servicesNote: "Rates vary with the dates, the number of dogs and any extra care needed. Puppies, senior dogs and medication are all fine — tell us what's involved and we'll quote you the same day.",
   // extra charge per additional dog, and the discount for longer stays
   extraDogRate: 15,
   weekDiscount: 10,   // % off stays of 7 nights or more
@@ -672,7 +680,7 @@ function render(){
   $("svc-h").textContent = showP ? "Services & rates" : "Services";
   $("svc-lede").textContent = showP
     ? "Straightforward pricing. No app fees, no surprises."
-    : "Whatever your dog needs while you are away.";
+    : "Care built around your dog's routine, not ours.";
   $("svc-list").innerHTML = (SITE.services||[]).map(s=>
     '<div class="svc"><div><div class="svc-n">'+esc(s.name)+'</div>'+
     '<div class="svc-d">'+esc(s.desc)+'</div></div>'+
