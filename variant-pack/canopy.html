@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Hunter &amp; Dillon Dog Sitting</title>
 <meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Smithfield and Johnston County, NC. Book directly."/>
-<meta name="theme-color" content="#1c3d5a"/>
+<meta name="theme-color" content="#14251a"/>
 <link rel="icon" href="favicon.ico"/>
 <link rel="apple-touch-icon" href="photos/apple-touch-icon.png"/>
 
@@ -23,11 +23,12 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#fff;--bg2:#f7f8fa;--line:#e4e7ec;--line2:#d0d5dd;
-  --ink:#101828;--sub:#667085;
-  --ac:#1c3d5a;--ac2:#16324a;--ac-bg:#eef3f8;
-  --ok:#067647;--ok-bg:#ecfdf3;
-  --r:12px;--max:600px;
+  --bg:#14251a;--bg2:#1b2f21;--card:#20372a;--card2:#25402f;
+  --line:#2d4a37;--line2:#3d6047;
+  --ink:#f1f0e6;--sub:#a9b7a8;
+  --ac:#8bc34a;--ac2:#7ab03f;--ac-bg:#223a29;
+  --ok:#8bc34a;--ok-bg:#223a29;
+  --r:14px;--max:900px;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);
@@ -369,6 +370,37 @@ footer a{color:var(--ac);text-decoration:none}
 .lb.on{opacity:1}
 .lb img{animation:lbIn .3s cubic-bezier(.2,.8,.3,1)}
 @keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+
+body{background:var(--bg)}
+#how{background:var(--bg2)}
+#services{background:var(--bg)}
+#about{background:var(--bg2)}
+#gallery{background:var(--bg)}
+#reviews{background:var(--bg2)}
+#faq{background:var(--bg)}
+#policy{background:var(--bg2)}
+#contact{background:var(--bg)}
+section{border-top:none;padding-left:20px;padding-right:20px;margin:0 -20px}
+.wrap{padding:0}
+.hero,.nav-in,section>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+.hero{padding-left:20px;padding-right:20px}
+.nav{background:rgba(20,37,26,.92);border-bottom-color:var(--line)}
+.svc,.rev,.faq,.cs-card,.steps li,.policy .p,.gal-i,.est,.est-toggle,.hero-strip .hs{
+  background:var(--card);border-color:var(--line)}
+.in,textarea.in,select.in{background:var(--card2);border-color:var(--line2);color:var(--ink)}
+.in::placeholder{color:#8b9a8a}
+.btn{background:#f2c94c;border-color:#f2c94c;color:#17281c}
+.btn.alt{background:var(--card);color:var(--ink);border-color:var(--line2)}
+.nav-cta{background:#f2c94c;color:#17281c}
+.eyebrow{background:#f2c94c;color:#17281c}
+.steps li::before{background:#f2c94c;color:#17281c}
+.avail{background:#2a3d1f;border-color:#4c6b2f;color:#d4e6a8}
+.avail svg{stroke:#a8d05c}
+.stars{color:#f2c94c}
+.note{background:var(--card2);color:var(--sub)}
+footer{background:var(--bg2)}
+.bar{background:rgba(20,37,26,.96);border-top-color:var(--line)}
+.lb{background:rgba(8,15,10,.96)}
 </style>
 </head>
 <body>
@@ -556,7 +588,7 @@ const SITE = {
     "photos/hello-at-the-fence.jpg",
     "photos/pool-day.jpg",
     "photos/puppy-on-the-deck.jpg",
-    "photos/settled-indoors.jpg",
+    "photos/shepherd-in-the-yard.jpg",
   ],
   headline: "Your dog stays happy while you're away",
   intro:    "Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.",
@@ -623,6 +655,8 @@ const SITE = {
     "photos/soccer-in-the-sun.jpg",
     "photos/fetch-at-the-park.jpg",
     "photos/toy-collection.jpg",
+    "photos/shepherd-in-the-yard.jpg",
+    "photos/poodle-in-the-sun.jpg",
   ],
 
   // REPLACE THESE with your real reviews before going live.

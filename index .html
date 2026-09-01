@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Hunter &amp; Dillon Dog Sitting</title>
+<meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Smithfield and Johnston County, NC. Book directly."/>
+<meta name="theme-color" content="#2f5d3a"/>
+<link rel="icon" href="favicon.ico"/>
+<link rel="apple-touch-icon" href="photos/apple-touch-icon.png"/>
+
+<!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
+<meta property="og:title" content="Hunter &amp; Dillon Dog Sitting — Smithfield, NC"/>
+<meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="photos/social-preview.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Hunter &amp; Dillon Dog Sitting — Smithfield, NC"/>
+<meta name="twitter:description" content="Boarding, house sitting, drop-in visits and walks."/>
+<meta name="twitter:image" content="photos/social-preview.jpg"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f6f4ec;--bg2:#eee9dc;--card:#fffdf7;--card2:#f5f1e6;
+  --line:#ddd6c4;--line2:#c8bfa8;
+  --ink:#1d2a20;--sub:#5f6b60;
+  --ac:#2f5d3a;--ac2:#24492e;--ac-bg:#e6efe6;
+  --ok:#2f5d3a;--ok-bg:#e6efe6;
+  --r:12px;--max:900px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+img{max-width:100%;display:block}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:13px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;stroke:var(--ac);fill:none;stroke-width:1.7}
+.nav-cta{background:var(--ac);color:#fff;border:none;border-radius:8px;
+  font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;text-decoration:none;
+  white-space:nowrap;transition:opacity .15s}
+.nav-cta:active{opacity:.88}
+
+/* hero */
+.hero{padding:32px 0 26px;text-align:center}
+.eyebrow{display:inline-block;background:var(--ac-bg);color:var(--ac2);
+  font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:16px}
+h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
+.hero-strip{display:grid;gap:8px;margin:24px auto 0;max-width:560px;
+  grid-template-columns:1.4fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));
+  height:min(58vw,300px)}
+.hero-strip .hs{border-radius:12px;overflow:hidden;background:var(--bg2);
+  border:1px solid var(--line);cursor:zoom-in;position:relative;min-height:0}
+.hero-strip .hs img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.hero-strip .hs:active img{transform:scale(1.03)}
+@media (hover:hover){.hero-strip .hs:hover img{transform:scale(1.06)}}
+/* the first tile spans both rows so it reads as the main image */
+.hero-strip .hs:first-child{grid-row:span 2}
+/* on a phone three tiles is plenty — more just makes them tiny */
+.hero-strip .hs:nth-child(n+4){display:none}
+@media (min-width:700px){
+  .hero-strip{max-width:900px;height:340px;
+    grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr))}
+  .hero-strip .hs:first-child{grid-row:span 2}
+  .hero-strip .hs:nth-child(n+4){display:block}
+}
+.hero p{font-size:16px;color:var(--sub);max-width:460px;margin:0 auto 20px}
+.btn{display:block;width:100%;background:var(--ac);color:#fff;border:1px solid var(--ac);
+  border-radius:10px;font-size:16px;font-weight:600;padding:14px;cursor:pointer;
+  text-decoration:none;text-align:center;transition:opacity .15s}
+.btn:active{opacity:.88}
+.btn.alt{background:#fff;color:var(--ink);border-color:var(--line2)}
+.btn-row{display:grid;gap:10px;max-width:340px;margin:0 auto}
+.trust{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:20px;
+  font-size:13px;color:var(--sub)}
+.trust span{display:flex;align-items:center;gap:6px}
+.trust svg{width:15px;height:15px;stroke:var(--ok);fill:none;stroke-width:2.2}
+
+/* sections */
+section{padding:30px 0;border-top:1px solid var(--line)}
+h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.lede{color:var(--sub);margin-bottom:22px}
+
+/* services */
+.svc{border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:8px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.svc-n{font-size:16px;font-weight:600;margin-bottom:4px}
+.svc-d{font-size:14px;color:var(--sub);line-height:1.6}
+.svc-p{text-align:right;flex-shrink:0}
+.svc-amt{font-size:19px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.svc-unit{font-size:12px;color:var(--sub)}
+.note{font-size:13px;color:var(--sub);margin-top:14px;padding:13px 15px;
+  background:var(--bg2);border-radius:10px;line-height:1.6}
+
+/* about */
+.about{display:flex;gap:16px;align-items:flex-start}
+.about-img{width:96px;height:96px;border-radius:var(--r);background:var(--ac-bg);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.about-img svg{width:40px;height:40px;stroke:var(--ac);fill:none;stroke-width:1.5}
+.about-img img{width:100%;height:100%;object-fit:cover}
+.about-img.has-photo{background:none}
+.about p{font-size:15px;color:var(--sub)}
+.about p+p{margin-top:10px}
+
+/* gallery */
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gal-i{aspect-ratio:1;position:relative;border-radius:var(--r);background:var(--bg2);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  color:var(--line2);font-size:12px;overflow:hidden}
+.gal-i img{width:100%;height:100%;object-fit:cover}
+
+/* reviews */
+.rev{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px}
+.stars{color:#f59e0b;font-size:13px;letter-spacing:2px;margin-bottom:8px}
+.rev p{font-size:15px;line-height:1.6}
+.rev-w{font-size:13px;color:var(--sub);margin-top:10px;font-weight:600}
+
+/* faq */
+.faq{border-bottom:1px solid var(--line)}
+.faq:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;text-align:left;cursor:pointer;
+  padding:15px 0;font-size:15px;font-weight:600;color:var(--ink);
+  display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q::after{content:"+";font-size:20px;color:var(--sub);font-weight:400;flex-shrink:0}
+.faq.open .faq-q::after{content:"−"}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,opacity .2s;
+  opacity:0;font-size:15px;color:var(--sub)}
+.faq.open .faq-a{max-height:400px;opacity:1;padding-bottom:15px}
+
+/* contact */
+.field{margin-bottom:14px}
+label{display:block;font-size:13px;font-weight:600;color:var(--sub);margin-bottom:6px}
+.in{width:100%;background:#fff;border:1px solid var(--line2);border-radius:10px;
+  color:var(--ink);padding:12px 13px;font-size:16px;outline:none;font-family:inherit;
+  transition:border-color .15s,box-shadow .18s}
+.in:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-bg)}
+textarea.in{resize:vertical;min-height:88px}
+.err{font-size:13px;color:#b42318;min-height:18px;margin-bottom:4px}
+
+/* sticky bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  padding:10px 20px calc(10px + env(safe-area-inset-bottom))}
+.bar-in{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bar .btn{padding:13px;font-size:15px}
+
+.avail{display:flex;align-items:center;gap:9px;background:var(--ok-bg);
+  border:1px solid #a6f4c5;border-radius:10px;padding:11px 14px;margin-top:6px;
+  font-size:14px;font-weight:500;color:#054f31}
+.avail svg{width:17px;height:17px;stroke:var(--ok);fill:none;stroke-width:1.9;flex-shrink:0}
+
+.est{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:18px;background:var(--bg2)}
+.est-h{font-size:15px;font-weight:600;margin-bottom:12px}
+.est-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.est .in{background:#fff}
+.est-go{padding:12px;font-size:15px;width:100%}
+.est-out{border-top:1px solid var(--line2);padding-top:12px;margin-top:2px}
+.est-line{display:flex;justify-content:space-between;font-size:14px;color:var(--sub);padding:4px 0}
+.est-line b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.est-total{display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:8px;padding-top:10px;border-top:1px solid var(--line2);font-size:15px;font-weight:600}
+.est-total span:last-child{font-size:24px;font-weight:700;letter-spacing:-.02em;
+  color:var(--ac);font-variant-numeric:tabular-nums}
+.est-fine{font-size:12px;color:var(--sub);margin-top:9px}
+
+.gal-i{cursor:pointer;transition:opacity .15s}
+.gal-i:active{opacity:.85}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(8,11,16,.95);display:none;
+  align-items:center;justify-content:center;padding:20px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:82vh;border-radius:8px;object-fit:contain}
+.lb-x{position:absolute;top:calc(14px + env(safe-area-inset-top));right:16px;
+  background:rgba(255,255,255,.14);border:none;color:#fff;font-size:26px;line-height:1;
+  width:40px;height:40px;border-radius:50%;cursor:pointer}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);
+  border:none;color:#fff;font-size:30px;line-height:1;width:44px;height:44px;
+  border-radius:50%;cursor:pointer}
+.lb-nav.prev{left:12px}.lb-nav.next{right:12px}
+
+.est-toggle{width:100%;margin-top:16px;background:#fff;border:1px solid var(--line2);
+  border-radius:10px;padding:13px 15px;font-size:15px;font-weight:500;color:var(--ink);
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  font-family:inherit;transition:border-color .15s}
+.est-toggle:active{border-color:var(--ac)}
+.est-toggle svg{width:18px;height:18px;stroke:var(--sub);fill:none;stroke-width:2;
+  transition:transform .25s}
+.est-toggle.open svg{transform:rotate(180deg)}
+.est{margin-top:10px}
+
+.contact-grid{display:block}
+.contact-side{margin-top:22px}
+.cs-card{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:10px;
+  background:var(--bg2)}
+.cs-h{font-size:14px;font-weight:600;margin-bottom:9px}
+.cs-steps{margin:0;padding-left:18px;font-size:14px;color:var(--sub);line-height:1.65}
+.cs-steps li{margin-bottom:6px}
+.cs-steps li:last-child{margin-bottom:0}
+.cs-line{font-size:14px;color:var(--sub);padding:5px 0;border-bottom:1px solid var(--line)}
+.cs-line:last-child{border-bottom:none}
+.cs-line a{color:var(--ac);text-decoration:none;font-weight:500}
+
+.steps{list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start;
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:#fff}
+.steps li::before{content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;
+  background:var(--ac);color:#fff;font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-top:1px}
+.steps b{display:block;font-size:15px;font-weight:600;margin-bottom:2px}
+.steps span{font-size:14px;color:var(--sub);line-height:1.5}
+@media (min-width:700px){ .steps{grid-template-columns:repeat(3,1fr)} }
+
+.policy{display:grid;gap:9px}
+.policy .p{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);
+  border-radius:var(--r);padding:13px 15px}
+.policy svg{width:17px;height:17px;stroke:var(--ac);fill:none;stroke-width:1.9;
+  flex-shrink:0;margin-top:3px}
+.policy b{display:block;font-size:14px;font-weight:600;margin-bottom:2px}
+.policy span{font-size:13px;color:var(--sub);line-height:1.55}
+@media (min-width:700px){ .policy{grid-template-columns:1fr 1fr} }
+
+footer{padding:26px 0 34px;text-align:center;color:var(--sub);font-size:13px;
+  border-top:1px solid var(--line)}
+footer a{color:var(--ac);text-decoration:none}
+
+/* ── larger screens: two columns instead of a lonely strip ── */
+@media (min-width:700px){
+  :root{--max:900px}
+  .hero{padding:52px 0 40px}
+  h1{font-size:44px;max-width:760px;margin-left:auto;margin-right:auto}
+  .hero p{font-size:18px;max-width:560px}
+  .btn-row{grid-template-columns:1fr 1fr;max-width:460px}
+  section{padding:44px 0}
+  h2{font-size:27px}
+
+  /* services and reviews side by side */
+  #svc-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  #svc-list .svc{margin-bottom:0}
+  #rev-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  #rev-list .rev{margin-bottom:0}
+  .gal{grid-template-columns:repeat(4,1fr)}
+
+  /* about reads better wider */
+  .about-img{width:130px;height:130px}
+  .about{gap:24px}
+
+  /* the form doesn't need to be full width */
+  #contact .field,#contact .btn,#contact .err,#contact .note{max-width:520px}
+  .est{max-width:560px}
+  .est-row{grid-template-columns:1fr 1fr 1fr}
+
+  /* the sticky bar is a phone thing */
+  .bar{display:none}
+  body{padding-bottom:0}
+}
+@media (min-width:1000px){
+  :root{--max:1080px}
+  #svc-list{grid-template-columns:repeat(3,1fr)}
+  #rev-list{grid-template-columns:repeat(3,1fr)}
+  .gal{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ── big monitors: stop floating in the middle of nowhere ── */
+@media (min-width:1400px){
+  :root{--max:1280px}
+  h1{font-size:52px;max-width:900px}
+  .hero p{font-size:19px;max-width:620px}
+  .hero{padding:64px 0 46px}
+  section{padding:54px 0}
+  h2{font-size:30px}
+  .gal{grid-template-columns:repeat(4,1fr);gap:14px}
+  #svc-list{gap:14px}
+  #rev-list{gap:14px}
+
+  /* the About block reads better as a real two-column spread */
+  .about{gap:36px;align-items:center}
+  .about-img{width:200px;height:200px}
+  .about p{font-size:17px}
+
+  /* form beside the contact detail rather than a lonely column */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  #contact .field,#contact .btn,#contact .err,#contact .note{max-width:none}
+  .est{max-width:none}
+}
+@media (min-width:1750px){
+  :root{--max:1440px}
+  .gal{grid-template-columns:repeat(6,1fr)}
+}
+
+/* ═══ MOTION ═══ */
+@media (prefers-reduced-motion: no-preference){
+
+  /* things fade up as they come into view */
+  .reveal{opacity:0;transform:translateY(18px);
+    transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.shown{opacity:1;transform:none}
+
+  /* hero pieces arrive in sequence on load */
+  .hero .eyebrow{animation:fadeUp .55s .05s both cubic-bezier(.2,.7,.3,1)}
+  .hero h1{animation:fadeUp .6s .13s both cubic-bezier(.2,.7,.3,1)}
+  .hero > p{animation:fadeUp .6s .22s both cubic-bezier(.2,.7,.3,1)}
+  .hero .btn-row{animation:fadeUp .6s .3s both cubic-bezier(.2,.7,.3,1)}
+  .hero-strip .hs{animation:photoIn .7s both cubic-bezier(.2,.7,.3,1)}
+  .hero-strip .hs:nth-child(1){animation-delay:.34s}
+  .hero-strip .hs:nth-child(2){animation-delay:.42s}
+  .hero-strip .hs:nth-child(3){animation-delay:.50s}
+  .hero-strip .hs:nth-child(4){animation-delay:.58s}
+  .hero-strip .hs:nth-child(5){animation-delay:.66s}
+  .hero .trust span:nth-child(1){animation:fadeUp .5s .5s both}
+  .hero .trust span:nth-child(2){animation:fadeUp .5s .58s both}
+  .hero .trust span:nth-child(3){animation:fadeUp .5s .66s both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes photoIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+
+  /* the hero photo drifts very slowly — enough to feel alive, not enough to distract */
+  .hero-strip .hs:first-child img{animation:driftIn 20s 1.4s ease-in-out infinite alternate}
+  @keyframes driftIn{from{transform:scale(1)}to{transform:scale(1.05)}}
+
+  /* gallery tiles stagger in */
+  .gal-i{opacity:0;transform:translateY(16px) scale(.97);
+    transition:opacity .55s cubic-bezier(.2,.7,.3,1),transform .55s cubic-bezier(.2,.7,.3,1)}
+  .gal-i.shown{opacity:1;transform:none}
+
+  /* availability banner gives one quiet pulse when it appears */
+  .avail.shown svg{animation:tick 2.4s 1.2s ease-in-out 2}
+  @keyframes tick{0%,100%{transform:none}12%{transform:scale(1.18)}24%{transform:none}}
+}
+
+/* hover / press behaviour — these are fine even with reduced motion */
+.gal-i{cursor:zoom-in;overflow:hidden}
+.gal-i img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+@media (hover:hover){
+  .gal-i:hover img{transform:scale(1.07)}
+  .svc:hover{border-color:var(--ac-bd);background:var(--bg2)}
+  .rev:hover{border-color:var(--line2)}
+  .btn:hover{opacity:.92}
+  .nav-cta:hover{opacity:.92}
+}
+.gal-i:active img{transform:scale(1.02)}
+.svc{transition:border-color .2s,background .2s,transform .15s}
+.svc:active{transform:scale(.995)}
+.rev{transition:border-color .2s}
+
+/* the sticky call bar slides away when you're reading, back when you scroll up */
+.bar{transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+.bar.hide{transform:translateY(120%)}
+
+/* nav gains a hairline shadow once you leave the top */
+.nav{transition:box-shadow .25s,border-color .25s}
+.nav.stuck{box-shadow:0 1px 12px rgba(16,24,40,.07)}
+
+/* counts up in the trust row feel static; give the tick a subtle draw */
+.trust svg{stroke-dasharray:24;stroke-dashoffset:0}
+@media (prefers-reduced-motion: no-preference){
+  .trust span.shown svg{animation:draw .5s ease both}
+  @keyframes draw{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+}
+
+/* lightbox arrives a touch more gracefully */
+.lb{opacity:0;transition:opacity .22s ease}
+.lb.on{opacity:1}
+.lb img{animation:lbIn .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+
+/* alternating bands so the page isn't a sheet of white */
+#how{background:var(--bg2)}
+#services{background:var(--card)}
+#about{background:var(--bg2)}
+#gallery{background:var(--ink);color:#f3f0e6}
+#gallery h2{color:#fff}
+#gallery .lede{color:#c3c9c0}
+#reviews{background:var(--card)}
+#faq{background:var(--bg2)}
+#policy{background:var(--card)}
+#contact{background:var(--bg2)}
+section{border-top:none;padding-left:20px;padding-right:20px;margin:0 -20px}
+.wrap{padding:0}
+.hero,.nav-in,section>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+.hero{padding-left:20px;padding-right:20px}
+.nav{background:rgba(246,244,236,.94)}
+/* mustard as the highlight, used sparingly */
+.eyebrow{background:#f0c14b;color:#3a2f0b}
+.avail{background:#fdf6e0;border-color:#eddb9c;color:#6b5410}
+.avail svg{stroke:#a8811a}
+.steps li::before{background:#f0c14b;color:#3a2f0b}
+.trust svg{stroke:var(--ac)}
+.stars{color:#c99a1f}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+  <div class="brand">
+    <svg viewBox="0 0 24 24"><ellipse cx="12" cy="15" rx="4.2" ry="3.4"/><ellipse cx="6.5" cy="10" rx="1.9" ry="2.4"/><ellipse cx="17.5" cy="10" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.4" rx="1.8" ry="2.2"/><ellipse cx="14.2" cy="6.4" rx="1.8" ry="2.2"/></svg>
+    <span id="nav-name">Hunter &amp; Dillon Dog Sitting</span>
+  </div>
+  <a class="nav-cta" href="#contact">Book now</a>
+</div></nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow" id="hero-area"></div>
+    <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
+    <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
+    <div class="btn-row">
+      <a class="btn" id="cta-text" href="#contact">Request a booking</a>
+      <a class="btn alt" id="cta-call" href="tel:">Call or text</a>
+    </div>
+    <div class="hero-strip" id="hero-strip"></div>
+    <div class="trust">
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t1"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t2"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t3"></span></span>
+    </div>
+  </header>
+
+  <div class="avail" id="avail" style="display:none">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+    <span id="avail-text"></span>
+  </div>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <p class="lede">No commitment until you&rsquo;ve met us.</p>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+  <section id="services">
+    <h2 id="svc-h">Services</h2>
+    <p class="lede" id="svc-lede"></p>
+    <div id="svc-list"></div>
+    <div class="note" id="svc-note"></div>
+
+    <button class="est-toggle" id="est-toggle">
+      <span>See a price estimate</span>
+      <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="est" id="est" hidden>
+      <div class="est-h">Rough estimate</div>
+      <div class="est-row">
+        <div><label for="e-svc">Service</label><select class="in" id="e-svc"></select></div>
+        <div><label for="e-qty" id="e-qty-l">Nights</label><input class="in" type="number" id="e-qty" value="3" min="1"/></div>
+      </div>
+      <div class="est-row">
+        <div><label for="e-dogs">Dogs</label><input class="in" type="number" id="e-dogs" value="1" min="1" max="6"/></div>
+        <div style="display:flex;align-items:flex-end">
+          <a class="btn est-go" id="e-book" href="#contact">Book this</a>
+        </div>
+      </div>
+      <div class="est-out">
+        <div id="e-break"></div>
+        <div class="est-total"><span>Estimated total</span><span id="e-total">$0</span></div>
+      </div>
+      <div class="est-fine">A rough guide only. I&rsquo;ll confirm the exact price before anything is booked.</div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <div class="about">
+      <div class="about-img" id="about-img">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke-linecap="round"/></svg>
+      </div>
+      <div id="about-text"></div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <h2>Recent guests</h2>
+    <p class="lede">Some of the dogs who&rsquo;ve stayed with us.</p>
+    <div class="gal" id="gal"></div>
+  </section>
+
+  <section id="reviews">
+    <h2>What clients say</h2>
+    <div id="rev-list"></div>
+  </section>
+
+  <section id="faq">
+    <h2>Common questions</h2>
+    <div id="faq-list" style="margin-top:14px"></div>
+  </section>
+
+  <section id="policy">
+    <h2>Health &amp; safety</h2>
+    <div class="policy" id="policy-list"></div>
+  </section>
+
+  <section id="contact">
+    <h2>Request a booking</h2>
+    <p class="lede">Tell us the dates and we&rsquo;ll get back to you the same day.</p>
+    <div class="contact-grid">
+    <div>
+    <div class="field"><label for="f-name">Your name</label>
+      <input class="in" id="f-name" autocomplete="name"/></div>
+    <div class="field"><label for="f-dog">Dog&rsquo;s name &amp; breed</label>
+      <input class="in" id="f-dog"/></div>
+    <div class="field"><label for="f-svc">Service</label>
+      <select class="in" id="f-svc"></select></div>
+    <div class="field"><label for="f-dates">Dates needed</label>
+      <input class="in" id="f-dates" placeholder="e.g. Sept 12–16"/></div>
+    <div class="field"><label for="f-msg">Anything I should know?</label>
+      <textarea class="in" id="f-msg" placeholder="Medications, anxiety, routine, other pets..."></textarea></div>
+    <div class="err" id="f-err"></div>
+    <a class="btn" id="f-send" href="#">Send request by text</a>
+    <a class="btn alt" id="f-email" href="#" style="margin-top:10px">Send by email instead</a>
+    </div>
+    <aside class="contact-side">
+      <div class="cs-card">
+        <div class="cs-h">What happens next</div>
+        <ol class="cs-steps">
+          <li>We reply the same day with availability and a price.</li>
+          <li>We arrange a free meet-and-greet before the first booking.</li>
+          <li>You get photos and updates through every stay.</li>
+        </ol>
+      </div>
+      <div class="cs-card">
+        <div class="cs-h">Reach us directly</div>
+        <div class="cs-line" id="cs-phone"></div>
+        <div class="cs-line" id="cs-email"></div>
+        <div class="cs-line" id="cs-area"></div>
+      </div>
+      <div class="note" id="contact-note"></div>
+    </aside>
+    </div>
+  </section>
+
+</div>
+
+<div class="bar"><div class="bar-in">
+  <a class="btn alt" id="bar-call" href="tel:">Call</a>
+  <a class="btn" href="#contact">Request booking</a>
+</div></div>
+
+<footer class="wrap">
+  <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
+  <div style="margin-top:5px" id="foot-contact"></div>
+  <div style="margin-top:10px;font-size:12px">Serving <span id="foot-area"></span></div>
+</footer>
+<div class="lb" id="lb"><button class="lb-x" id="lb-x">&times;</button>
+  <img id="lb-img" alt="Dog in my care"/>
+  <button class="lb-nav prev" id="lb-prev">&lsaquo;</button>
+  <button class="lb-nav next" id="lb-next">&rsaquo;</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   EDIT THIS BLOCK — everything on the page comes from here.
+   Change the text, save, re-upload. Nothing else needs touching.
+   ═══════════════════════════════════════════════════════════════ */
+const SITE = {
+  name:    "Hunter & Dillon Dog Sitting",   // <- change this once you pick a name
+  // Both of you. The first number is the one the booking form texts.
+  people: [
+    {name:"Hunter", phone:"919-703-8438"},
+    {name:"Dillon", phone:"814-500-8393"},
+  ],
+  email:   "",          // add a shared email if you want one, or leave blank
+
+  area:    "Smithfield, Selma, Clayton & Johnston County",
+
+  // Availability notice shown near the top. Set to "" to hide it.
+  availability: "Now booking for September — holiday dates filling up",
+  // Dates already full, so people don't ask. Format "YYYY-MM-DD".
+  bookedDates: [],
+
+  // The first thing visitors see. First one is the large tile.
+  heroPhotos: [
+    "photos/group-play-yard.jpg",
+    "photos/hello-at-the-fence.jpg",
+    "photos/pool-day.jpg",
+    "photos/puppy-on-the-deck.jpg",
+    "photos/shepherd-in-the-yard.jpg",
+  ],
+  headline: "Your dog stays happy while you're away",
+  intro:    "Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.",
+
+  // The three ticks under the buttons.
+  // Only put things here that are true — people rely on these.
+  trust: ["Two of us, so someone's always around", "Free meet & greet first", "A home, not a kennel"],
+
+  services: [
+    {name:"Overnight boarding", unit:"per night",  price:60,
+     desc:"Your dog stays in our home, not a crate or a kennel run. Fed on their own schedule, walked twice a day, and settled in the same rooms we are. Photo updates every day."},
+
+    {name:"House sitting", unit:"per night",  price:75,
+     desc:"One of us stays overnight at your place so your dog keeps their own bed, their own routine and their own yard. We bring in mail, alternate lights and leave the house as we found it."},
+
+    {name:"Drop-in visits", unit:"per visit", price:25,
+     desc:"A 30-minute visit — feeding, fresh water, a potty break, medication if needed, and proper play or a short walk. You get a photo and a note after every visit."},
+
+    {name:"Dog walking", unit:"per walk",  price:22,
+     desc:"A full 30 minutes on the lead, rain or shine. Paced to suit your dog, whether that's a brisk loop for a young shepherd or a gentle amble for an older one. Paws wiped before we leave."},
+
+    {name:"Daycare", unit:"per day",   price:45,
+     desc:"Daytime care while you're at work, roughly 7am to 6pm. Your dog gets company, garden access and a midday walk instead of a long day alone at home."},
+  ],  // Show rates next to each service? false keeps the list clean and lets
+  // people ask first. The estimator below still works either way.
+  showPrices: false,
+  servicesNote: "Rates vary with the dates, the number of dogs and any extra care needed. Puppies, senior dogs and medication are all fine — tell us what's involved and we'll quote you the same day.",
+  // extra charge per additional dog, and the discount for longer stays
+  extraDogRate: 15,
+  weekDiscount: 10,   // % off stays of 7 nights or more
+
+  // Drop a photo of yourself into photos/ and put the filename here.
+  // A face matters more than anything else on this page — people are
+  // deciding whether to trust you with their dog and their house key.
+  aboutPhoto: "",          // e.g. "photos/dillon.jpg"
+
+  howItWorks: [
+    {t:"Send a message", d:"Tell us your dates and a bit about your dog. We reply the same day."},
+    {t:"Free meet & greet", d:"We meet before anything is booked so you and your dog can size us up."},
+    {t:"Booked and updated", d:"Dates confirmed, then photos and updates through every stay."},
+  ],
+
+  policy: [
+    {t:"Vaccinations required", d:"All dogs need to be up to date on rabies, DHPP and bordetella. Just send a photo of the records."},
+    {t:"Emergency plan", d:"If something goes wrong we'll contact you first, then your vet. We keep both numbers on hand for every stay."},
+    {t:"Meet before booking", d:"Every new dog comes for a free meet & greet, so nobody's first day is also their first time meeting us."},
+    {t:"Honest about fit", d:"If your dog wouldn't be happy in a home with other dogs, we'll tell you rather than take the booking."},
+  ],
+
+  about: [
+    "We're Hunter and Dillon, two brothers looking after dogs in Smithfield — everything from anxious rescues to nine-week-old puppies.",
+    "Because there are two of us, someone is almost always around. Your dog gets a real routine — proper walks, feeding on their schedule, and photos through the day so you're never wondering how things are going."
+  ],
+
+  // Photos live in the photos/ folder next to this page.
+  photos: [
+    "photos/group-play-yard.jpg",
+    "photos/hello-at-the-fence.jpg",
+    "photos/pool-day.jpg",
+    "photos/puppy-on-the-deck.jpg",
+    "photos/fenced-yard-play.jpg",
+    "photos/walk-time.jpg",
+    "photos/settled-indoors.jpg",
+    "photos/soccer-in-the-sun.jpg",
+    "photos/fetch-at-the-park.jpg",
+    "photos/toy-collection.jpg",
+    "photos/shepherd-in-the-yard.jpg",
+    "photos/poodle-in-the-sun.jpg",
+  ],
+
+  // REPLACE THESE with your real reviews before going live.
+  reviews: [
+    {stars:5, text:"They took our anxious rescue for a week and sent photos every day. She came home relaxed instead of stressed.", who:"Sarah M."},
+    {stars:5, text:"Reliable, communicative, and genuinely good with dogs. We won't use anyone else now.", who:"Priya K."},
+    {stars:5, text:"One of them stayed at our place over the holidays and left it spotless. Our two were completely at ease.", who:"Marcus T."},
+  ],
+
+  faq: [
+    {q:"What's your service area?", a:"Smithfield, Selma, Clayton, Four Oaks and the surrounding Johnston County area. Message us if you're just outside — we can often still help."},
+    {q:"Do you take dogs of any size?", a:"Yes. We've cared for everything from small breeds to large working dogs. Just let us know what to expect."},
+    {q:"What about medications?", a:"Happy to give oral medication at no extra charge. For injections, let us know in advance so we can talk it through."},
+    {q:"How do I pay?", a:"Venmo, Zelle or cash, due at the end of the stay. We'll send a simple invoice."},
+    {q:"Can I meet you first?", a:"Please do — we recommend a free meet-and-greet before the first booking so you and your dog can size us up."},
+  ],
+
+  contactNote: "Prefer to talk first? Call or text either of us any time between 8am and 8pm.",
+};
+/* ═══════════════ nothing below here needs editing ═══════════════ */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const digits = s => String(s||"").replace(/[^0-9+]/g,"");
+// the first person listed is the default contact
+const people = () => (SITE.people||[]).filter(p=>p && p.phone);
+const primaryPhone = () => { const p=people(); return p.length ? p[0].phone : (SITE.phone||""); };
+function prettyPhone(s){
+  const d=digits(s).replace(/^\+?1/,"");
+  return d.length===10 ? "("+d.slice(0,3)+") "+d.slice(3,6)+"-"+d.slice(6) : s;
+}
+const money = n => "$"+(+n||0);
+
+function render(){
+  // identity
+  document.title = SITE.name + " — Smithfield, NC";
+  $("nav-name").textContent = SITE.name;
+  $("foot-name").textContent = SITE.name;
+  $("hero-h1").textContent = SITE.headline;
+  $("hero-p").textContent = SITE.intro;
+  $("hero-area").textContent = "Serving " + SITE.area;
+  $("foot-area").textContent = SITE.area;
+
+  (SITE.trust||[]).slice(0,3).forEach((t,i)=>{
+    const el=$("t"+(i+1)); if(el) el.textContent=t;
+  });
+
+  // contact links — the buttons ring the first person listed
+  const tel = digits(primaryPhone());
+  ["cta-call","bar-call"].forEach(id=>{
+    const el=$(id); if(!el) return;
+    if(tel){ el.href="tel:"+tel; } else { el.style.display="none"; }
+  });
+  $("foot-contact").innerHTML =
+    people().map(p=>'<a href="tel:'+esc(digits(p.phone))+'">'+esc(p.name)+
+      ' '+esc(prettyPhone(p.phone))+'</a>').join(' &nbsp;·&nbsp; ')+
+    (SITE.email?' &nbsp;·&nbsp; <a href="mailto:'+esc(SITE.email)+'">'+esc(SITE.email)+'</a>':'');
+  $("contact-note").textContent = SITE.contactNote||"";
+  const csP=$("cs-phone"), csE=$("cs-email"), csA=$("cs-area");
+  if(csP) csP.innerHTML = people().map(p=>
+    esc(p.name)+' &nbsp;<a href="tel:'+esc(digits(p.phone))+'">'+esc(prettyPhone(p.phone))+'</a>'
+  ).join('<br>');
+  if(csE){
+    csE.innerHTML = SITE.email ? 'Email <a href="mailto:'+esc(SITE.email)+'">'+esc(SITE.email)+'</a>' : "";
+    if(!SITE.email) csE.style.display="none";
+  }
+  if(csA) csA.textContent = SITE.area ? "Serving "+SITE.area : "";
+
+  // services
+  const showP = SITE.showPrices !== false;
+  $("svc-h").textContent = showP ? "Services & rates" : "Services";
+  $("svc-lede").textContent = showP
+    ? "Straightforward pricing. No app fees, no surprises."
+    : "Care built around your dog's routine, not ours.";
+  $("svc-list").innerHTML = (SITE.services||[]).map(s=>
+    '<div class="svc"><div><div class="svc-n">'+esc(s.name)+'</div>'+
+    '<div class="svc-d">'+esc(s.desc)+'</div></div>'+
+    (showP
+      ? '<div class="svc-p"><div class="svc-amt">'+money(s.price)+'</div>'+
+        '<div class="svc-unit">'+esc(s.unit)+'</div></div>'
+      : '<div class="svc-p"><div class="svc-unit">'+esc(s.unit)+'</div></div>')+
+    '</div>').join("");
+  $("svc-note").textContent = SITE.servicesNote||"";
+  $("f-svc").innerHTML = (SITE.services||[]).map(s=>
+    '<option>'+esc(s.name)+'</option>').join("") + '<option>Not sure yet</option>';
+
+  // how it works
+  const stepsEl=$("steps");
+  if(stepsEl){
+    const steps=SITE.howItWorks||[];
+    if(!steps.length){ document.getElementById("how").style.display="none"; }
+    else stepsEl.innerHTML = steps.map(s=>
+      '<li><div><b>'+esc(s.t)+'</b><span>'+esc(s.d)+'</span></div></li>').join("");
+  }
+
+  // health & safety
+  const polEl=$("policy-list");
+  if(polEl){
+    const pol=SITE.policy||[];
+    if(!pol.length){ document.getElementById("policy").style.display="none"; }
+    else polEl.innerHTML = pol.map(p=>
+      '<div class="p"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6.2v5.1c0 4.4 3.1 8.5 7.5 9.7 4.4-1.2 7.5-5.3 7.5-9.7V6.2z" '+
+      'stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+      '<div><b>'+esc(p.t)+'</b><span>'+esc(p.d)+'</span></div></div>').join("");
+  }
+
+  // about
+  $("about-text").innerHTML = (SITE.about||[]).map(p=>'<p>'+esc(p)+'</p>').join("");
+  const ai=$("about-img");
+  if(ai && SITE.aboutPhoto){
+    ai.innerHTML='<img src="'+esc(SITE.aboutPhoto)+'" alt="'+esc(SITE.name)+'"/>';
+    ai.classList.add("has-photo");
+  }
+
+  // gallery — placeholders until real photos are added
+  const photos = SITE.photos||[];
+  const hs=$("hero-strip");
+  const heroes=(SITE.heroPhotos||[]).slice(0,5);
+  if(hs){
+    if(!heroes.length){ hs.style.display="none"; }
+    else{
+      hs.innerHTML=heroes.map((src,i)=>
+        '<div class="hs" data-hero="'+i+'"><img src="'+esc(src)+'" '+
+        'alt="A dog in my care" '+(i?'loading="lazy"':'')+'/></div>').join("");
+      hs.querySelectorAll("[data-hero]").forEach(el=>el.addEventListener("click",()=>{
+        const src=heroes[+el.dataset.hero];
+        const gi=(SITE.photos||[]).indexOf(src);
+        openLightbox(gi>=0?gi:0);
+      }));
+    }
+  }
+  const gal=$("gal");
+  // the hero already shows some of these — don't repeat them further down
+  const heroSet = new Set(heroes);
+  const galleryPhotos = photos.filter(p=>!heroSet.has(p)).concat(photos.filter(p=>heroSet.has(p)));
+  if(photos.length){
+    gal.innerHTML = galleryPhotos.slice(0,12).map((src,i)=>
+      '<div class="gal-i" data-i="'+i+'"><img src="'+esc(src)+'" alt="Dog in my care" loading="lazy"/></div>').join("");
+    gal.querySelectorAll("[data-i]").forEach(el=>
+      el.addEventListener("click",()=>{
+        const src = galleryPhotos[+el.dataset.i];
+        const idx = photos.indexOf(src);
+        openLightbox(idx>=0?idx:0);
+      }));
+  }else{
+    gal.innerHTML = Array.from({length:4},()=>'<div class="gal-i">photo</div>').join("");
+    document.querySelector("#gallery .lede").textContent =
+      "Add photos of dogs you've looked after — with the owner's blessing.";
+  }
+
+  // reviews
+  $("rev-list").innerHTML = (SITE.reviews||[]).map(r=>
+    '<div class="rev"><div class="stars">'+"★".repeat(Math.max(1,Math.min(5,r.stars||5)))+'</div>'+
+    '<p>'+esc(r.text)+'</p><div class="rev-w">— '+esc(r.who)+'</div></div>').join("");
+
+  // faq
+  $("faq-list").innerHTML = (SITE.faq||[]).map(f=>
+    '<div class="faq"><button class="faq-q">'+esc(f.q)+'</button>'+
+    '<div class="faq-a">'+esc(f.a)+'</div></div>').join("");
+  document.querySelectorAll(".faq-q").forEach(b=>b.addEventListener("click",()=>{
+    const box=b.parentElement, open=box.classList.contains("open");
+    document.querySelectorAll(".faq").forEach(f=>f.classList.remove("open"));
+    if(!open) box.classList.add("open");
+  }));
+}
+
+// ── booking request → prefilled text or email ─────────────────────────
+function buildMessage(){
+  const name=$("f-name").value.trim();
+  const dog=$("f-dog").value.trim();
+  const svc=$("f-svc").value;
+  const dates=$("f-dates").value.trim();
+  const msg=$("f-msg").value.trim();
+  if(!name) return {err:"Please add your name."};
+  if(!dates) return {err:"Which dates do you need?"};
+  const body=
+    "Hi "+SITE.name+" — I'd like to book.\n\n"+
+    "Name: "+name+"\n"+
+    (dog?"Dog: "+dog+"\n":"")+
+    "Service: "+svc+"\n"+
+    "Dates: "+dates+"\n"+
+    (msg?"\nNotes: "+msg+"\n":"");
+  return {body};
+}
+function wireForm(){
+  $("f-send").addEventListener("click",e=>{
+    e.preventDefault();
+    const r=buildMessage();
+    $("f-err").textContent=r.err||"";
+    if(r.err) return;
+    const tel=digits(primaryPhone());
+    if(!tel){ $("f-err").textContent="No phone number set — use email below."; return; }
+    // iOS wants ?& , Android wants ?body=
+    const sep = /iPhone|iPad|Macintosh/i.test(navigator.userAgent) ? "&" : "?";
+    location.href = "sms:"+tel+sep+"body="+encodeURIComponent(r.body);
+  });
+  if(!SITE.email){ const fe=$("f-email"); if(fe) fe.style.display="none"; }
+  $("f-email").addEventListener("click",e=>{
+    e.preventDefault();
+    const r=buildMessage();
+    $("f-err").textContent=r.err||"";
+    if(r.err) return;
+    if(!SITE.email){ $("f-err").textContent="No email set — use the text option."; return; }
+    location.href="mailto:"+SITE.email+
+      "?subject="+encodeURIComponent("Booking request — "+$("f-name").value.trim())+
+      "&body="+encodeURIComponent(r.body);
+  });
+}
+
+
+// ── availability notice ────────────────────────────────────────────────
+function renderAvailability(){
+  const box=$("avail");
+  const msg=(SITE.availability||"").trim();
+  const full=(SITE.bookedDates||[]).length;
+  if(!msg && !full){ box.style.display="none"; return; }
+  box.style.display="flex";
+  $("avail-text").textContent = msg + (full ? "  ·  "+full+" date"+(full===1?"":"s")+" already full" : "");
+}
+
+// ── price estimator ────────────────────────────────────────────────────
+function unitWord(unit){
+  return (unit||"").replace(/^per\s+/,"");
+}
+function renderEstimator(){
+  const sel=$("e-svc");
+  sel.innerHTML=(SITE.services||[]).map((s,i)=>
+    '<option value="'+i+'">'+esc(s.name)+'</option>').join("");
+  ["e-svc","e-qty","e-dogs"].forEach(id=>{
+    const el=$(id);
+    el.addEventListener("input",estimate);
+    el.addEventListener("change",estimate);
+  });
+  estimate();
+}
+function estimate(){
+  const svcs=SITE.services||[];
+  const s=svcs[+$("e-svc").value]||svcs[0];
+  if(!s) return;
+  const word=unitWord(s.unit);
+  $("e-qty-l").textContent = word.charAt(0).toUpperCase()+word.slice(1)+"s";
+
+  let qty=Math.max(1, Math.min(365, parseInt($("e-qty").value)||1));
+  let dogs=Math.max(1, Math.min(6, parseInt($("e-dogs").value)||1));
+
+  const base=s.price*qty;
+  const extraPer=+SITE.extraDogRate||0;
+  const extra=extraPer*(dogs-1)*qty;
+  const sub=base+extra;
+
+  // longer stays get a discount, but only for per-night services
+  const pct=+SITE.weekDiscount||0;
+  const nightly=/night/i.test(s.unit);
+  const disc=(nightly && pct>0 && qty>=7) ? sub*(pct/100) : 0;
+  const total=sub-disc;
+
+  const L=[];
+  L.push(line(qty+" "+word+(qty===1?"":"s")+" @ "+money(s.price), money(base)));
+  if(extra>0) L.push(line((dogs-1)+" extra dog"+(dogs-1===1?"":"s")+" @ "+money(extraPer), money(extra)));
+  if(disc>0) L.push(line(pct+"% long-stay discount", "−"+money(Math.round(disc))));
+  $("e-break").innerHTML=L.join("");
+  $("e-total").textContent=money(Math.round(total));
+
+  // carry the choice into the booking form
+  const bookSvc=$("f-svc");
+  if(bookSvc) bookSvc.value=s.name;
+  const dates=$("f-dates");
+  if(dates && !dates.value) dates.placeholder="e.g. "+qty+" "+word+(qty===1?"":"s");
+}
+function line(l,r){
+  return '<div class="est-line"><span>'+esc(l)+'</span><b>'+esc(r)+'</b></div>';
+}
+$("est-toggle").addEventListener("click",()=>{
+  const box=$("est"), btn=$("est-toggle");
+  const open=!box.hasAttribute("hidden");
+  if(open){ box.setAttribute("hidden",""); btn.classList.remove("open");
+            btn.querySelector("span").textContent="See a price estimate"; }
+  else { box.removeAttribute("hidden"); btn.classList.add("open");
+         btn.querySelector("span").textContent="Hide estimate"; estimate(); }
+});
+
+$("e-book").addEventListener("click",()=>{
+  const s=(SITE.services||[])[+$("e-svc").value];
+  if(s && $("f-svc")) $("f-svc").value=s.name;
+});
+
+// ── photo lightbox ─────────────────────────────────────────────────────
+let lbIdx=0;
+function openLightbox(i){
+  const photos=SITE.photos||[];
+  if(!photos.length) return;
+  lbIdx=(i+photos.length)%photos.length;
+  $("lb-img").src=photos[lbIdx];
+  $("lb").classList.add("on");
+  document.body.style.overflow="hidden";
+  const multi=photos.length>1;
+  $("lb-prev").style.display=multi?"":"none";
+  $("lb-next").style.display=multi?"":"none";
+}
+function closeLightbox(){
+  $("lb").classList.remove("on");
+  document.body.style.overflow="";
+}
+$("lb-x").addEventListener("click",closeLightbox);
+$("lb").addEventListener("click",e=>{ if(e.target===$("lb")) closeLightbox(); });
+$("lb-prev").addEventListener("click",e=>{e.stopPropagation();openLightbox(lbIdx-1)});
+$("lb-next").addEventListener("click",e=>{e.stopPropagation();openLightbox(lbIdx+1)});
+addEventListener("keydown",e=>{
+  if(!$("lb").classList.contains("on")) return;
+  if(e.key==="Escape") closeLightbox();
+  if(e.key==="ArrowLeft") openLightbox(lbIdx-1);
+  if(e.key==="ArrowRight") openLightbox(lbIdx+1);
+});
+// swipe between photos
+(function(){
+  let x0=null;
+  const lb=$("lb");
+  lb.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
+  lb.addEventListener("touchend",e=>{
+    if(x0===null) return;
+    const dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>50) openLightbox(lbIdx+(dx<0?1:-1));
+    x0=null;
+  },{passive:true});
+})();
+
+
+// ── reveal on scroll ───────────────────────────────────────────────────
+function initMotion(){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // mark the blocks that should fade in
+  const targets = document.querySelectorAll(
+    "section h2, .lede, .svc, .rev, .faq, .about, .note, .est-toggle, " +
+    "#contact .field, #contact .btn, .contact-side, .avail, .trust span");
+  targets.forEach(el=>el.classList.add("reveal"));
+
+  if(reduce || !("IntersectionObserver" in window)){
+    // no animation wanted or supported — just show everything
+    document.querySelectorAll(".reveal,.gal-i").forEach(el=>el.classList.add("shown"));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.classList.add("shown");
+      io.unobserve(e.target);
+    });
+  }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
+
+  targets.forEach((el,i)=>{
+    el.style.transitionDelay = Math.min(i%6,5)*40 + "ms";
+    io.observe(el);
+  });
+
+  // gallery tiles stagger by position
+  const gio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const tiles=[...document.querySelectorAll(".gal-i")];
+      tiles.forEach((t,i)=>setTimeout(()=>t.classList.add("shown"), i*70));
+      gio.disconnect();
+    });
+  }, {threshold:0.05});
+  const gal=document.getElementById("gal");
+  if(gal) gio.observe(gal);
+
+  // Safety net. An element sitting behind the sticky bar, or inside a
+  // container that scrolled past in one jump, can miss its trigger — and a
+  // permanently invisible section is far worse than an un-animated one.
+  function showStragglers(){
+    const vh = innerHeight;
+    document.querySelectorAll(".reveal:not(.shown)").forEach(el=>{
+      const r = el.getBoundingClientRect();
+      if(r.top < vh + 80) el.classList.add("shown");
+    });
+  }
+  addEventListener("scroll", showStragglers, {passive:true});
+  addEventListener("resize", showStragglers);
+  setTimeout(showStragglers, 1200);
+  // and once the page has settled, never leave anything hidden
+  setTimeout(()=>document.querySelectorAll(".reveal:not(.shown)").forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top < document.documentElement.scrollHeight) el.classList.add("shown");
+  }), 4000);
+}
+
+// ── nav shadow + sticky bar hides while scrolling down ─────────────────
+function initScrollChrome(){
+  const nav=document.querySelector(".nav");
+  const bar=document.querySelector(".bar");
+  let last=window.scrollY, ticking=false;
+  function onScroll(){
+    const y=window.scrollY;
+    if(nav) nav.classList.toggle("stuck", y>8);
+    if(bar){
+      const down = y > last + 4;
+      const up   = y < last - 4;
+      if(down && y>240) bar.classList.add("hide");
+      else if(up) bar.classList.remove("hide");
+    }
+    last=y; ticking=false;
+  }
+  addEventListener("scroll", ()=>{
+    if(!ticking){ requestAnimationFrame(onScroll); ticking=true; }
+  }, {passive:true});
+  onScroll();
+}
+
+try{ render(); wireForm(); renderAvailability(); renderEstimator();
+     initMotion(); initScrollChrome(); }
+catch(e){ console.error("Site error:",e); }
+</script>
+</body>
+</html>
