@@ -6,9 +6,20 @@
 <title>Dillon Dog Sitting — Trusted Dog Sitting</title>
 <meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Wake Forest. Book directly."/>
 <meta name="theme-color" content="#1c3d5a"/>
-<meta property="og:title" content="Dillon Dog Sitting — Trusted Dog Sitting"/>
-<meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Book directly."/>
+<link rel="icon" href="favicon.ico"/>
+<link rel="apple-touch-icon" href="photos/apple-touch-icon.png"/>
+
+<!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
+<meta property="og:title" content="Dillon Dog Sitting — Wake Forest"/>
+<meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
 <meta property="og:type" content="website"/>
+<meta property="og:image" content="photos/social-preview.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Dillon Dog Sitting — Wake Forest"/>
+<meta name="twitter:description" content="Boarding, house sitting, drop-in visits and walks."/>
+<meta name="twitter:image" content="photos/social-preview.jpg"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -95,6 +106,8 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .about-img{width:96px;height:96px;border-radius:var(--r);background:var(--ac-bg);
   flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .about-img svg{width:40px;height:40px;stroke:var(--ac);fill:none;stroke-width:1.5}
+.about-img img{width:100%;height:100%;object-fit:cover}
+.about-img.has-photo{background:none}
 .about p{font-size:15px;color:var(--sub)}
 .about p+p{margin-top:10px}
 
@@ -194,6 +207,25 @@ textarea.in{resize:vertical;min-height:88px}
 .cs-line{font-size:14px;color:var(--sub);padding:5px 0;border-bottom:1px solid var(--line)}
 .cs-line:last-child{border-bottom:none}
 .cs-line a{color:var(--ac);text-decoration:none;font-weight:500}
+
+.steps{list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start;
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:#fff}
+.steps li::before{content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;
+  background:var(--ac);color:#fff;font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-top:1px}
+.steps b{display:block;font-size:15px;font-weight:600;margin-bottom:2px}
+.steps span{font-size:14px;color:var(--sub);line-height:1.5}
+@media (min-width:700px){ .steps{grid-template-columns:repeat(3,1fr)} }
+
+.policy{display:grid;gap:9px}
+.policy .p{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);
+  border-radius:var(--r);padding:13px 15px}
+.policy svg{width:17px;height:17px;stroke:var(--ac);fill:none;stroke-width:1.9;
+  flex-shrink:0;margin-top:3px}
+.policy b{display:block;font-size:14px;font-weight:600;margin-bottom:2px}
+.policy span{font-size:13px;color:var(--sub);line-height:1.55}
+@media (min-width:700px){ .policy{grid-template-columns:1fr 1fr} }
 
 footer{padding:26px 0 34px;text-align:center;color:var(--sub);font-size:13px;
   border-top:1px solid var(--line)}
@@ -372,6 +404,12 @@ footer a{color:var(--ac);text-decoration:none}
     <span id="avail-text"></span>
   </div>
 
+  <section id="how">
+    <h2>How it works</h2>
+    <p class="lede">No commitment until you&rsquo;ve met me.</p>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
   <section id="services">
     <h2 id="svc-h">Services</h2>
     <p class="lede" id="svc-lede"></p>
@@ -427,6 +465,11 @@ footer a{color:var(--ac);text-decoration:none}
   <section id="faq">
     <h2>Common questions</h2>
     <div id="faq-list" style="margin-top:14px"></div>
+  </section>
+
+  <section id="policy">
+    <h2>Health &amp; safety</h2>
+    <div class="policy" id="policy-list"></div>
   </section>
 
   <section id="contact">
@@ -532,6 +575,24 @@ const SITE = {
   extraDogRate: 15,
   weekDiscount: 10,   // % off stays of 7 nights or more
 
+  // Drop a photo of yourself into photos/ and put the filename here.
+  // A face matters more than anything else on this page — people are
+  // deciding whether to trust you with their dog and their house key.
+  aboutPhoto: "",          // e.g. "photos/dillon.jpg"
+
+  howItWorks: [
+    {t:"Send a message", d:"Tell me your dates and a bit about your dog. I reply the same day."},
+    {t:"Free meet & greet", d:"We meet before anything is booked so you and your dog can size me up."},
+    {t:"Booked and updated", d:"Dates confirmed, then photos and updates through every stay."},
+  ],
+
+  policy: [
+    {t:"Vaccinations required", d:"All dogs need to be up to date on rabies, DHPP and bordetella. Just send a photo of the records."},
+    {t:"Emergency plan", d:"If something goes wrong I'll contact you first, then your vet. I keep both numbers on hand for every stay."},
+    {t:"Meet before booking", d:"Every new dog comes for a free meet & greet, so nobody's first day is also their first time meeting me."},
+    {t:"Honest about fit", d:"If your dog wouldn't be happy in a home with other dogs, I'll tell you rather than take the booking."},
+  ],
+
   about: [
     "Hi, I'm Dillon. I look after dogs at my place in Wake Forest — everything from anxious rescues to nine-week-old puppies.",
     "Your dog gets a real routine — proper walks, feeding on their schedule, and photos through the day so you're never wondering how things are going."
@@ -624,10 +685,32 @@ function render(){
   $("f-svc").innerHTML = (SITE.services||[]).map(s=>
     '<option>'+esc(s.name)+'</option>').join("") + '<option>Not sure yet</option>';
 
+  // how it works
+  const stepsEl=$("steps");
+  if(stepsEl){
+    const steps=SITE.howItWorks||[];
+    if(!steps.length){ document.getElementById("how").style.display="none"; }
+    else stepsEl.innerHTML = steps.map(s=>
+      '<li><div><b>'+esc(s.t)+'</b><span>'+esc(s.d)+'</span></div></li>').join("");
+  }
+
+  // health & safety
+  const polEl=$("policy-list");
+  if(polEl){
+    const pol=SITE.policy||[];
+    if(!pol.length){ document.getElementById("policy").style.display="none"; }
+    else polEl.innerHTML = pol.map(p=>
+      '<div class="p"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6.2v5.1c0 4.4 3.1 8.5 7.5 9.7 4.4-1.2 7.5-5.3 7.5-9.7V6.2z" '+
+      'stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+      '<div><b>'+esc(p.t)+'</b><span>'+esc(p.d)+'</span></div></div>').join("");
+  }
+
   // about
   $("about-text").innerHTML = (SITE.about||[]).map(p=>'<p>'+esc(p)+'</p>').join("");
-  if(SITE.aboutPhoto){
-    $("about-img").innerHTML='<img src="'+esc(SITE.aboutPhoto)+'" alt="'+esc(SITE.name)+'"/>';
+  const ai=$("about-img");
+  if(ai && SITE.aboutPhoto){
+    ai.innerHTML='<img src="'+esc(SITE.aboutPhoto)+'" alt="'+esc(SITE.name)+'"/>';
+    ai.classList.add("has-photo");
   }
 
   // gallery — placeholders until real photos are added
