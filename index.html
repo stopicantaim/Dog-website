@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Dillon Dog Sitting — Trusted Dog Sitting</title>
-<meta name="description" content="Insured, experienced dog sitting, boarding and drop-in visits. Book directly and skip the app fees."/>
+<meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Wake Forest. Book directly."/>
 <meta name="theme-color" content="#1c3d5a"/>
 <meta property="og:title" content="Dillon Dog Sitting — Trusted Dog Sitting"/>
 <meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Book directly."/>
@@ -361,9 +361,9 @@ footer a{color:var(--ac);text-decoration:none}
     </div>
     <div class="hero-strip" id="hero-strip"></div>
     <div class="trust">
-      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t1">5+ years experience</span></span>
-      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t2">Insured &amp; bonded</span></span>
-      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t3">Daily photo updates</span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t1"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t2"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t3"></span></span>
     </div>
   </header>
 
@@ -371,12 +371,6 @@ footer a{color:var(--ac);text-decoration:none}
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
     <span id="avail-text"></span>
   </div>
-
-  <section id="gallery">
-    <h2>Recent guests</h2>
-    <p class="lede">Some of the dogs who&rsquo;ve stayed with me.</p>
-    <div class="gal" id="gal"></div>
-  </section>
 
   <section id="services">
     <h2 id="svc-h">Services</h2>
@@ -417,6 +411,12 @@ footer a{color:var(--ac);text-decoration:none}
       </div>
       <div id="about-text"></div>
     </div>
+  </section>
+
+  <section id="gallery">
+    <h2>Recent guests</h2>
+    <p class="lede">Some of the dogs who&rsquo;ve stayed with me.</p>
+    <div class="gal" id="gal"></div>
   </section>
 
   <section id="reviews">
@@ -513,8 +513,9 @@ const SITE = {
   headline: "Your dog stays happy while you're away",
   intro:    "Boarding, house sitting, drop-in visits and walks from someone who treats your dog like their own.",
 
-  // the three ticks under the buttons
-  trust: ["5+ years experience", "Insured & bonded", "Daily photo updates"],
+  // The three ticks under the buttons.
+  // Only put things here that are true — people rely on these.
+  trust: ["Daily photo updates", "Free meet & greet first", "A home, not a kennel"],
 
   services: [
     {name:"Boarding",       desc:"Your dog stays at my home. Fed, walked and fussed over.", price:60, unit:"per night"},
@@ -532,7 +533,7 @@ const SITE = {
   weekDiscount: 10,   // % off stays of 7 nights or more
 
   about: [
-    "Hi, I'm Dillon. I've been caring for dogs in the area for over five years, everything from anxious rescues to nine-week-old puppies.",
+    "Hi, I'm Dillon. I look after dogs at my place in Wake Forest — everything from anxious rescues to nine-week-old puppies.",
     "Your dog gets a real routine — proper walks, feeding on their schedule, and photos through the day so you're never wondering how things are going."
   ],
 
@@ -550,6 +551,7 @@ const SITE = {
     "photos/toy-collection.jpg",
   ],
 
+  // REPLACE THESE with your real reviews before going live.
   reviews: [
     {stars:5, text:"Dillon took our anxious rescue for a week and sent photos every day. She came home relaxed instead of stressed.", who:"Sarah M."},
     {stars:5, text:"Reliable, communicative, and genuinely good with dogs. We won't use anyone else now.", who:"Priya K."},
@@ -646,11 +648,18 @@ function render(){
     }
   }
   const gal=$("gal");
+  // the hero already shows some of these — don't repeat them further down
+  const heroSet = new Set(heroes);
+  const galleryPhotos = photos.filter(p=>!heroSet.has(p)).concat(photos.filter(p=>heroSet.has(p)));
   if(photos.length){
-    gal.innerHTML = photos.slice(0,12).map((src,i)=>
+    gal.innerHTML = galleryPhotos.slice(0,12).map((src,i)=>
       '<div class="gal-i" data-i="'+i+'"><img src="'+esc(src)+'" alt="Dog in my care" loading="lazy"/></div>').join("");
     gal.querySelectorAll("[data-i]").forEach(el=>
-      el.addEventListener("click",()=>openLightbox(+el.dataset.i)));
+      el.addEventListener("click",()=>{
+        const src = galleryPhotos[+el.dataset.i];
+        const idx = photos.indexOf(src);
+        openLightbox(idx>=0?idx:0);
+      }));
   }else{
     gal.innerHTML = Array.from({length:4},()=>'<div class="gal-i">photo</div>').join("");
     document.querySelector("#gallery .lede").textContent =
