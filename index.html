@@ -55,9 +55,9 @@ img{max-width:100%;display:block}
 .eyebrow{display:inline-block;background:var(--ac-bg);color:var(--ac2);
   font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:16px}
 h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
-.hero-strip{display:grid;gap:8px;margin:24px auto 0;max-width:560px;
+.hero-strip{display:grid;gap:10px;margin:26px auto 0;max-width:var(--max);
   grid-template-columns:1.4fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));
-  height:min(58vw,300px)}
+  height:min(62vw,320px)}
 .hero-strip .hs{border-radius:12px;overflow:hidden;background:var(--bg2);
   border:1px solid var(--line);cursor:zoom-in;position:relative;min-height:0}
 .hero-strip .hs img{width:100%;height:100%;object-fit:cover;display:block;
@@ -69,7 +69,7 @@ h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-
 /* on a phone three tiles is plenty — more just makes them tiny */
 .hero-strip .hs:nth-child(n+4){display:none}
 @media (min-width:700px){
-  .hero-strip{max-width:900px;height:340px;
+  .hero-strip{max-width:var(--max);height:380px;
     grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr))}
   .hero-strip .hs:first-child{grid-row:span 2}
   .hero-strip .hs:nth-child(n+4){display:block}
@@ -383,10 +383,13 @@ footer a{color:var(--ac);text-decoration:none}
 #policy{background:var(--card)}
 #contact{background:var(--bg2)}
 /* full-bleed colour bands, content still inset */
-section{border-top:none;margin:0 -20px;padding:32px 20px}
-section>*{max-width:var(--max);margin-left:auto;margin-right:auto}
-.hero{padding-left:0;padding-right:0}
-@media (min-width:700px){ section{padding:44px 20px} }
+section,.hero{border-top:none;margin:0 -20px;padding:32px 20px}
+section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+.hero{background:var(--card);padding-top:38px;padding-bottom:34px}
+@media (min-width:700px){
+  section{padding:44px 20px}
+  .hero{padding-top:60px;padding-bottom:52px}
+}
 .nav{background:rgba(246,244,236,.94)}
 /* mustard as the highlight, used sparingly */
 .eyebrow{background:#f0c14b;color:#3a2f0b}
