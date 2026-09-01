@@ -382,10 +382,11 @@ footer a{color:var(--ac);text-decoration:none}
 #faq{background:var(--bg2)}
 #policy{background:var(--card)}
 #contact{background:var(--bg2)}
-section{border-top:none;padding-left:20px;padding-right:20px;margin:0 -20px}
-.wrap{padding:0}
-.hero,.nav-in,section>*{max-width:var(--max);margin-left:auto;margin-right:auto}
-.hero{padding-left:20px;padding-right:20px}
+/* full-bleed colour bands, content still inset */
+section{border-top:none;margin:0 -20px;padding:32px 20px}
+section>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+.hero{padding-left:0;padding-right:0}
+@media (min-width:700px){ section{padding:44px 20px} }
 .nav{background:rgba(246,244,236,.94)}
 /* mustard as the highlight, used sparingly */
 .eyebrow{background:#f0c14b;color:#3a2f0b}
