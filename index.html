@@ -246,6 +246,76 @@ footer a{color:var(--ac);text-decoration:none}
   :root{--max:1440px}
   .gal{grid-template-columns:repeat(6,1fr)}
 }
+
+/* ═══ MOTION ═══ */
+@media (prefers-reduced-motion: no-preference){
+
+  /* things fade up as they come into view */
+  .reveal{opacity:0;transform:translateY(18px);
+    transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.shown{opacity:1;transform:none}
+
+  /* hero pieces arrive in sequence on load */
+  .hero .eyebrow{animation:fadeUp .55s .05s both cubic-bezier(.2,.7,.3,1)}
+  .hero h1{animation:fadeUp .6s .13s both cubic-bezier(.2,.7,.3,1)}
+  .hero > p{animation:fadeUp .6s .22s both cubic-bezier(.2,.7,.3,1)}
+  .hero .btn-row{animation:fadeUp .6s .3s both cubic-bezier(.2,.7,.3,1)}
+  .hero-photo{animation:photoIn .8s .36s both cubic-bezier(.2,.7,.3,1)}
+  .hero .trust span:nth-child(1){animation:fadeUp .5s .5s both}
+  .hero .trust span:nth-child(2){animation:fadeUp .5s .58s both}
+  .hero .trust span:nth-child(3){animation:fadeUp .5s .66s both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes photoIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+
+  /* the hero photo drifts very slowly — enough to feel alive, not enough to distract */
+  .hero-photo img{animation:driftIn 18s 1.2s ease-in-out infinite alternate}
+  @keyframes driftIn{from{transform:scale(1)}to{transform:scale(1.06)}}
+
+  /* gallery tiles stagger in */
+  .gal-i{opacity:0;transform:translateY(16px) scale(.97);
+    transition:opacity .55s cubic-bezier(.2,.7,.3,1),transform .55s cubic-bezier(.2,.7,.3,1)}
+  .gal-i.shown{opacity:1;transform:none}
+
+  /* availability banner gives one quiet pulse when it appears */
+  .avail.shown svg{animation:tick 2.4s 1.2s ease-in-out 2}
+  @keyframes tick{0%,100%{transform:none}12%{transform:scale(1.18)}24%{transform:none}}
+}
+
+/* hover / press behaviour — these are fine even with reduced motion */
+.gal-i{cursor:zoom-in;overflow:hidden}
+.gal-i img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+@media (hover:hover){
+  .gal-i:hover img{transform:scale(1.07)}
+  .svc:hover{border-color:var(--ac-bd);background:var(--bg2)}
+  .rev:hover{border-color:var(--line2)}
+  .btn:hover{opacity:.92}
+  .nav-cta:hover{opacity:.92}
+}
+.gal-i:active img{transform:scale(1.02)}
+.svc{transition:border-color .2s,background .2s,transform .15s}
+.svc:active{transform:scale(.995)}
+.rev{transition:border-color .2s}
+
+/* the sticky call bar slides away when you're reading, back when you scroll up */
+.bar{transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+.bar.hide{transform:translateY(120%)}
+
+/* nav gains a hairline shadow once you leave the top */
+.nav{transition:box-shadow .25s,border-color .25s}
+.nav.stuck{box-shadow:0 1px 12px rgba(16,24,40,.07)}
+
+/* counts up in the trust row feel static; give the tick a subtle draw */
+.trust svg{stroke-dasharray:24;stroke-dashoffset:0}
+@media (prefers-reduced-motion: no-preference){
+  .trust span.shown svg{animation:draw .5s ease both}
+  @keyframes draw{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+}
+
+/* lightbox arrives a touch more gracefully */
+.lb{opacity:0;transition:opacity .22s ease}
+.lb.on{opacity:1}
+.lb img{animation:lbIn .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -280,6 +350,12 @@ footer a{color:var(--ac);text-decoration:none}
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
     <span id="avail-text"></span>
   </div>
+
+  <section id="gallery">
+    <h2>Recent guests</h2>
+    <p class="lede">Some of the dogs who&rsquo;ve stayed with me.</p>
+    <div class="gal" id="gal"></div>
+  </section>
 
   <section id="services">
     <h2 id="svc-h">Services</h2>
@@ -320,12 +396,6 @@ footer a{color:var(--ac);text-decoration:none}
       </div>
       <div id="about-text"></div>
     </div>
-  </section>
-
-  <section id="gallery">
-    <h2>Recent guests</h2>
-    <p class="lede">Some of the dogs who&rsquo;ve stayed with me.</p>
-    <div class="gal" id="gal"></div>
   </section>
 
   <section id="reviews">
@@ -725,7 +795,92 @@ addEventListener("keydown",e=>{
   },{passive:true});
 })();
 
-try{ render(); wireForm(); renderAvailability(); renderEstimator(); }
+
+// ── reveal on scroll ───────────────────────────────────────────────────
+function initMotion(){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // mark the blocks that should fade in
+  const targets = document.querySelectorAll(
+    "section h2, .lede, .svc, .rev, .faq, .about, .note, .est-toggle, " +
+    "#contact .field, #contact .btn, .contact-side, .avail, .trust span");
+  targets.forEach(el=>el.classList.add("reveal"));
+
+  if(reduce || !("IntersectionObserver" in window)){
+    // no animation wanted or supported — just show everything
+    document.querySelectorAll(".reveal,.gal-i").forEach(el=>el.classList.add("shown"));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.classList.add("shown");
+      io.unobserve(e.target);
+    });
+  }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
+
+  targets.forEach((el,i)=>{
+    el.style.transitionDelay = Math.min(i%6,5)*40 + "ms";
+    io.observe(el);
+  });
+
+  // gallery tiles stagger by position
+  const gio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const tiles=[...document.querySelectorAll(".gal-i")];
+      tiles.forEach((t,i)=>setTimeout(()=>t.classList.add("shown"), i*70));
+      gio.disconnect();
+    });
+  }, {threshold:0.05});
+  const gal=document.getElementById("gal");
+  if(gal) gio.observe(gal);
+
+  // Safety net. An element sitting behind the sticky bar, or inside a
+  // container that scrolled past in one jump, can miss its trigger — and a
+  // permanently invisible section is far worse than an un-animated one.
+  function showStragglers(){
+    const vh = innerHeight;
+    document.querySelectorAll(".reveal:not(.shown)").forEach(el=>{
+      const r = el.getBoundingClientRect();
+      if(r.top < vh + 80) el.classList.add("shown");
+    });
+  }
+  addEventListener("scroll", showStragglers, {passive:true});
+  addEventListener("resize", showStragglers);
+  setTimeout(showStragglers, 1200);
+  // and once the page has settled, never leave anything hidden
+  setTimeout(()=>document.querySelectorAll(".reveal:not(.shown)").forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top < document.documentElement.scrollHeight) el.classList.add("shown");
+  }), 4000);
+}
+
+// ── nav shadow + sticky bar hides while scrolling down ─────────────────
+function initScrollChrome(){
+  const nav=document.querySelector(".nav");
+  const bar=document.querySelector(".bar");
+  let last=window.scrollY, ticking=false;
+  function onScroll(){
+    const y=window.scrollY;
+    if(nav) nav.classList.toggle("stuck", y>8);
+    if(bar){
+      const down = y > last + 4;
+      const up   = y < last - 4;
+      if(down && y>240) bar.classList.add("hide");
+      else if(up) bar.classList.remove("hide");
+    }
+    last=y; ticking=false;
+  }
+  addEventListener("scroll", ()=>{
+    if(!ticking){ requestAnimationFrame(onScroll); ticking=true; }
+  }, {passive:true});
+  onScroll();
+}
+
+try{ render(); wireForm(); renderAvailability(); renderEstimator();
+     initMotion(); initScrollChrome(); }
 catch(e){ console.error("Site error:",e); }
 </script>
 </body>
