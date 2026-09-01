@@ -4,20 +4,20 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Hunter &amp; Dillon Dog Sitting</title>
-<meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Wake Forest. Book directly."/>
+<meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Smithfield and Johnston County, NC. Book directly."/>
 <meta name="theme-color" content="#1c3d5a"/>
 <link rel="icon" href="favicon.ico"/>
 <link rel="apple-touch-icon" href="photos/apple-touch-icon.png"/>
 
 <!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
-<meta property="og:title" content="Hunter &amp; Dillon Dog Sitting — Wake Forest"/>
+<meta property="og:title" content="Hunter &amp; Dillon Dog Sitting — Smithfield, NC"/>
 <meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
 <meta property="og:type" content="website"/>
 <meta property="og:image" content="photos/social-preview.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Hunter &amp; Dillon Dog Sitting — Wake Forest"/>
+<meta name="twitter:title" content="Hunter &amp; Dillon Dog Sitting — Smithfield, NC"/>
 <meta name="twitter:description" content="Boarding, house sitting, drop-in visits and walks."/>
 <meta name="twitter:image" content="photos/social-preview.jpg"/>
 <style>
@@ -384,7 +384,7 @@ footer a{color:var(--ac);text-decoration:none}
 <div class="wrap">
 
   <header class="hero">
-    <div class="eyebrow" id="hero-area">Serving Wake Forest &amp; Raleigh</div>
+    <div class="eyebrow" id="hero-area"></div>
     <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
     <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
     <div class="btn-row">
@@ -536,9 +536,14 @@ footer a{color:var(--ac);text-decoration:none}
    ═══════════════════════════════════════════════════════════════ */
 const SITE = {
   name:    "Hunter & Dillon Dog Sitting",   // <- change this once you pick a name
-  phone:   "919-555-0100",          // used for call + text buttons
-  email:   "dillon@example.com",
-  area:    "Wake Forest, Rolesville & North Raleigh",
+  // Both of you. The first number is the one the booking form texts.
+  people: [
+    {name:"Hunter", phone:"919-703-8438"},
+    {name:"Dillon", phone:"814-500-8393"},
+  ],
+  email:   "",          // add a shared email if you want one, or leave blank
+
+  area:    "Smithfield, Selma, Clayton & Johnston County",
 
   // Availability notice shown near the top. Set to "" to hide it.
   availability: "Now booking for September — holiday dates filling up",
@@ -602,7 +607,7 @@ const SITE = {
   ],
 
   about: [
-    "We're Hunter and Dillon, two brothers looking after dogs in Wake Forest — everything from anxious rescues to nine-week-old puppies.",
+    "We're Hunter and Dillon, two brothers looking after dogs in Smithfield — everything from anxious rescues to nine-week-old puppies.",
     "Because there are two of us, someone is almost always around. Your dog gets a real routine — proper walks, feeding on their schedule, and photos through the day so you're never wondering how things are going."
   ],
 
@@ -628,7 +633,7 @@ const SITE = {
   ],
 
   faq: [
-    {q:"What's your service area?", a:"Wake Forest, Rolesville and North Raleigh. Message us if you're just outside — we can often still help."},
+    {q:"What's your service area?", a:"Smithfield, Selma, Clayton, Four Oaks and the surrounding Johnston County area. Message us if you're just outside — we can often still help."},
     {q:"Do you take dogs of any size?", a:"Yes. We've cared for everything from small breeds to large working dogs. Just let us know what to expect."},
     {q:"What about medications?", a:"Happy to give oral medication at no extra charge. For injections, let us know in advance so we can talk it through."},
     {q:"How do I pay?", a:"Venmo, Zelle or cash, due at the end of the stay. We'll send a simple invoice."},
@@ -643,11 +648,18 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>
   ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const digits = s => String(s||"").replace(/[^0-9+]/g,"");
+// the first person listed is the default contact
+const people = () => (SITE.people||[]).filter(p=>p && p.phone);
+const primaryPhone = () => { const p=people(); return p.length ? p[0].phone : (SITE.phone||""); };
+function prettyPhone(s){
+  const d=digits(s).replace(/^\+?1/,"");
+  return d.length===10 ? "("+d.slice(0,3)+") "+d.slice(3,6)+"-"+d.slice(6) : s;
+}
 const money = n => "$"+(+n||0);
 
 function render(){
   // identity
-  document.title = SITE.name + " — Wake Forest";
+  document.title = SITE.name + " — Smithfield, NC";
   $("nav-name").textContent = SITE.name;
   $("foot-name").textContent = SITE.name;
   $("hero-h1").textContent = SITE.headline;
@@ -659,20 +671,25 @@ function render(){
     const el=$("t"+(i+1)); if(el) el.textContent=t;
   });
 
-  // contact links
-  const tel = digits(SITE.phone);
+  // contact links — the buttons ring the first person listed
+  const tel = digits(primaryPhone());
   ["cta-call","bar-call"].forEach(id=>{
     const el=$(id); if(!el) return;
     if(tel){ el.href="tel:"+tel; } else { el.style.display="none"; }
   });
   $("foot-contact").innerHTML =
-    (SITE.phone?'<a href="tel:'+esc(tel)+'">'+esc(SITE.phone)+'</a>':'')+
-    (SITE.phone&&SITE.email?' · ':'')+
-    (SITE.email?'<a href="mailto:'+esc(SITE.email)+'">'+esc(SITE.email)+'</a>':'');
+    people().map(p=>'<a href="tel:'+esc(digits(p.phone))+'">'+esc(p.name)+
+      ' '+esc(prettyPhone(p.phone))+'</a>').join(' &nbsp;·&nbsp; ')+
+    (SITE.email?' &nbsp;·&nbsp; <a href="mailto:'+esc(SITE.email)+'">'+esc(SITE.email)+'</a>':'');
   $("contact-note").textContent = SITE.contactNote||"";
   const csP=$("cs-phone"), csE=$("cs-email"), csA=$("cs-area");
-  if(csP) csP.innerHTML = SITE.phone ? 'Call or text <a href="tel:'+esc(tel)+'">'+esc(SITE.phone)+'</a>' : "";
-  if(csE) csE.innerHTML = SITE.email ? 'Email <a href="mailto:'+esc(SITE.email)+'">'+esc(SITE.email)+'</a>' : "";
+  if(csP) csP.innerHTML = people().map(p=>
+    esc(p.name)+' &nbsp;<a href="tel:'+esc(digits(p.phone))+'">'+esc(prettyPhone(p.phone))+'</a>'
+  ).join('<br>');
+  if(csE){
+    csE.innerHTML = SITE.email ? 'Email <a href="mailto:'+esc(SITE.email)+'">'+esc(SITE.email)+'</a>' : "";
+    if(!SITE.email) csE.style.display="none";
+  }
   if(csA) csA.textContent = SITE.area ? "Serving "+SITE.area : "";
 
   // services
@@ -797,12 +814,13 @@ function wireForm(){
     const r=buildMessage();
     $("f-err").textContent=r.err||"";
     if(r.err) return;
-    const tel=digits(SITE.phone);
+    const tel=digits(primaryPhone());
     if(!tel){ $("f-err").textContent="No phone number set — use email below."; return; }
     // iOS wants ?& , Android wants ?body=
     const sep = /iPhone|iPad|Macintosh/i.test(navigator.userAgent) ? "&" : "?";
     location.href = "sms:"+tel+sep+"body="+encodeURIComponent(r.body);
   });
+  if(!SITE.email){ const fe=$("f-email"); if(fe) fe.style.display="none"; }
   $("f-email").addEventListener("click",e=>{
     e.preventDefault();
     const r=buildMessage();
