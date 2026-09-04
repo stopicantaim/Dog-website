@@ -7,7 +7,8 @@
 <meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Smithfield, Selma, Clayton, Four Oaks and Johnston County, NC. Book directly."/>
 <meta name="theme-color" content="#2f5d3a"/>
 <link rel="icon" href="favicon.ico"/>
-<link rel="apple-touch-icon" href="photos/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 
 <!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
 <meta property="og:title" content="Dillon's Pet Care — Smithfield, NC"/>
@@ -180,6 +181,11 @@ textarea.in{resize:vertical;min-height:88px}
 .est-total span:last-child{font-size:24px;font-weight:700;letter-spacing:-.02em;
   color:var(--ac);font-variant-numeric:tabular-nums}
 .est-fine{font-size:12px;color:var(--sub);margin-top:9px}
+.f-fallback{margin-top:12px;padding:13px 14px;background:var(--bg2);
+  border:1px solid var(--line);border-radius:10px}
+.f-fallback pre{white-space:pre-wrap;word-break:break-word;font-size:13px;line-height:1.55;
+  font-family:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);
+  border-radius:8px;padding:10px 11px;margin:0;max-height:190px;overflow:auto}
 
 .dp-trigger{display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer}
 .dp-trigger svg{stroke:var(--sub);flex-shrink:0;margin-left:8px}
@@ -619,6 +625,14 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <div class="err" id="f-err"></div>
     <a class="btn" id="f-send" href="#">Send request by text</a>
     <a class="btn alt" id="f-email" href="#" style="margin-top:10px">Send by email instead</a>
+    <div class="f-fallback" id="f-fallback" hidden>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:8px">
+        If your email app didn't open, copy the message below and send it to
+        <a href="mailto:dillon@dillonspetcare.com" id="f-fallback-addr">dillon@dillonspetcare.com</a>.
+      </p>
+      <pre id="f-fallback-body"></pre>
+      <button type="button" class="btn alt" id="f-copy" style="margin-top:8px">Copy message</button>
+    </div>
     </div>
     <aside class="contact-side">
       <div class="cs-card">
@@ -939,6 +953,17 @@ function buildMessage(){
     (msg?"\nNotes: "+msg+"\n":"");
   return {body};
 }
+function mailtoURL(body,name){
+  return "mailto:"+SITE.email+
+    "?subject="+encodeURIComponent("Booking request — "+name)+
+    "&body="+encodeURIComponent(body);
+}
+function showEmailFallback(body){
+  const box=$("f-fallback");
+  if(!box) return;
+  box.hidden=false;
+  $("f-fallback-body").textContent=body;
+}
 function wireForm(){
   $("f-send").addEventListener("click",e=>{
     e.preventDefault();
@@ -952,15 +977,60 @@ function wireForm(){
     location.href = "sms:"+tel+sep+"body="+encodeURIComponent(r.body);
   });
   if(!SITE.email){ const fe=$("f-email"); if(fe) fe.style.display="none"; }
-  $("f-email").addEventListener("click",e=>{
-    e.preventDefault();
+
+  const fe=$("f-email");
+  // keep the anchor's real href in sync so the browser handles mailto natively —
+  // far more reliable than assigning location.href, and lets people right-click > copy
+  function syncMailHref(){
+    if(!SITE.email) return;
+    const name=($("f-name").value||"").trim();
+    const dates=($("f-dates").value||"").trim();
+    if(!name || !dates){ fe.removeAttribute("href"); return; }
+    const r=buildMessage();
+    if(r.err){ fe.removeAttribute("href"); return; }
+    fe.setAttribute("href", mailtoURL(r.body,name));
+  }
+  ["f-name","f-dog","f-svc","f-msg"].forEach(id=>{
+    const el=$(id); if(el) el.addEventListener("input",syncMailHref);
+  });
+  const svcSel=$("f-svc"); if(svcSel) svcSel.addEventListener("change",syncMailHref);
+  window.syncMailHref=syncMailHref;   // the date picker calls this after a pick
+  syncMailHref();
+
+  fe.addEventListener("click",e=>{
     const r=buildMessage();
     $("f-err").textContent=r.err||"";
-    if(r.err) return;
-    if(!SITE.email){ $("f-err").textContent="No email set — use the text option."; return; }
-    location.href="mailto:"+SITE.email+
-      "?subject="+encodeURIComponent("Booking request — "+$("f-name").value.trim())+
-      "&body="+encodeURIComponent(r.body);
+    if(r.err){ e.preventDefault(); return; }
+    if(!SITE.email){ e.preventDefault(); $("f-err").textContent="No email set — use the text option."; return; }
+    syncMailHref();
+    // If no mail app is registered (common on desktop with webmail), the click
+    // does nothing visible. Surface a copyable fallback so nobody gets stuck.
+    setTimeout(()=>showEmailFallback(r.body), 700);
+  });
+
+  const fbAddr=$("f-fallback-addr");
+  if(fbAddr && SITE.email){
+    fbAddr.textContent=SITE.email;
+    fbAddr.setAttribute("href","mailto:"+SITE.email);
+  }
+
+  const cp=$("f-copy");
+  if(cp) cp.addEventListener("click",()=>{
+    const txt=$("f-fallback-body").textContent;
+    const done=()=>{ cp.textContent="Copied"; setTimeout(()=>cp.textContent="Copy message",1800); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done).catch(()=>{
+        const t=document.createElement("textarea");
+        t.value=txt; document.body.appendChild(t); t.select();
+        try{ document.execCommand("copy"); done(); }catch(_){}
+        document.body.removeChild(t);
+      });
+    } else {
+      const t=document.createElement("textarea");
+      t.value=txt; document.body.appendChild(t); t.select();
+      try{ document.execCommand("copy"); done(); }catch(_){}
+      document.body.removeChild(t);
+    }
   });
 }
 
@@ -1093,6 +1163,7 @@ function commitFormDates(){
   $("f-dates").value=fmtDate(fStart)+"\u2013"+fmtDate(fEnd);
   $("f-dates-label").textContent=fmtDate(fStart)+" \u2013 "+fmtDate(fEnd);
   $("f-dates-label").style.color="var(--ink)";
+  if(window.syncMailHref) window.syncMailHref();
 }
 function onFormDayClick(val){
   datesTouchedByUser=true;   // stop the estimator overwriting their choice
