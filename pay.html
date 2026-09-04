@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#2f5d3a"/>
+<title>Pay your invoice, Dillon's Pet Care</title>
+<meta name="description" content="Pay for boarding, house sitting, drop-in visits, walks or daycare with Dillon's Pet Care in Smithfield, NC."/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" href="favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<style>
+:root{
+  --bg:#f6f4ec;--bg2:#eee9dc;--card:#fffdf7;
+  --line:#ddd6c4;--line2:#c8bfa8;
+  --ink:#1d2a20;--sub:#5f6b60;
+  --ac:#2f5d3a;--ac2:#24492e;--ac-bg:#e6efe6;
+  --r:12px;--max:640px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+img{max-width:100%;display:block}
+h1,h2,h3,label,button,.btn{-webkit-user-select:none;user-select:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+nav{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.nav-in{max-width:var(--max);margin:0 auto;padding:11px 20px;display:flex;
+  align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;letter-spacing:-.01em;
+  color:var(--ink);text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain;flex-shrink:0}
+.nav-back{font-size:14px;color:var(--sub);text-decoration:none}
+.nav-back:hover{color:var(--ac)}
+
+header{text-align:center;padding:34px 0 22px}
+h1{font-size:28px;line-height:1.2;letter-spacing:-.02em;margin-bottom:10px}
+.lede{color:var(--sub);font-size:15px;max-width:430px;margin:0 auto}
+
+section{padding:22px 0}
+h2{font-size:19px;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--sub);font-size:14px;margin-bottom:14px}
+
+/* payment method cards */
+.pays{display:grid;gap:10px}
+.pay{display:flex;align-items:center;gap:14px;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 15px;
+  text-decoration:none;color:var(--ink);transition:border-color .18s,transform .12s}
+.pay:hover{border-color:var(--ac)}
+.pay:active{transform:scale(.995)}
+.pay-ic{width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--ac-bg);color:var(--ac);font-weight:700;font-size:15px}
+.pay-ic svg{width:21px;height:21px;stroke:var(--ac);fill:none;stroke-width:1.8}
+.pay-b{flex:1;min-width:0}
+.pay-n{font-weight:600;font-size:15px}
+.pay-d{font-size:13px;color:var(--sub);word-break:break-word}
+.pay-go{color:var(--line2);font-size:19px;flex-shrink:0}
+
+/* rate reference */
+.rates{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card)}
+.rate{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  padding:11px 15px;border-bottom:1px solid var(--line);font-size:15px}
+.rate:last-child{border-bottom:none}
+.rate b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rate span{color:var(--sub);font-size:13px}
+
+.note{font-size:14px;color:var(--sub);background:var(--bg2);border:1px solid var(--line);
+  border-radius:10px;padding:13px 15px;line-height:1.6}
+.note b{color:var(--ink)}
+.note + .note{margin-top:10px}
+
+.help{text-align:center;padding:26px 0 10px;font-size:14px;color:var(--sub)}
+.help a{color:var(--ac);font-weight:600}
+footer{text-align:center;padding:20px 0;font-size:12px;color:var(--sub);
+  border-top:1px solid var(--line);margin-top:26px}
+</style>
+</head>
+<body>
+
+<nav><div class="nav-in">
+  <a class="brand" href="index.html">
+    <img src="ART/logo.png" alt=""/>
+    <span id="brand-name">Dillon's Pet Care</span>
+  </a>
+  <a class="nav-back" href="index.html">Back to site</a>
+</div></nav>
+
+<div class="wrap">
+  <header>
+    <h1>Pay your invoice</h1>
+    <p class="lede" id="hero-note"></p>
+  </header>
+
+  <section id="methods-sec">
+    <h2>How to pay</h2>
+    <p class="sub">Pick whichever is easiest for you.</p>
+    <div class="pays" id="methods"></div>
+  </section>
+
+  <section id="rates-sec">
+    <h2>Our rates</h2>
+    <p class="sub">So you can check the amount before you send it.</p>
+    <div class="rates" id="rates"></div>
+  </section>
+
+  <section id="terms-sec">
+    <h2>Good to know</h2>
+    <div id="terms"></div>
+  </section>
+
+  <div class="help" id="help"></div>
+</div>
+
+<footer class="wrap">
+  <div id="foot-name">Dillon's Pet Care LLC</div>
+  <div style="margin-top:4px">Smithfield, NC</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   EDIT THIS BLOCK. Leave a field as "" and it disappears from the
+   page, so you can turn methods on as you set the accounts up.
+   ═══════════════════════════════════════════════════════════════ */
+const PAY = {
+  business: "Dillon's Pet Care",
+  legalName: "Dillon's Pet Care LLC",
+  email: "dillon@dillonspetcare.com",
+  phone: "814-500-8393",
+
+  // When payment is due. Shown at the top of the page.
+  dueNote: "Payment is due at the end of the stay unless we've agreed otherwise.",
+
+  methods: {
+    // Venmo BUSINESS profile handle, without the @.
+    // Personal Venmo accounts are not meant for business payments.
+    venmo:  { handle: "",  note: "Tap to open Venmo" },
+
+    // Zelle through your BUSINESS bank account.
+    zelle:  { contact: "", note: "Send through your banking app" },
+
+    // Square, PayPal invoice, or any payment link you use.
+    link:   { url: "", label: "", note: "" },
+
+    cash:   { on: true, note: "Handed over at pickup or drop-off" },
+  },
+
+  // Leave "" to hide. Fill these in once you and Dillon decide.
+  deposit: "",
+  cancellation: "",
+
+  // Rates shown for reference.
+  rates: [
+    { name: "Overnight boarding", price: "$50", unit: "per night" },
+    { name: "House sitting",      price: "$85", unit: "per night" },
+    { name: "Daycare",            price: "$40", unit: "per day"   },
+    { name: "Drop-in visit",      price: "$25", unit: "per visit" },
+    { name: "Dog walk",           price: "$25", unit: "per walk"  },
+    { name: "Each extra dog",     price: "+$25", unit: "per night" },
+  ],
+};
+/* ═════════════ nothing below here needs editing ═════════════ */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const digits = s => String(s||"").replace(/\D/g,"");
+
+const ICON = {
+  venmo: '<svg viewBox="0 0 24 24"><path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke-linejoin="round"/><path d="M9 8.5c1.6 2 2.4 4.2 2.6 6.5 1.6-2.1 2.6-4.4 2.6-6.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  zelle: '<svg viewBox="0 0 24 24"><path d="M7 7h10L7 17h10" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 3v3M12 18v3" stroke-linecap="round"/></svg>',
+  link:  '<svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19" stroke-linecap="round"/></svg>',
+  cash:  '<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>',
+};
+
+function row(icon, name, detail, href, note){
+  const inner =
+    '<div class="pay-ic">'+icon+'</div>'+
+    '<div class="pay-b">'+
+      '<div class="pay-n">'+esc(name)+'</div>'+
+      '<div class="pay-d">'+esc(detail)+(note?' &middot; '+esc(note):'')+'</div>'+
+    '</div>'+
+    (href?'<div class="pay-go">&rsaquo;</div>':'');
+  return href
+    ? '<a class="pay" href="'+esc(href)+'" target="_blank" rel="noopener">'+inner+'</a>'
+    : '<div class="pay">'+inner+'</div>';
+}
+
+function render(){
+  $("brand-name").textContent = PAY.business;
+  $("foot-name").textContent  = PAY.legalName;
+  $("hero-note").textContent  = PAY.dueNote || "";
+
+  const m = PAY.methods || {}, out = [];
+
+  if(m.venmo && m.venmo.handle){
+    const h = String(m.venmo.handle).replace(/^@/,"");
+    out.push(row(ICON.venmo, "Venmo", "@"+h, "https://venmo.com/u/"+encodeURIComponent(h), m.venmo.note));
+  }
+  if(m.zelle && m.zelle.contact){
+    out.push(row(ICON.zelle, "Zelle", m.zelle.contact, "", m.zelle.note));
+  }
+  if(m.link && m.link.url){
+    out.push(row(ICON.link, m.link.label || "Pay by card", m.link.url.replace(/^https?:\/\//,""), m.link.url, m.link.note));
+  }
+  if(m.cash && m.cash.on){
+    out.push(row(ICON.cash, "Cash", "In person", "", m.cash.note));
+  }
+
+  if(!out.length){
+    // nothing set up yet, so tell people how to reach us rather than showing an empty page
+    $("methods").innerHTML =
+      '<div class="note">We are just setting our online payment options up. '+
+      'Please '+(PAY.phone?'text us on '+esc(PAY.phone):'get in touch')+
+      (PAY.email?' or email <a href="mailto:'+esc(PAY.email)+'">'+esc(PAY.email)+'</a>':'')+
+      ' and we will sort it out with you.</div>';
+  } else {
+    $("methods").innerHTML = out.join("");
+  }
+
+  const rates = PAY.rates || [];
+  if(!rates.length){ $("rates-sec").style.display="none"; }
+  else $("rates").innerHTML = rates.map(r =>
+    '<div class="rate"><div>'+esc(r.name)+' <span>'+esc(r.unit||"")+'</span></div>'+
+    '<b>'+esc(r.price)+'</b></div>').join("");
+
+  const terms = [];
+  if(PAY.dueNote)      terms.push('<div class="note"><b>When to pay.</b> '+esc(PAY.dueNote)+'</div>');
+  if(PAY.deposit)      terms.push('<div class="note"><b>Deposit.</b> '+esc(PAY.deposit)+'</div>');
+  if(PAY.cancellation) terms.push('<div class="note"><b>Cancellations.</b> '+esc(PAY.cancellation)+'</div>');
+  terms.push('<div class="note">Please put your name and your dog\u2019s name in the payment note, '+
+             'so we can match it to the right stay.</div>');
+  $("terms").innerHTML = terms.join("");
+
+  const bits = [];
+  if(PAY.phone) bits.push('<a href="sms:'+digits(PAY.phone)+'">'+esc(PAY.phone)+'</a>');
+  if(PAY.email) bits.push('<a href="mailto:'+esc(PAY.email)+'">'+esc(PAY.email)+'</a>');
+  $("help").innerHTML = bits.length
+    ? "Question about an invoice? " + bits.join(" &nbsp;or&nbsp; ")
+    : "";
+}
+render();
+</script>
+</body>
+</html>

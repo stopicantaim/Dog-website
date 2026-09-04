@@ -128,6 +128,23 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
   color:var(--line2);font-size:12px;overflow:hidden}
 .gal-i img{width:100%;height:100%;object-fit:cover}
 
+.field-hint{font-size:12px;color:var(--sub);margin:-8px 0 14px}
+
+/* videos */
+.vids{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:640px){.vids{grid-template-columns:1fr 1fr}}
+.vid{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg2)}
+.vid-frame{position:relative;aspect-ratio:16/9;background:#000;cursor:pointer}
+.vid-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.vid-frame video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.vid-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  border:none;background:rgba(0,0,0,.22);cursor:pointer;padding:0;transition:background .15s}
+.vid-frame:hover .vid-play{background:rgba(0,0,0,.34)}
+.vid-play span{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.94);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.28)}
+.vid-play svg{width:22px;height:22px;fill:var(--ac);margin-left:3px}
+.vid-cap{font-size:14px;color:var(--ink);padding:10px 13px}
+
 /* reviews */
 .rev{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px}
 .stars{color:#f59e0b;font-size:13px;letter-spacing:2px;margin-bottom:8px}
@@ -204,6 +221,7 @@ textarea.in{resize:vertical;min-height:88px}
   font-size:13px;color:var(--ink);cursor:pointer;border:none;background:none;font-family:inherit;
   min-height:32px}
 .dp-day:disabled{color:var(--line2);cursor:not-allowed}
+.dp-day.dp-booked{color:var(--line2);text-decoration:line-through;opacity:.65}
 .dp-day.dp-empty{visibility:hidden;cursor:default}
 .dp-day.dp-inrange{background:var(--ac-bg);border-radius:0}
 .dp-day.dp-start{background:var(--ac);color:#fff;font-weight:600;border-radius:8px 0 0 8px}
@@ -567,6 +585,12 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <div class="gal" id="gal"></div>
   </section>
 
+  <section id="videos" hidden>
+    <h2>See us in action</h2>
+    <p class="lede">A few clips from days with the dogs.</p>
+    <div class="vids" id="vid-list"></div>
+  </section>
+
   <section id="reviews" class="doodle-host">
     <img class="doodle" src="ART/dog-2.png" alt="" style="width:105px;top:10px;right:14px;--r:7deg;transform:rotate(var(--r))"/>
     <h2>What clients say</h2>
@@ -595,6 +619,19 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
       <input class="in" id="f-name" autocomplete="name"/></div>
     <div class="field"><label for="f-dog">Dog&rsquo;s name &amp; breed</label>
       <input class="in" id="f-dog"/></div>
+    <div class="est-row">
+      <div class="field"><label for="f-phone">Phone</label>
+        <input class="in" id="f-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="919-555-0134"/></div>
+      <div class="field"><label for="f-mail">Email</label>
+        <input class="in" id="f-mail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com"/></div>
+    </div>
+    <p class="field-hint">Give us at least one, so we can get back to you.</p>
+    <div class="field"><label for="f-dogs">How many dogs?</label>
+      <input class="in" id="f-dogs" type="number" min="1" max="6" value="1"/></div>
+    <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+      <label for="f-website">Leave this empty</label>
+      <input id="f-website" tabindex="-1" autocomplete="off"/>
+    </div>
     <div class="field"><label for="f-svc">Service</label>
       <select class="in" id="f-svc"></select></div>
     <div class="field" style="position:relative"><label for="f-dates-btn">Dates needed</label>
@@ -665,6 +702,9 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
   <div style="margin-top:5px" id="foot-contact"></div>
   <div style="margin-top:10px;font-size:12px">Serving <span id="foot-area"></span></div>
+  <div style="margin-top:10px;font-size:13px">
+    <a href="pay.html" style="color:var(--ac);font-weight:600;text-decoration:none">Pay an invoice</a>
+  </div>
 </footer>
 <div class="lb" id="lb"><button class="lb-x" id="lb-x">&times;</button>
   <img id="lb-img" alt="Dog in my care"/>
@@ -770,6 +810,15 @@ const SITE = {
     "photos/toy-collection.jpg",
     "photos/shepherd-in-the-yard.jpg",
     "photos/poodle-in-the-sun.jpg",
+  ],
+
+  // Videos live in the videos/ folder next to this page.
+  // Each needs a poster image, which is the still shown before someone taps play.
+  // Nothing downloads until the visitor actually taps, so these cost nothing on page load.
+  videos: [
+    // {src:"videos/yard-play.mp4",  poster:"videos/yard-play.jpg",  caption:"Afternoon in the yard"},
+    // {src:"videos/fetch.mp4",      poster:"videos/fetch.jpg",      caption:"Fetch never gets old"},
+    // {src:"videos/puppy-time.mp4", poster:"videos/puppy-time.jpg", caption:"Puppy visit"},
   ],
 
   // Two of these are still placeholders, replace Sarah M. and Priya K. once you have more real ones.
@@ -881,6 +930,39 @@ function render(){
       '<div><b>'+esc(p.t)+'</b><span>'+esc(p.d)+'</span></div></div>').join("");
   }
 
+  // videos, click to play so nothing downloads until someone asks for it
+  const vids=(SITE.videos||[]).filter(v=>v && v.src);
+  const vsec=$("videos"), vlist=$("vid-list");
+  if(vsec && vlist){
+    if(!vids.length){ vsec.hidden=true; }
+    else{
+      vsec.hidden=false;
+      vlist.innerHTML = vids.map((v,i)=>
+        '<div class="vid">'+
+          '<div class="vid-frame" data-v="'+i+'">'+
+            (v.poster ? '<img src="'+esc(v.poster)+'" alt="'+esc(v.caption||"Dog in our care")+'" loading="lazy"/>' : '')+
+            '<button class="vid-play" aria-label="Play video">'+
+              '<span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'+
+            '</button>'+
+          '</div>'+
+          (v.caption ? '<div class="vid-cap">'+esc(v.caption)+'</div>' : '')+
+        '</div>').join("");
+
+      vlist.querySelectorAll(".vid-frame").forEach(frame=>{
+        frame.addEventListener("click",()=>{
+          if(frame.dataset.loaded) return;
+          const v=vids[+frame.dataset.v];
+          frame.dataset.loaded="1";
+          // pause any other clip so two don't play over each other
+          vlist.querySelectorAll("video").forEach(el=>el.pause());
+          frame.innerHTML='<video controls autoplay playsinline preload="metadata"'+
+            (v.poster?' poster="'+esc(v.poster)+'"':'')+
+            ' src="'+esc(v.src)+'"></video>';
+        });
+      });
+    }
+  }
+
   // about
   $("about-text").innerHTML = (SITE.about||[]).map(p=>'<p>'+esc(p)+'</p>').join("");
   const ai=$("about-img");
@@ -945,15 +1027,29 @@ function render(){
 function buildMessage(){
   const name=$("f-name").value.trim();
   const dog=$("f-dog").value.trim();
+  const phone=$("f-phone").value.trim();
+  const mail=$("f-mail").value.trim();
+  const dogs=Math.max(1,Math.min(6,parseInt($("f-dogs").value)||1));
   const svc=$("f-svc").value;
   const dates=$("f-dates").value.trim();
   const msg=$("f-msg").value.trim();
-  if(!name) return {err:"Please add your name."};
-  if(!dates) return {err:"Which dates do you need?"};
+
+  if($("f-website").value) return {err:""};           // bot filled the honeypot, drop silently
+  if(!name) return {err:"Please add your name.", focus:"f-name"};
+  if(!phone && !mail) return {err:"Add a phone number or an email so we can reply.", focus:"f-phone"};
+  if(mail && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail))
+    return {err:"That email address doesn't look right.", focus:"f-mail"};
+  if(phone && digits(phone).length<10)
+    return {err:"That phone number looks too short.", focus:"f-phone"};
+  if(!dates) return {err:"Which dates do you need?", focus:"f-dates-btn"};
+
   const body=
     "Hi "+SITE.name+", I'd like to book.\n\n"+
     "Name: "+name+"\n"+
+    (phone?"Phone: "+phone+"\n":"")+
+    (mail?"Email: "+mail+"\n":"")+
     (dog?"Dog: "+dog+"\n":"")+
+    (dogs>1?"Number of dogs: "+dogs+"\n":"")+
     "Service: "+svc+"\n"+
     "Dates: "+dates+"\n"+
     (msg?"\nNotes: "+msg+"\n":"");
@@ -975,7 +1071,7 @@ function wireForm(){
     e.preventDefault();
     const r=buildMessage();
     $("f-err").textContent=r.err||"";
-    if(r.err) return;
+    if(r.err){ if(r.focus && $(r.focus)) $(r.focus).focus(); return; }
     const tel=digits(primaryPhone());
     if(!tel){ $("f-err").textContent="No phone number set. Use email below."; return; }
     // sms: links generally do nothing on desktop, so show the copyable
@@ -995,12 +1091,13 @@ function wireForm(){
     if(!SITE.email) return;
     const name=($("f-name").value||"").trim();
     const dates=($("f-dates").value||"").trim();
-    if(!name || !dates){ fe.removeAttribute("href"); return; }
+    const hasContact=($("f-phone").value||"").trim() || ($("f-mail").value||"").trim();
+    if(!name || !dates || !hasContact){ fe.removeAttribute("href"); return; }
     const r=buildMessage();
     if(r.err){ fe.removeAttribute("href"); return; }
     fe.setAttribute("href", mailtoURL(r.body,name));
   }
-  ["f-name","f-dog","f-svc","f-msg"].forEach(id=>{
+  ["f-name","f-dog","f-phone","f-mail","f-dogs","f-svc","f-msg"].forEach(id=>{
     const el=$(id); if(el) el.addEventListener("input",syncMailHref);
   });
   const svcSel=$("f-svc"); if(svcSel) svcSel.addEventListener("change",syncMailHref);
@@ -1010,7 +1107,7 @@ function wireForm(){
   fe.addEventListener("click",e=>{
     const r=buildMessage();
     $("f-err").textContent=r.err||"";
-    if(r.err){ e.preventDefault(); return; }
+    if(r.err){ e.preventDefault(); if(r.focus && $(r.focus)) $(r.focus).focus(); return; }
     if(!SITE.email){ e.preventDefault(); $("f-err").textContent="No email set. Use the text option."; return; }
     syncMailHref();
     // If no mail app is registered (common on desktop with webmail), the click
@@ -1098,12 +1195,14 @@ function renderCalendarGrid(){
   for(let i=0;i<firstDow;i++) html+='<button type="button" class="dp-day dp-empty" tabindex="-1"></button>';
   for(let day=1; day<=daysInMonth; day++){
     const val=ymd(dpViewYear,dpViewMonth,day);
-    const disabled=val<tv;
-    let cls="dp-day";
+    const booked=isBooked(val);
+    const disabled=val<tv||booked;
+    let cls="dp-day"+(booked?" dp-booked":"");
     if(dpStart && val===dpStart) cls+=" dp-start";
     if(dpEnd && val===dpEnd) cls+=" dp-end";
     if(dpStart && dpEnd && val>dpStart && val<dpEnd) cls+=" dp-inrange";
-    html+='<button type="button" class="'+cls+'" data-date="'+val+'"'+(disabled?" disabled":"")+'>'+day+"</button>";
+    html+='<button type="button" class="'+cls+'" data-date="'+val+'"'+(disabled?" disabled":"")+
+      (booked?' title="Already booked"':'')+'>'+day+"</button>";
   }
   $("dp-grid").innerHTML=html;
   $("dp-grid").querySelectorAll(".dp-day[data-date]").forEach(btn=>{
@@ -1143,6 +1242,7 @@ function closePicker(){
 
 // ── calendar on the booking form's "Dates needed" field ─────────────────
 let fStart=null, fEnd=null, fViewYear, fViewMonth;
+function isBooked(val){ return (SITE.bookedDates||[]).indexOf(val)>=0; }
 function renderFormGrid(){
   $("f-dp-month").textContent=MONTH_FULL[fViewMonth]+" "+fViewYear;
   const firstDow=new Date(fViewYear,fViewMonth,1).getDay();
@@ -1152,12 +1252,14 @@ function renderFormGrid(){
   for(let i=0;i<firstDow;i++) html+='<button type="button" class="dp-day dp-empty" tabindex="-1"></button>';
   for(let day=1; day<=daysInMonth; day++){
     const val=ymd(fViewYear,fViewMonth,day);
-    const disabled=val<tv;
-    let cls="dp-day";
+    const booked=isBooked(val);
+    const disabled=val<tv||booked;
+    let cls="dp-day"+(booked?" dp-booked":"");
     if(fStart && val===fStart) cls+=" dp-start";
     if(fEnd && val===fEnd) cls+=" dp-end";
     if(fStart && fEnd && val>fStart && val<fEnd) cls+=" dp-inrange";
-    html+='<button type="button" class="'+cls+'" data-date="'+val+'"'+(disabled?" disabled":"")+'>'+day+"</button>";
+    html+='<button type="button" class="'+cls+'" data-date="'+val+'"'+(disabled?" disabled":"")+
+      (booked?' title="Already booked"':'')+'>'+day+"</button>";
   }
   $("f-dp-grid").innerHTML=html;
   $("f-dp-grid").querySelectorAll(".dp-day[data-date]").forEach(btn=>{
