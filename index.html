@@ -131,11 +131,24 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .field-hint{font-size:12px;color:var(--sub);margin:-8px 0 14px}
 
 /* videos */
-.vids{display:grid;grid-template-columns:1fr;gap:12px}
-@media (min-width:640px){.vids{grid-template-columns:1fr 1fr}}
+.vid-wrap{display:grid;gap:18px;align-items:start}
+/* on a wide screen the clips sit beside a short note, so a tall
+   phone-shaped video doesn't leave a column of empty space */
+@media (min-width:760px){.vid-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.vids{display:grid;gap:12px;grid-template-columns:1fr}
+/* portrait clips are narrow, so fit as many across as the space allows */
+@media (min-width:520px){.vids{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}}
 .vid{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg2)}
+/* a phone-shaped clip should never stretch across a desktop screen */
+.vid.portrait{max-width:330px;width:100%;margin-left:auto;margin-right:auto}
 .vid-frame{position:relative;aspect-ratio:16/9;background:#000;cursor:pointer}
-.vid-frame.portrait{aspect-ratio:9/16;max-height:70vh;margin:0 auto}
+.vid-frame.portrait{aspect-ratio:9/16;margin:0 auto;width:100%}
+.vid-side{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:16px 17px}
+.vid-side h3{font-size:16px;margin-bottom:8px}
+.vid-side ul{list-style:none;display:grid;gap:9px}
+.vid-side li{display:flex;gap:9px;font-size:14px;color:var(--sub);line-height:1.55}
+.vid-side li svg{width:16px;height:16px;stroke:var(--ac);fill:none;stroke-width:2.2;
+  flex-shrink:0;margin-top:4px}
 .vid-frame img{width:100%;height:100%;object-fit:cover;display:block}
 .vid-frame video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
 .vid-play{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;
@@ -589,7 +602,10 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   <section id="videos" hidden>
     <h2>See us in action</h2>
     <p class="lede">A few clips from days with the dogs.</p>
-    <div class="vids" id="vid-list"></div>
+    <div class="vid-wrap">
+      <div class="vids" id="vid-list"></div>
+      <aside class="vid-side" id="vid-side"></aside>
+    </div>
   </section>
 
   <section id="reviews" class="doodle-host">
@@ -822,6 +838,17 @@ const SITE = {
     // {src:"videos/fetch.mp4", poster:"videos/fetch.jpg", caption:"Fetch never gets old", portrait:true},
   ],
 
+  // Shown beside the clips on a wide screen. Set to null to hide it.
+  videoNote: {
+    title: "This is what a normal day looks like",
+    points: [
+      "A fenced yard they can actually run in",
+      "Play with other friendly dogs, never forced",
+      "Clips and photos sent to you through the stay",
+      "Home comforts, not a kennel run",
+    ],
+  },
+
   // Two of these are still placeholders, replace Sarah M. and Priya K. once you have more real ones.
   reviews: [
     {stars:5, text:"She absolutely adores him, and I truly think it's the best part of her day. We've been using Dillon's services for over a year, 5 days a week while we're at work. Dillon sends an update and a video every day of what the two of them are up to. He has other dogs he watches too, so Winnie gets lots of socialization and exercise. We trust him in our home, and with taking the best care of Winnie.", who:"Winnie's owner"}, // TODO: swap in their real name
@@ -939,7 +966,7 @@ function render(){
     else{
       vsec.hidden=false;
       vlist.innerHTML = vids.map((v,i)=>
-        '<div class="vid">'+
+        '<div class="vid'+(v.portrait?' portrait':'')+'">'+
           '<div class="vid-frame'+(v.portrait?' portrait':'')+'" data-v="'+i+'">'+
             (v.poster ? '<img src="'+esc(v.poster)+'" alt="'+esc(v.caption||"Dog in our care")+'" loading="lazy"/>' : '')+
             '<button class="vid-play" aria-label="Play video">'+
@@ -948,6 +975,15 @@ function render(){
           '</div>'+
           (v.caption ? '<div class="vid-cap">'+esc(v.caption)+'</div>' : '')+
         '</div>').join("");
+
+      const side=$("vid-side"), note=SITE.videoNote;
+      if(side){
+        if(note && note.title){
+          const tick='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          side.innerHTML='<h3>'+esc(note.title)+'</h3><ul>'+
+            (note.points||[]).map(p=>'<li>'+tick+'<span>'+esc(p)+'</span></li>').join("")+'</ul>';
+        } else { side.style.display="none"; }
+      }
 
       vlist.querySelectorAll(".vid-frame").forEach(frame=>{
         frame.addEventListener("click",()=>{
