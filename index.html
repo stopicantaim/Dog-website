@@ -37,9 +37,6 @@ body{background:var(--bg);color:var(--ink);
   padding-bottom:calc(76px + env(safe-area-inset-bottom))}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 body{overflow-x:hidden;position:relative}
-body::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;pointer-events:none;
-  background-image:url('art/wallpaper-tile.png');background-repeat:repeat;
-  background-size:230px 230px;opacity:.16}
 img{max-width:100%;display:block}
 
 /* nav */
@@ -403,23 +400,27 @@ footer a{color:var(--ac);text-decoration:none}
 @keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 
 /* alternating bands so the page isn't a sheet of white */
-/* wallpaper tile shows through as a soft tint under each band's own colour */
-#how,#about,#faq,#contact{
-  background:linear-gradient(rgba(238,233,220,.76),rgba(238,233,220,.76)),url('art/wallpaper-tile.png');
-  background-repeat:no-repeat,repeat;background-size:cover,320px 320px}
-#services,#reviews,#policy{
-  background:linear-gradient(rgba(255,253,247,.76),rgba(255,253,247,.76)),url('art/wallpaper-tile.png');
-  background-repeat:no-repeat,repeat;background-size:cover,320px 320px}
+#how{background:var(--bg2)}
+#services{background:var(--card)}
+#about{background:var(--bg2)}
 #gallery{background:var(--ink);color:#f3f0e6}
 #gallery h2{color:#fff}
 #gallery .lede{color:#c3c9c0}
+#reviews{background:var(--card)}
+#faq{background:var(--bg2)}
+#policy{background:var(--card)}
+#contact{background:var(--bg2)}
 /* full-bleed colour bands, content still inset */
 section,.hero{border-top:none;margin:0 -20px;padding:32px 20px}
 section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
-.hero{
-  background:linear-gradient(rgba(255,253,247,.76),rgba(255,253,247,.76)),url('art/wallpaper-tile.png');
-  background-repeat:no-repeat,repeat;background-size:cover,320px 320px;
-  padding-top:38px;padding-bottom:34px}
+.hero{background:var(--card);padding-top:38px;padding-bottom:34px}
+
+/* commissioned dog illustrations, placed individually through the page —
+   z-index:0 keeps them behind each section's own text/cards */
+.doodle{position:absolute;opacity:.22;pointer-events:none;z-index:0;user-select:none}
+.doodle-host{position:relative;overflow:hidden}
+.doodle-host>*:not(.doodle){position:relative;z-index:1}
+@media (max-width:640px){.doodle{opacity:.18;transform:scale(.8) rotate(var(--r,0deg))!important}}
 @media (min-width:700px){
   section{padding:44px 20px}
   .hero{padding-top:60px;padding-bottom:52px}
@@ -446,7 +447,9 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 
 <div class="wrap">
 
-  <header class="hero">
+  <header class="hero doodle-host">
+    <img class="doodle" src="ART/dog-3.png" alt="" style="width:190px;top:-14px;right:-34px;--r:6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-1.png" alt="" style="width:120px;bottom:6px;left:-22px;--r:-9deg;transform:rotate(var(--r))"/>
     <div class="eyebrow" id="hero-area"></div>
     <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
     <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
@@ -467,13 +470,15 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <span id="avail-text"></span>
   </div>
 
-  <section id="how">
+  <section id="how" class="doodle-host">
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:130px;top:-8px;right:-18px;--r:10deg;transform:rotate(var(--r))"/>
     <h2>How it works</h2>
     <p class="lede">No commitment until you&rsquo;ve met us.</p>
     <ol class="steps" id="steps"></ol>
   </section>
 
-  <section id="services">
+  <section id="services" class="doodle-host">
+    <img class="doodle" src="ART/dog-7.png" alt="" style="width:150px;bottom:-16px;left:-24px;--r:-8deg;transform:rotate(var(--r))"/>
     <h2 id="svc-h">Services</h2>
     <p class="lede" id="svc-lede"></p>
     <div id="svc-list"></div>
@@ -531,7 +536,8 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </section>
 
-  <section id="about">
+  <section id="about" class="doodle-host">
+    <img class="doodle" src="ART/dog-6.png" alt="" style="width:240px;bottom:-32px;right:-42px;--r:-4deg;transform:rotate(var(--r))"/>
     <h2>About</h2>
     <div class="about">
       <div class="about-img" id="about-img">
@@ -547,22 +553,26 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <div class="gal" id="gal"></div>
   </section>
 
-  <section id="reviews">
+  <section id="reviews" class="doodle-host">
+    <img class="doodle" src="ART/dog-2.png" alt="" style="width:150px;top:-10px;left:-20px;--r:7deg;transform:rotate(var(--r))"/>
     <h2>What clients say</h2>
     <div id="rev-list"></div>
   </section>
 
-  <section id="faq">
+  <section id="faq" class="doodle-host">
+    <img class="doodle" src="ART/dog-4.png" alt="" style="width:130px;top:-6px;right:-16px;--r:8deg;transform:rotate(var(--r))"/>
     <h2>Common questions</h2>
     <div id="faq-list" style="margin-top:14px"></div>
   </section>
 
-  <section id="policy">
+  <section id="policy" class="doodle-host">
+    <img class="doodle" src="ART/dog-8.png" alt="" style="width:160px;bottom:-22px;left:-26px;--r:-6deg;transform:rotate(var(--r))"/>
     <h2>Health &amp; safety</h2>
     <div class="policy" id="policy-list"></div>
   </section>
 
-  <section id="contact">
+  <section id="contact" class="doodle-host">
+    <img class="doodle" src="ART/dog-1.png" alt="" style="width:120px;top:-8px;right:-18px;--r:-7deg;transform:rotate(var(--r))"/>
     <h2>Request a booking</h2>
     <p class="lede">Tell us the dates and we&rsquo;ll get back to you the same day.</p>
     <div class="contact-grid">
@@ -573,8 +583,26 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
       <input class="in" id="f-dog"/></div>
     <div class="field"><label for="f-svc">Service</label>
       <select class="in" id="f-svc"></select></div>
-    <div class="field"><label for="f-dates">Dates needed</label>
-      <input class="in" id="f-dates" placeholder="e.g. Sept 12–16"/></div>
+    <div class="field" style="position:relative"><label for="f-dates-btn">Dates needed</label>
+      <button type="button" class="in dp-trigger" id="f-dates-btn">
+        <span id="f-dates-label" style="color:var(--sub)">Select dates</span>
+        <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <input type="hidden" id="f-dates"/>
+      <div class="dp-pop" id="f-dp-pop" hidden>
+        <div class="dp-head">
+          <button type="button" class="dp-nav" id="f-dp-prev" aria-label="Previous month">&lsaquo;</button>
+          <div class="dp-month" id="f-dp-month"></div>
+          <button type="button" class="dp-nav" id="f-dp-next" aria-label="Next month">&rsaquo;</button>
+        </div>
+        <div class="dp-dow" id="f-dp-dow"></div>
+        <div class="dp-grid" id="f-dp-grid"></div>
+        <div class="dp-foot">
+          <span id="f-dp-range-label" style="font-size:12px;color:var(--sub)"></span>
+          <button type="button" class="dp-done" id="f-dp-done">Done</button>
+        </div>
+      </div>
+    </div>
     <div class="field"><label for="f-msg">Anything I should know?</label>
       <textarea class="in" id="f-msg" placeholder="Medications, anxiety, routine, other pets..."></textarea></div>
     <div class="err" id="f-err"></div>
@@ -608,7 +636,8 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   <a class="btn" href="#contact">Request booking</a>
 </div></div>
 
-<footer class="wrap">
+<footer class="wrap doodle-host" style="position:relative">
+  <img class="doodle" src="ART/dog-3.png" alt="" style="width:140px;top:-18px;right:0;--r:5deg;transform:rotate(var(--r))"/>
   <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
   <div style="margin-top:5px" id="foot-contact"></div>
   <div style="margin-top:10px;font-size:12px">Serving <span id="foot-area"></span></div>
@@ -1022,6 +1051,72 @@ function closePicker(){
   if(dpStart && !dpEnd){ dpEnd=addDays(dpStart,1); commitDates(dpStart,dpEnd); }
 }
 
+// ── calendar on the booking form's "Dates needed" field ─────────────────
+let fStart=null, fEnd=null, fViewYear, fViewMonth;
+function renderFormGrid(){
+  $("f-dp-month").textContent=MONTH_FULL[fViewMonth]+" "+fViewYear;
+  const firstDow=new Date(fViewYear,fViewMonth,1).getDay();
+  const daysInMonth=new Date(fViewYear,fViewMonth+1,0).getDate();
+  const tv=todayStr(), tp=parseYMD(tv);
+  let html="";
+  for(let i=0;i<firstDow;i++) html+='<button type="button" class="dp-day dp-empty" tabindex="-1"></button>';
+  for(let day=1; day<=daysInMonth; day++){
+    const val=ymd(fViewYear,fViewMonth,day);
+    const disabled=val<tv;
+    let cls="dp-day";
+    if(fStart && val===fStart) cls+=" dp-start";
+    if(fEnd && val===fEnd) cls+=" dp-end";
+    if(fStart && fEnd && val>fStart && val<fEnd) cls+=" dp-inrange";
+    html+='<button type="button" class="'+cls+'" data-date="'+val+'"'+(disabled?" disabled":"")+'>'+day+"</button>";
+  }
+  $("f-dp-grid").innerHTML=html;
+  $("f-dp-grid").querySelectorAll(".dp-day[data-date]").forEach(btn=>{
+    btn.addEventListener("click", e=>{ e.stopPropagation(); onFormDayClick(btn.dataset.date); });
+  });
+  $("f-dp-prev").disabled = (fViewYear<tp.y) || (fViewYear===tp.y && fViewMonth<=tp.m);
+  const lbl=$("f-dp-range-label");
+  if(fStart && fEnd) lbl.textContent=fmtDate(fStart)+" \u2013 "+fmtDate(fEnd);
+  else if(fStart) lbl.textContent="Now pick an end date";
+  else lbl.textContent="Pick a start date";
+}
+function onFormDayClick(val){
+  datesTouchedByUser=true;   // stop the estimator overwriting their choice
+  if(!fStart || (fStart && fEnd)){ fStart=val; fEnd=null; }
+  else if(val<fStart){ fStart=val; fEnd=null; }
+  else { fEnd=val; }
+  renderFormGrid();
+  if(fStart && fEnd){
+    $("f-dates").value=fmtDate(fStart)+"\u2013"+fmtDate(fEnd);
+    $("f-dates-label").textContent=fmtDate(fStart)+" \u2013 "+fmtDate(fEnd);
+    $("f-dates-label").style.color="var(--ink)";
+  }
+}
+function closeFormPicker(){
+  $("f-dp-pop").hidden=true;
+  if(fStart && !fEnd){ fEnd=addDays(fStart,1); onFormDayClick(fEnd); $("f-dp-pop").hidden=true; }
+}
+function setupFormPicker(){
+  $("f-dp-dow").innerHTML=DOW.map(d=>"<div>"+d+"</div>").join("");
+  $("f-dates-btn").addEventListener("click", e=>{
+    e.stopPropagation();
+    if($("f-dp-pop").hidden){
+      const p=parseYMD(fStart||todayStr());
+      fViewYear=p.y; fViewMonth=p.m;
+      renderFormGrid();
+      $("f-dp-pop").hidden=false;
+    } else { closeFormPicker(); }
+  });
+  $("f-dp-prev").addEventListener("click", e=>{
+    e.stopPropagation(); fViewMonth--; if(fViewMonth<0){fViewMonth=11;fViewYear--;} renderFormGrid();
+  });
+  $("f-dp-next").addEventListener("click", e=>{
+    e.stopPropagation(); fViewMonth++; if(fViewMonth>11){fViewMonth=0;fViewYear++;} renderFormGrid();
+  });
+  $("f-dp-done").addEventListener("click", e=>{ e.stopPropagation(); closeFormPicker(); });
+  $("f-dp-pop").addEventListener("click", e=>e.stopPropagation());
+  document.addEventListener("click", ()=>{ if(!$("f-dp-pop").hidden) closeFormPicker(); });
+}
+
 function renderEstimator(){
   const sel=$("e-svc");
   sel.innerHTML=(SITE.services||[]).map((s,i)=>
@@ -1039,8 +1134,7 @@ function renderEstimator(){
     el.addEventListener("input",estimate);
     el.addEventListener("change",estimate);
   });
-  const fd=$("f-dates");
-  if(fd) fd.addEventListener("input",()=>{ datesTouchedByUser=true; });
+  setupFormPicker();
 
   $("e-dates-btn").addEventListener("click", e=>{
     e.stopPropagation();
@@ -1108,9 +1202,11 @@ function estimate(){
   const bookSvc=$("f-svc");
   if(bookSvc) bookSvc.value=s.name;
   const dates=$("f-dates");
-  if(dates && estimatorOpened && !datesTouchedByUser){
-    if(spanMode){ dates.value=fmtDate($("e-start").value)+"\u2013"+fmtDate($("e-end").value); dates.placeholder=""; }
-    else { dates.value=""; dates.placeholder="e.g. "+qty+" "+word+(qty===1?"":"s"); }
+  if(dates && estimatorOpened && !datesTouchedByUser && spanMode){
+    fStart=$("e-start").value; fEnd=$("e-end").value;
+    dates.value=fmtDate(fStart)+"\u2013"+fmtDate(fEnd);
+    $("f-dates-label").textContent=fmtDate(fStart)+" \u2013 "+fmtDate(fEnd);
+    $("f-dates-label").style.color="var(--ink)";
   }
 }
 function line(l,r){
