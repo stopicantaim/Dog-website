@@ -11,14 +11,14 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 
 <!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
-<meta property="og:title" content="Dillon's Pet Care — Smithfield, NC"/>
+<meta property="og:title" content="Dillon's Pet Care, Smithfield, NC"/>
 <meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
 <meta property="og:type" content="website"/>
 <meta property="og:image" content="photos/social-preview.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Dillon's Pet Care — Smithfield, NC"/>
+<meta name="twitter:title" content="Dillon's Pet Care, Smithfield, NC"/>
 <meta name="twitter:description" content="Boarding, house sitting, drop-in visits and walks."/>
 <meta name="twitter:image" content="photos/social-preview.jpg"/>
 <style>
@@ -75,7 +75,7 @@ h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-
 @media (hover:hover){.hero-strip .hs:hover img{transform:scale(1.06)}}
 /* the first tile spans both rows so it reads as the main image */
 .hero-strip .hs:first-child{grid-row:span 2}
-/* on a phone three tiles is plenty — more just makes them tiny */
+/* on a phone three tiles is plenty, more just makes them tiny */
 .hero-strip .hs:nth-child(n+4){display:none}
 @media (min-width:700px){
   .hero-strip{max-width:var(--max);height:380px;
@@ -364,7 +364,7 @@ footer a{color:var(--ac);text-decoration:none}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes photoIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
 
-  /* the hero photo drifts very slowly — enough to feel alive, not enough to distract */
+  /* the hero photo drifts very slowly, enough to feel alive, not enough to distract */
   .hero-strip .hs:first-child img{animation:driftIn 20s 1.4s ease-in-out infinite alternate}
   @keyframes driftIn{from{transform:scale(1)}to{transform:scale(1.05)}}
 
@@ -378,7 +378,7 @@ footer a{color:var(--ac);text-decoration:none}
   @keyframes tick{0%,100%{transform:none}12%{transform:scale(1.18)}24%{transform:none}}
 }
 
-/* hover / press behaviour — these are fine even with reduced motion */
+/* hover / press behaviour, these are fine even with reduced motion */
 .gal-i{cursor:zoom-in;overflow:hidden}
 .gal-i img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
 @media (hover:hover){
@@ -430,7 +430,7 @@ section,.hero{border-top:none;margin:0 -20px;padding:32px 20px}
 section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 .hero{background:var(--card);padding-top:38px;padding-bottom:34px}
 
-/* commissioned dog illustrations, placed individually through the page —
+/* commissioned dog illustrations, placed individually through the page,
    z-index:0 keeps them behind each section's own text/cards */
 .doodle{position:absolute;opacity:.26;pointer-events:none;z-index:0;user-select:none}
 .doodle-host{position:relative;overflow:hidden}
@@ -674,11 +674,11 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   EDIT THIS BLOCK — everything on the page comes from here.
+   EDIT THIS BLOCK: everything on the page comes from here.
    Change the text, save, re-upload. Nothing else needs touching.
    ═══════════════════════════════════════════════════════════════ */
 const SITE = {
-  name:    "Dillon's Pet Care",   // legal entity is "Dillon's Pet Care LLC" — LLC dropped here for a friendlier display name
+  name:    "Dillon's Pet Care",   // legal entity is "Dillon's Pet Care LLC", LLC dropped here for a friendlier display name
   // Both of you. The first number is the one the booking form texts.
   people: [
     {name:"Hunter", phone:"919-703-8438"},
@@ -689,7 +689,7 @@ const SITE = {
   area:    "Smithfield, Selma, Clayton, Four Oaks & Johnston County",
 
   // Availability notice shown near the top. Set to "" to hide it.
-  availability: "Now accepting new clients — contact us to check availability",
+  availability: "Now accepting new clients. Contact us to check availability",
   // Dates already full, so people don't ask. Format "YYYY-MM-DD".
   bookedDates: [],
 
@@ -705,7 +705,7 @@ const SITE = {
   intro:    "Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.",
 
   // The three ticks under the buttons.
-  // Only put things here that are true — people rely on these.
+  // Only put things here that are true, people rely on these.
   trust: ["Two of us, so someone's always around", "Free meet & greet first", "A home, not a kennel"],
 
   services: [
@@ -716,7 +716,7 @@ const SITE = {
      desc:"One of us stays overnight at your place so your dog keeps their own bed, their own routine and their own yard. We bring in mail, alternate lights and leave the house as we found it."},
 
     {name:"Drop-in visits", unit:"per visit", price:25,
-     desc:"A 30-minute visit — feeding, fresh water, a potty break, medication if needed, and proper play or a short walk. You get a photo and a note after every visit."},
+     desc:"A 30-minute visit: feeding, fresh water, a potty break, medication if needed, and proper play or a short walk. You get a photo and a note after every visit."},
 
     {name:"Dog walking", unit:"per walk",  price:25,
      desc:"A full 30 minutes on the lead, rain or shine. Paced to suit your dog, whether that's a brisk loop for a young shepherd or a gentle amble for an older one. Paws wiped before we leave."},
@@ -726,13 +726,13 @@ const SITE = {
   ],  // Show rates next to each service? false keeps the list clean and lets
   // people ask first. The estimator below still works either way.
   showPrices: false,
-  servicesNote: "Rates vary with the dates, the number of dogs and any extra care needed. Puppies, senior dogs and medication are all fine — tell us what's involved and we'll quote you the same day.",
+  servicesNote: "Rates vary with the dates, the number of dogs and any extra care needed. Puppies, senior dogs and medication are all fine. Tell us what's involved and we'll quote you the same day.",
   // extra charge per additional dog, and the discount for longer stays
   extraDogRate: 25,
   weekDiscount: 0,   // Dillon: no discount for 7+ nights right now
 
   // Drop a photo of yourself into photos/ and put the filename here.
-  // A face matters more than anything else on this page — people are
+  // A face matters more than anything else on this page, people are
   // deciding whether to trust you with their dog and their house key.
   aboutPhoto: "",          // e.g. "photos/dillon.jpg"
 
@@ -747,13 +747,13 @@ const SITE = {
     {t:"Emergency plan", d:"If something goes wrong we'll contact you first, then your vet. We keep both numbers on hand for every stay."},
     {t:"Meet before booking", d:"Every new dog comes for a free meet & greet, so nobody's first day is also their first time meeting us."},
     {t:"Honest about fit", d:"If your dog wouldn't be happy in a home with other dogs, we'll tell you rather than take the booking."},
-    {t:"Vet care while you're away", d:"We'll always try you first. If we can't reach you and a dog needs urgent care, we'll take them to your vet — or the nearest emergency clinic if yours is closed — so treatment isn't delayed. We ask for written permission to do that when you book."},
+    {t:"Vet care while you're away", d:"We'll always try you first. If we can't reach you and a dog needs urgent care, we'll take them to your vet, or the nearest emergency clinic if yours is closed, so treatment isn't delayed. We ask for written permission to do that when you book."},
     {t:"Fully in the loop", d:"You get photo updates every day of the stay, so you always know how your dog is doing rather than wondering."},
   ],
 
   about: [
-    "We're Hunter and Dillon, two brothers looking after dogs in Smithfield — everything from anxious rescues to nine-week-old puppies.",
-    "Because there are two of us, someone is almost always around. Your dog gets a real routine — proper walks, feeding on their schedule, and photos through the day so you're never wondering how things are going."
+    "We're Hunter and Dillon, two brothers looking after dogs in Smithfield, from anxious rescues to nine-week-old puppies.",
+    "Because there are two of us, someone is almost always around. Your dog gets a real routine: proper walks, feeding on their schedule, and photos through the day so you're never wondering how things are going."
   ],
 
   // Photos live in the photos/ folder next to this page.
@@ -772,7 +772,7 @@ const SITE = {
     "photos/poodle-in-the-sun.jpg",
   ],
 
-  // Two of these are still placeholders — replace Sarah M. and Priya K. once you have more real ones.
+  // Two of these are still placeholders, replace Sarah M. and Priya K. once you have more real ones.
   reviews: [
     {stars:5, text:"She absolutely adores him, and I truly think it's the best part of her day. We've been using Dillon's services for over a year, 5 days a week while we're at work. Dillon sends an update and a video every day of what the two of them are up to. He has other dogs he watches too, so Winnie gets lots of socialization and exercise. We trust him in our home, and with taking the best care of Winnie.", who:"Winnie's owner"}, // TODO: swap in their real name
     {stars:5, text:"They took our anxious rescue for a week and sent photos every day. She came home relaxed instead of stressed.", who:"Sarah M."},
@@ -780,14 +780,14 @@ const SITE = {
   ],
 
   faq: [
-    {q:"What's your service area?", a:"Smithfield, Selma, Clayton, Four Oaks and the surrounding Johnston County area. Message us if you're just outside — we can often still help."},
+    {q:"What's your service area?", a:"Smithfield, Selma, Clayton, Four Oaks and the surrounding Johnston County area. Message us if you're just outside. We can often still help."},
     {q:"Do you take dogs of any size?", a:"Yes. We've cared for everything from small breeds to large working dogs. Just let us know what to expect."},
     {q:"What about medications?", a:"Happy to give oral medication at no extra charge. For injections, let us know in advance so we can talk it through."},
     {q:"How do I pay?", a:"Venmo, Zelle or cash, due at the end of the stay. We'll send a simple invoice."},
-    {q:"Can I meet you first?", a:"Please do — we recommend a free meet-and-greet before the first booking so you and your dog can size us up."},
-    {q:"What should I send with my dog?", a:"Their usual food (a little extra in case plans change), any medication with written instructions, their lead and collar with ID tags, and a bed or blanket that smells like home. Toys are welcome. Don't worry about bowls — we have plenty."},
-    {q:"How far ahead should I book?", a:"The sooner the better for holidays and school breaks, which fill up first. For ordinary weeks a few days' notice is usually plenty — but just ask, since we can often fit in last-minute stays."},
-    // TODO — confirm these two with Dillon before going live:
+    {q:"Can I meet you first?", a:"Please do. We recommend a free meet-and-greet before the first booking so you and your dog can size us up."},
+    {q:"What should I send with my dog?", a:"Their usual food (a little extra in case plans change), any medication with written instructions, their lead and collar with ID tags, and a bed or blanket that smells like home. Toys are welcome. Don't worry about bowls. We have plenty."},
+    {q:"How far ahead should I book?", a:"The sooner the better for holidays and school breaks, which fill up first. For ordinary weeks a few days' notice is usually plenty, but just ask, since we can often fit in last-minute stays."},
+    // TODO: confirm these two with Dillon before going live:
     {q:"What if you need to cancel?", a:"If we ever have to cancel on you, you get a full refund of anything already paid and we'll do our best to help you find someone else. It has not happened yet and we work hard to keep it that way."},
   ],
 
@@ -810,7 +810,7 @@ const money = n => "$"+(+n||0);
 
 function render(){
   // identity
-  document.title = SITE.name + " — Smithfield, NC";
+  document.title = SITE.name + ", Smithfield, NC";
   $("nav-name").textContent = SITE.name;
   $("foot-name").textContent = SITE.name;
   $("hero-h1").textContent = SITE.headline;
@@ -822,7 +822,7 @@ function render(){
     const el=$("t"+(i+1)); if(el) el.textContent=t;
   });
 
-  // contact links — the buttons ring the first person listed
+  // contact links, the buttons ring the first person listed
   const tel = digits(primaryPhone());
   ["cta-call","bar-call"].forEach(id=>{
     const el=$(id); if(!el) return;
@@ -889,7 +889,7 @@ function render(){
     ai.classList.add("has-photo");
   }
 
-  // gallery — placeholders until real photos are added
+  // gallery, placeholders until real photos are added
   const photos = SITE.photos||[];
   const hs=$("hero-strip");
   const heroes=(SITE.heroPhotos||[]).slice(0,5);
@@ -907,7 +907,7 @@ function render(){
     }
   }
   const gal=$("gal");
-  // the hero already shows some of these — don't repeat them further down
+  // the hero already shows some of these, don't repeat them further down
   const heroSet = new Set(heroes);
   const galleryPhotos = photos.filter(p=>!heroSet.has(p)).concat(photos.filter(p=>heroSet.has(p)));
   if(photos.length){
@@ -922,13 +922,13 @@ function render(){
   }else{
     gal.innerHTML = Array.from({length:4},()=>'<div class="gal-i">photo</div>').join("");
     document.querySelector("#gallery .lede").textContent =
-      "Add photos of dogs you've looked after — with the owner's blessing.";
+      "Add photos of dogs you've looked after, with the owner's blessing.";
   }
 
   // reviews
   $("rev-list").innerHTML = (SITE.reviews||[]).map(r=>
     '<div class="rev"><div class="stars">'+"★".repeat(Math.max(1,Math.min(5,r.stars||5)))+'</div>'+
-    '<p>'+esc(r.text)+'</p><div class="rev-w">— '+esc(r.who)+'</div></div>').join("");
+    '<p>'+esc(r.text)+'</p><div class="rev-w">'+esc(r.who)+'</div></div>').join("");
 
   // faq
   $("faq-list").innerHTML = (SITE.faq||[]).map(f=>
@@ -951,7 +951,7 @@ function buildMessage(){
   if(!name) return {err:"Please add your name."};
   if(!dates) return {err:"Which dates do you need?"};
   const body=
-    "Hi "+SITE.name+" — I'd like to book.\n\n"+
+    "Hi "+SITE.name+", I'd like to book.\n\n"+
     "Name: "+name+"\n"+
     (dog?"Dog: "+dog+"\n":"")+
     "Service: "+svc+"\n"+
@@ -961,7 +961,7 @@ function buildMessage(){
 }
 function mailtoURL(body,name){
   return "mailto:"+SITE.email+
-    "?subject="+encodeURIComponent("Booking request — "+name)+
+    "?subject="+encodeURIComponent("Booking request from "+name)+
     "&body="+encodeURIComponent(body);
 }
 function showEmailFallback(body){
@@ -977,7 +977,7 @@ function wireForm(){
     $("f-err").textContent=r.err||"";
     if(r.err) return;
     const tel=digits(primaryPhone());
-    if(!tel){ $("f-err").textContent="No phone number set — use email below."; return; }
+    if(!tel){ $("f-err").textContent="No phone number set. Use email below."; return; }
     // sms: links generally do nothing on desktop, so show the copyable
     // fallback there instead of leaving the click looking broken
     const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -989,7 +989,7 @@ function wireForm(){
   if(!SITE.email){ const fe=$("f-email"); if(fe) fe.style.display="none"; }
 
   const fe=$("f-email");
-  // keep the anchor's real href in sync so the browser handles mailto natively —
+  // keep the anchor's real href in sync so the browser handles mailto natively,
   // far more reliable than assigning location.href, and lets people right-click > copy
   function syncMailHref(){
     if(!SITE.email) return;
@@ -1011,7 +1011,7 @@ function wireForm(){
     const r=buildMessage();
     $("f-err").textContent=r.err||"";
     if(r.err){ e.preventDefault(); return; }
-    if(!SITE.email){ e.preventDefault(); $("f-err").textContent="No email set — use the text option."; return; }
+    if(!SITE.email){ e.preventDefault(); $("f-err").textContent="No email set. Use the text option."; return; }
     syncMailHref();
     // If no mail app is registered (common on desktop with webmail), the click
     // does nothing visible. Surface a copyable fallback so nobody gets stuck.
@@ -1380,7 +1380,7 @@ function initMotion(){
   targets.forEach(el=>el.classList.add("reveal"));
 
   if(reduce || !("IntersectionObserver" in window)){
-    // no animation wanted or supported — just show everything
+    // no animation wanted or supported, just show everything
     document.querySelectorAll(".reveal,.gal-i").forEach(el=>el.classList.add("shown"));
     return;
   }
@@ -1411,7 +1411,7 @@ function initMotion(){
   if(gal) gio.observe(gal);
 
   // Safety net. An element sitting behind the sticky bar, or inside a
-  // container that scrolled past in one jump, can miss its trigger — and a
+  // container that scrolled past in one jump, can miss its trigger, and a
   // permanently invisible section is far worse than an un-animated one.
   function showStragglers(){
     const vh = innerHeight;
