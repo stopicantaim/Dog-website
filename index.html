@@ -146,7 +146,10 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .vid-frame.portrait{aspect-ratio:9/16;margin:0 auto;width:100%}
 .vid-side{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);
   padding:22px 24px;display:flex;flex-direction:column;justify-content:center}
-.vid-side h3{font-size:18px;margin-bottom:14px;line-height:1.3}
+.vid-side h3{font-size:18px;margin-bottom:10px;line-height:1.3}
+.vid-side-p{font-size:14px;color:var(--sub);line-height:1.6;margin-bottom:16px}
+.vid-side-f{font-size:14px;color:var(--sub);line-height:1.6;margin-top:16px}
+.vid-side-cta{margin-top:14px;align-self:flex-start}
 .vid-side ul{list-style:none;display:grid;gap:13px}
 .vid-side li{display:flex;gap:11px;font-size:15px;color:var(--sub);line-height:1.55}
 .vid-side li svg{width:17px;height:17px;stroke:var(--ac);fill:none;stroke-width:2.2;
@@ -843,12 +846,15 @@ const SITE = {
   // Shown beside the clips on a wide screen. Set to null to hide it.
   videoNote: {
     title: "This is what a normal day looks like",
+    intro: "No kennels, no concrete runs, no dogs left alone all day. Just our house and our yard, with someone home for most of it.",
     points: [
       "A fenced yard they can actually run in",
       "Play with other friendly dogs, never forced",
       "Clips and photos sent to you through the stay",
       "Home comforts, not a kennel run",
     ],
+    footer: "Come and see it for yourself. The first meet and greet is free.",
+    cta: { label: "Request a booking", href: "#contact" },
   },
 
   // Two of these are still placeholders, replace Sarah M. and Priya K. once you have more real ones.
@@ -982,8 +988,14 @@ function render(){
       if(side){
         if(note && note.title){
           const tick='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-          side.innerHTML='<h3>'+esc(note.title)+'</h3><ul>'+
-            (note.points||[]).map(p=>'<li>'+tick+'<span>'+esc(p)+'</span></li>').join("")+'</ul>';
+          side.innerHTML=
+            '<h3>'+esc(note.title)+'</h3>'+
+            (note.intro?'<p class="vid-side-p">'+esc(note.intro)+'</p>':'')+
+            '<ul>'+(note.points||[]).map(p=>'<li>'+tick+'<span>'+esc(p)+'</span></li>').join("")+'</ul>'+
+            (note.footer?'<p class="vid-side-f">'+esc(note.footer)+'</p>':'')+
+            (note.cta&&note.cta.href
+              ? '<a class="btn vid-side-cta" href="'+esc(note.cta.href)+'">'+esc(note.cta.label||"Get in touch")+'</a>'
+              : '');
         } else { side.style.display="none"; }
       }
 
