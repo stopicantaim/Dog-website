@@ -37,10 +37,10 @@ body{background:var(--bg);color:var(--ink);
   padding-bottom:calc(76px + env(safe-area-inset-bottom))}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 body{overflow-x:hidden}
-.doodle{position:absolute;opacity:.07;pointer-events:none;z-index:0;user-select:none}
+.doodle{position:absolute;opacity:.16;pointer-events:none;z-index:0;user-select:none}
 .doodle-host{position:relative}
 .doodle-host>*:not(.doodle){position:relative;z-index:1}
-@media (max-width:640px){.doodle{opacity:.06;transform:scale(.72) rotate(var(--r,0deg))!important}}
+@media (max-width:640px){.doodle{opacity:.13;transform:scale(.72) rotate(var(--r,0deg))!important}}
 img{max-width:100%;display:block}
 
 /* nav */
@@ -177,6 +177,33 @@ textarea.in{resize:vertical;min-height:88px}
 .est-total span:last-child{font-size:24px;font-weight:700;letter-spacing:-.02em;
   color:var(--ac);font-variant-numeric:tabular-nums}
 .est-fine{font-size:12px;color:var(--sub);margin-top:9px}
+
+.dp-trigger{display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer}
+.dp-trigger svg{stroke:var(--sub);flex-shrink:0;margin-left:8px}
+.dp-pop{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;background:var(--card);
+  border:1px solid var(--line2);border-radius:12px;padding:14px;
+  box-shadow:0 10px 28px rgba(20,20,10,.16)}
+.dp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.dp-month{font-size:14px;font-weight:600;color:var(--ink)}
+.dp-nav{background:#fff;border:1px solid var(--line2);border-radius:8px;width:30px;height:30px;
+  font-size:16px;color:var(--ink);cursor:pointer;font-family:inherit;line-height:1}
+.dp-nav:disabled{opacity:.35;cursor:not-allowed}
+.dp-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:11px;color:var(--sub);
+  text-align:center;margin-bottom:4px}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;
+  font-size:13px;color:var(--ink);cursor:pointer;border:none;background:none;font-family:inherit;
+  min-height:32px}
+.dp-day:disabled{color:var(--line2);cursor:not-allowed}
+.dp-day.dp-empty{visibility:hidden;cursor:default}
+.dp-day.dp-inrange{background:var(--ac-bg);border-radius:0}
+.dp-day.dp-start{background:var(--ac);color:#fff;font-weight:600;border-radius:8px 0 0 8px}
+.dp-day.dp-end{background:var(--ac);color:#fff;font-weight:600;border-radius:0 8px 8px 0}
+.dp-day.dp-start.dp-end{border-radius:8px}
+.dp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;
+  padding-top:10px;border-top:1px solid var(--line)}
+.dp-done{background:var(--ac);color:#fff;border:none;border-radius:8px;padding:9px 16px;
+  font-size:13px;font-family:inherit;cursor:pointer}
 
 .gal-i{cursor:pointer;transition:opacity .15s}
 .gal-i:active{opacity:.85}
@@ -463,8 +490,28 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
         <div style="grid-column:1/-1"><label for="e-svc">Service</label><select class="in" id="e-svc"></select></div>
       </div>
       <div class="est-row" id="e-date-row">
-        <div><label for="e-start">Start date</label><input class="in" type="date" id="e-start"/></div>
-        <div><label for="e-end">End date</label><input class="in" type="date" id="e-end"/></div>
+        <div style="grid-column:1/-1;position:relative">
+          <label for="e-dates-btn">Dates</label>
+          <button type="button" class="in dp-trigger" id="e-dates-btn">
+            <span id="dp-trigger-label">Select dates</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+          <input type="hidden" id="e-start"/>
+          <input type="hidden" id="e-end"/>
+          <div class="dp-pop" id="dp-pop" hidden>
+            <div class="dp-head">
+              <button type="button" class="dp-nav" id="dp-prev" aria-label="Previous month">&lsaquo;</button>
+              <div class="dp-month" id="dp-month"></div>
+              <button type="button" class="dp-nav" id="dp-next" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <div class="dp-dow" id="dp-dow"></div>
+            <div class="dp-grid" id="dp-grid"></div>
+            <div class="dp-foot">
+              <span id="dp-range-label" style="font-size:12px;color:var(--sub)"></span>
+              <button type="button" class="dp-done" id="dp-done">Done</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="est-row" id="e-num-row" hidden>
         <div style="grid-column:1/-1"><label for="e-qty" id="e-qty-l">Visits</label><input class="in" type="number" id="e-qty" value="1" min="1"/></div>
@@ -920,23 +967,99 @@ function fmtDate(dateStr){
 let datesTouchedByUser=false; // stop auto-filling "Dates needed" once they type their own
 let estimatorOpened=false;    // don't push default dates into the form until they've actually opened the estimator
 
+// ── calendar popover (click the Dates button to open) ───────────────────
+let dpStart=null, dpEnd=null, dpViewYear, dpViewMonth;
+const DOW=["S","M","T","W","T","F","S"];
+const MONTH_FULL=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function ymd(y,m,d){ const dt=new Date(y,m,d); return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0"); }
+function parseYMD(s){ const p=s.split("-").map(Number); return {y:p[0], m:p[1]-1, d:p[2]}; }
+function renderDow(){ $("dp-dow").innerHTML=DOW.map(d=>"<div>"+d+"</div>").join(""); }
+function renderCalendarGrid(){
+  $("dp-month").textContent=MONTH_FULL[dpViewMonth]+" "+dpViewYear;
+  const firstDow=new Date(dpViewYear,dpViewMonth,1).getDay();
+  const daysInMonth=new Date(dpViewYear,dpViewMonth+1,0).getDate();
+  const tv=todayStr(), tp=parseYMD(tv);
+  let html="";
+  for(let i=0;i<firstDow;i++) html+='<button type="button" class="dp-day dp-empty" tabindex="-1"></button>';
+  for(let day=1; day<=daysInMonth; day++){
+    const val=ymd(dpViewYear,dpViewMonth,day);
+    const disabled=val<tv;
+    let cls="dp-day";
+    if(dpStart && val===dpStart) cls+=" dp-start";
+    if(dpEnd && val===dpEnd) cls+=" dp-end";
+    if(dpStart && dpEnd && val>dpStart && val<dpEnd) cls+=" dp-inrange";
+    html+='<button type="button" class="'+cls+'" data-date="'+val+'"'+(disabled?" disabled":"")+'>'+day+"</button>";
+  }
+  $("dp-grid").innerHTML=html;
+  $("dp-grid").querySelectorAll(".dp-day[data-date]").forEach(btn=>{
+    btn.addEventListener("click", e=>{ e.stopPropagation(); onDayClick(btn.dataset.date); });
+  });
+  $("dp-prev").disabled = (dpViewYear<tp.y) || (dpViewYear===tp.y && dpViewMonth<=tp.m);
+  updateRangeLabel();
+}
+function updateRangeLabel(){
+  const lbl=$("dp-range-label");
+  if(dpStart && dpEnd) lbl.textContent=fmtDate(dpStart)+" \u2013 "+fmtDate(dpEnd);
+  else if(dpStart) lbl.textContent="Now pick an end date";
+  else lbl.textContent="Pick a start date";
+}
+function onDayClick(val){
+  if(!dpStart || (dpStart && dpEnd)){ dpStart=val; dpEnd=null; }
+  else if(val<dpStart){ dpStart=val; dpEnd=null; }
+  else { dpEnd=val; }
+  renderCalendarGrid();
+  if(dpStart && dpEnd) commitDates(dpStart,dpEnd);
+}
+function commitDates(s,e){
+  $("e-start").value=s; $("e-end").value=e;
+  estimate();
+}
+function openPicker(){
+  const s=dpStart||$("e-start").value||todayStr();
+  const p=parseYMD(s);
+  dpViewYear=p.y; dpViewMonth=p.m;
+  renderCalendarGrid();
+  $("dp-pop").hidden=false;
+}
+function closePicker(){
+  $("dp-pop").hidden=true;
+  if(dpStart && !dpEnd){ dpEnd=addDays(dpStart,1); commitDates(dpStart,dpEnd); }
+}
+
 function renderEstimator(){
   const sel=$("e-svc");
   sel.innerHTML=(SITE.services||[]).map((s,i)=>
     '<option value="'+i+'">'+esc(s.name)+'</option>').join("");
 
-  $("e-start").value=todayStr();
-  $("e-end").value=addDays(todayStr(),3);
-  $("e-start").min=todayStr();
-  $("e-end").min=todayStr();
+  dpStart=todayStr();
+  dpEnd=addDays(dpStart,3);
+  $("e-start").value=dpStart;
+  $("e-end").value=dpEnd;
+  $("dp-trigger-label").textContent=fmtDate(dpStart)+" \u2013 "+fmtDate(dpEnd);
+  renderDow();
 
-  ["e-svc","e-qty","e-dogs","e-start","e-end"].forEach(id=>{
+  ["e-svc","e-qty","e-dogs"].forEach(id=>{
     const el=$(id);
     el.addEventListener("input",estimate);
     el.addEventListener("change",estimate);
   });
   const fd=$("f-dates");
   if(fd) fd.addEventListener("input",()=>{ datesTouchedByUser=true; });
+
+  $("e-dates-btn").addEventListener("click", e=>{
+    e.stopPropagation();
+    if($("dp-pop").hidden) openPicker(); else closePicker();
+  });
+  $("dp-prev").addEventListener("click", e=>{
+    e.stopPropagation(); dpViewMonth--; if(dpViewMonth<0){dpViewMonth=11;dpViewYear--;} renderCalendarGrid();
+  });
+  $("dp-next").addEventListener("click", e=>{
+    e.stopPropagation(); dpViewMonth++; if(dpViewMonth>11){dpViewMonth=0;dpViewYear++;} renderCalendarGrid();
+  });
+  $("dp-done").addEventListener("click", e=>{ e.stopPropagation(); closePicker(); });
+  $("dp-pop").addEventListener("click", e=>e.stopPropagation());
+  document.addEventListener("click", ()=>{ if(!$("dp-pop").hidden) closePicker(); });
+
   estimate();
 }
 function estimate(){
@@ -948,16 +1071,18 @@ function estimate(){
 
   $("e-date-row").hidden=!spanMode;
   $("e-num-row").hidden=spanMode;
+  if(!spanMode && $("dp-pop") && !$("dp-pop").hidden) $("dp-pop").hidden=true;
   $("e-qty-l").textContent = word.charAt(0).toUpperCase()+word.slice(1)+"s";
 
   let qty;
   if(spanMode){
     let start=$("e-start").value||todayStr();
     let end=$("e-end").value||addDays(start,1);
-    if(daysBetween(start,end)<1){ end=addDays(start,1); $("e-end").value=end; }
-    if(daysBetween(start,end)>365){ end=addDays(start,365); $("e-end").value=end; }
+    if(daysBetween(start,end)<1){ end=addDays(start,1); $("e-end").value=end; dpEnd=end; }
+    if(daysBetween(start,end)>365){ end=addDays(start,365); $("e-end").value=end; dpEnd=end; }
     qty=Math.max(1, Math.min(365, daysBetween(start,end)));
-    $("e-span-note").textContent = fmtDate(start)+" \u2013 "+fmtDate(end)+"  ("+qty+" "+word+(qty===1?"":"s")+")";
+    $("dp-trigger-label").textContent = fmtDate(start)+" \u2013 "+fmtDate(end);
+    $("e-span-note").textContent = "("+qty+" "+word+(qty===1?"":"s")+")";
   } else {
     $("e-span-note").textContent="";
     qty=Math.max(1, Math.min(365, parseInt($("e-qty").value)||1));
