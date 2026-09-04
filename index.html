@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>Hunter &amp; Dillon Dog Sitting</title>
-<meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Smithfield and Johnston County, NC. Book directly."/>
+<title>Dillon's Pet Care</title>
+<meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Smithfield, Selma, Clayton, Four Oaks and Johnston County, NC. Book directly."/>
 <meta name="theme-color" content="#2f5d3a"/>
 <link rel="icon" href="favicon.ico"/>
 <link rel="apple-touch-icon" href="photos/apple-touch-icon.png"/>
 
 <!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
-<meta property="og:title" content="Hunter &amp; Dillon Dog Sitting — Smithfield, NC"/>
+<meta property="og:title" content="Dillon's Pet Care — Smithfield, NC"/>
 <meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
 <meta property="og:type" content="website"/>
 <meta property="og:image" content="photos/social-preview.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Hunter &amp; Dillon Dog Sitting — Smithfield, NC"/>
+<meta name="twitter:title" content="Dillon's Pet Care — Smithfield, NC"/>
 <meta name="twitter:description" content="Boarding, house sitting, drop-in visits and walks."/>
 <meta name="twitter:image" content="photos/social-preview.jpg"/>
 <style>
@@ -36,6 +36,11 @@ body{background:var(--bg);color:var(--ink);
   font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
   padding-bottom:calc(76px + env(safe-area-inset-bottom))}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+body{overflow-x:hidden}
+.doodle{position:absolute;opacity:.07;pointer-events:none;z-index:0;user-select:none}
+.doodle-host{position:relative}
+.doodle-host>*:not(.doodle){position:relative;z-index:1}
+@media (max-width:640px){.doodle{opacity:.06;transform:scale(.72) rotate(var(--r,0deg))!important}}
 img{max-width:100%;display:block}
 
 /* nav */
@@ -412,7 +417,9 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 
 <div class="wrap">
 
-  <header class="hero">
+  <header class="hero doodle-host">
+    <img class="doodle" src="art/dog-3.png" alt="" style="width:170px;top:-10px;right:-30px;--r:6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="art/dog-1.png" alt="" style="width:110px;bottom:0;left:-20px;--r:-9deg;transform:rotate(var(--r))"/>
     <div class="eyebrow" id="hero-area"></div>
     <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
     <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
@@ -453,9 +460,16 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <div class="est" id="est" hidden>
       <div class="est-h">Rough estimate</div>
       <div class="est-row">
-        <div><label for="e-svc">Service</label><select class="in" id="e-svc"></select></div>
-        <div><label for="e-qty" id="e-qty-l">Nights</label><input class="in" type="number" id="e-qty" value="3" min="1"/></div>
+        <div style="grid-column:1/-1"><label for="e-svc">Service</label><select class="in" id="e-svc"></select></div>
       </div>
+      <div class="est-row" id="e-date-row">
+        <div><label for="e-start">Start date</label><input class="in" type="date" id="e-start"/></div>
+        <div><label for="e-end">End date</label><input class="in" type="date" id="e-end"/></div>
+      </div>
+      <div class="est-row" id="e-num-row" hidden>
+        <div style="grid-column:1/-1"><label for="e-qty" id="e-qty-l">Visits</label><input class="in" type="number" id="e-qty" value="1" min="1"/></div>
+      </div>
+      <div id="e-span-note" style="font-size:12px;color:var(--sub);margin:-6px 0 12px"></div>
       <div class="est-row">
         <div><label for="e-dogs">Dogs</label><input class="in" type="number" id="e-dogs" value="1" min="1" max="6"/></div>
         <div style="display:flex;align-items:flex-end">
@@ -470,7 +484,8 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </section>
 
-  <section id="about">
+  <section id="about" class="doodle-host">
+    <img class="doodle" src="art/dog-6.png" alt="" style="width:220px;bottom:-30px;right:-40px;--r:-4deg;transform:rotate(var(--r))"/>
     <h2>About</h2>
     <div class="about">
       <div class="about-img" id="about-img">
@@ -491,12 +506,14 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <div id="rev-list"></div>
   </section>
 
-  <section id="faq">
+  <section id="faq" class="doodle-host">
+    <img class="doodle" src="art/dog-4.png" alt="" style="width:120px;top:-6px;right:-14px;--r:8deg;transform:rotate(var(--r))"/>
     <h2>Common questions</h2>
     <div id="faq-list" style="margin-top:14px"></div>
   </section>
 
-  <section id="policy">
+  <section id="policy" class="doodle-host">
+    <img class="doodle" src="art/dog-8.png" alt="" style="width:150px;bottom:-20px;left:-25px;--r:-6deg;transform:rotate(var(--r))"/>
     <h2>Health &amp; safety</h2>
     <div class="policy" id="policy-list"></div>
   </section>
@@ -547,7 +564,8 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   <a class="btn" href="#contact">Request booking</a>
 </div></div>
 
-<footer class="wrap">
+<footer class="wrap doodle-host" style="position:relative">
+  <img class="doodle" src="art/dog-2.png" alt="" style="width:130px;top:-16px;right:0;--r:5deg;transform:rotate(var(--r))"/>
   <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
   <div style="margin-top:5px" id="foot-contact"></div>
   <div style="margin-top:10px;font-size:12px">Serving <span id="foot-area"></span></div>
@@ -564,18 +582,18 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
    Change the text, save, re-upload. Nothing else needs touching.
    ═══════════════════════════════════════════════════════════════ */
 const SITE = {
-  name:    "Hunter & Dillon Dog Sitting",   // <- change this once you pick a name
+  name:    "Dillon's Pet Care",   // legal entity is "Dillon's Pet Care LLC" — LLC dropped here for a friendlier display name
   // Both of you. The first number is the one the booking form texts.
   people: [
     {name:"Hunter", phone:"919-703-8438"},
     {name:"Dillon", phone:"814-500-8393"},
   ],
-  email:   "",          // add a shared email if you want one, or leave blank
+  email:   "dillon@dillonspetcare.com",
 
-  area:    "Smithfield, Selma, Clayton & Johnston County",
+  area:    "Smithfield, Selma, Clayton, Four Oaks & Johnston County",
 
   // Availability notice shown near the top. Set to "" to hide it.
-  availability: "Now booking for September — holiday dates filling up",
+  availability: "Now accepting new clients — contact us to check availability",
   // Dates already full, so people don't ask. Format "YYYY-MM-DD".
   bookedDates: [],
 
@@ -595,27 +613,27 @@ const SITE = {
   trust: ["Two of us, so someone's always around", "Free meet & greet first", "A home, not a kennel"],
 
   services: [
-    {name:"Overnight boarding", unit:"per night",  price:60,
-     desc:"Your dog stays in our home, not a crate or a kennel run. Fed on their own schedule, walked twice a day, and settled in the same rooms we are. Photo updates every day."},
+    {name:"Overnight boarding", unit:"per night",  price:50,
+     desc:"Your dog stays in our home, not a crate or a kennel run. Fed on their own schedule, and settled in the same rooms we are. A walk is included on request. Photo updates every day."},
 
-    {name:"House sitting", unit:"per night",  price:75,
+    {name:"House sitting", unit:"per night",  price:85,
      desc:"One of us stays overnight at your place so your dog keeps their own bed, their own routine and their own yard. We bring in mail, alternate lights and leave the house as we found it."},
 
     {name:"Drop-in visits", unit:"per visit", price:25,
      desc:"A 30-minute visit — feeding, fresh water, a potty break, medication if needed, and proper play or a short walk. You get a photo and a note after every visit."},
 
-    {name:"Dog walking", unit:"per walk",  price:22,
+    {name:"Dog walking", unit:"per walk",  price:25,
      desc:"A full 30 minutes on the lead, rain or shine. Paced to suit your dog, whether that's a brisk loop for a young shepherd or a gentle amble for an older one. Paws wiped before we leave."},
 
-    {name:"Daycare", unit:"per day",   price:45,
-     desc:"Daytime care while you're at work, roughly 7am to 6pm. Your dog gets company, garden access and a midday walk instead of a long day alone at home."},
+    {name:"Daycare", unit:"per day",   price:40,
+     desc:"Daytime care while you're at work, roughly 8am to 8pm. Your dog gets company, garden access and a midday walk instead of a long day alone at home."},
   ],  // Show rates next to each service? false keeps the list clean and lets
   // people ask first. The estimator below still works either way.
   showPrices: false,
   servicesNote: "Rates vary with the dates, the number of dogs and any extra care needed. Puppies, senior dogs and medication are all fine — tell us what's involved and we'll quote you the same day.",
   // extra charge per additional dog, and the discount for longer stays
-  extraDogRate: 15,
-  weekDiscount: 10,   // % off stays of 7 nights or more
+  extraDogRate: 25,
+  weekDiscount: 0,   // Dillon: no discount for 7+ nights right now
 
   // Drop a photo of yourself into photos/ and put the filename here.
   // A face matters more than anything else on this page — people are
@@ -656,11 +674,11 @@ const SITE = {
     "photos/poodle-in-the-sun.jpg",
   ],
 
-  // REPLACE THESE with your real reviews before going live.
+  // Two of these are still placeholders — replace Sarah M. and Priya K. once you have more real ones.
   reviews: [
+    {stars:5, text:"She absolutely adores him, and I truly think it's the best part of her day. We've been using Dillon's services for over a year, 5 days a week while we're at work. Dillon sends an update and a video every day of what the two of them are up to. He has other dogs he watches too, so Winnie gets lots of socialization and exercise. We trust him in our home, and with taking the best care of Winnie.", who:"Winnie's owner"}, // TODO: swap in their real name
     {stars:5, text:"They took our anxious rescue for a week and sent photos every day. She came home relaxed instead of stressed.", who:"Sarah M."},
     {stars:5, text:"Reliable, communicative, and genuinely good with dogs. We won't use anyone else now.", who:"Priya K."},
-    {stars:5, text:"One of them stayed at our place over the holidays and left it spotless. Our two were completely at ease.", who:"Marcus T."},
   ],
 
   faq: [
@@ -879,15 +897,46 @@ function renderAvailability(){
 function unitWord(unit){
   return (unit||"").replace(/^per\s+/,"");
 }
+// stays measured in nights/days get a start/end calendar picker;
+// one-off services (a visit, a walk) just get a simple quantity
+function isSpanUnit(unit){
+  return /night|day/i.test(unit||"");
+}
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function addDays(dateStr,n){
+  const d=new Date(dateStr+"T00:00:00");
+  d.setDate(d.getDate()+n);
+  return d.toISOString().slice(0,10);
+}
+function daysBetween(a,b){
+  return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/86400000);
+}
+const MONTH_ABBR=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function fmtDate(dateStr){
+  const d=new Date(dateStr+"T00:00:00");
+  return MONTH_ABBR[d.getMonth()]+" "+d.getDate();
+}
+
+let datesTouchedByUser=false; // stop auto-filling "Dates needed" once they type their own
+let estimatorOpened=false;    // don't push default dates into the form until they've actually opened the estimator
+
 function renderEstimator(){
   const sel=$("e-svc");
   sel.innerHTML=(SITE.services||[]).map((s,i)=>
     '<option value="'+i+'">'+esc(s.name)+'</option>').join("");
-  ["e-svc","e-qty","e-dogs"].forEach(id=>{
+
+  $("e-start").value=todayStr();
+  $("e-end").value=addDays(todayStr(),3);
+  $("e-start").min=todayStr();
+  $("e-end").min=todayStr();
+
+  ["e-svc","e-qty","e-dogs","e-start","e-end"].forEach(id=>{
     const el=$(id);
     el.addEventListener("input",estimate);
     el.addEventListener("change",estimate);
   });
+  const fd=$("f-dates");
+  if(fd) fd.addEventListener("input",()=>{ datesTouchedByUser=true; });
   estimate();
 }
 function estimate(){
@@ -895,9 +944,25 @@ function estimate(){
   const s=svcs[+$("e-svc").value]||svcs[0];
   if(!s) return;
   const word=unitWord(s.unit);
+  const spanMode=isSpanUnit(s.unit);
+
+  $("e-date-row").hidden=!spanMode;
+  $("e-num-row").hidden=spanMode;
   $("e-qty-l").textContent = word.charAt(0).toUpperCase()+word.slice(1)+"s";
 
-  let qty=Math.max(1, Math.min(365, parseInt($("e-qty").value)||1));
+  let qty;
+  if(spanMode){
+    let start=$("e-start").value||todayStr();
+    let end=$("e-end").value||addDays(start,1);
+    if(daysBetween(start,end)<1){ end=addDays(start,1); $("e-end").value=end; }
+    if(daysBetween(start,end)>365){ end=addDays(start,365); $("e-end").value=end; }
+    qty=Math.max(1, Math.min(365, daysBetween(start,end)));
+    $("e-span-note").textContent = fmtDate(start)+" \u2013 "+fmtDate(end)+"  ("+qty+" "+word+(qty===1?"":"s")+")";
+  } else {
+    $("e-span-note").textContent="";
+    qty=Math.max(1, Math.min(365, parseInt($("e-qty").value)||1));
+  }
+
   let dogs=Math.max(1, Math.min(6, parseInt($("e-dogs").value)||1));
 
   const base=s.price*qty;
@@ -922,7 +987,10 @@ function estimate(){
   const bookSvc=$("f-svc");
   if(bookSvc) bookSvc.value=s.name;
   const dates=$("f-dates");
-  if(dates && !dates.value) dates.placeholder="e.g. "+qty+" "+word+(qty===1?"":"s");
+  if(dates && estimatorOpened && !datesTouchedByUser){
+    if(spanMode){ dates.value=fmtDate($("e-start").value)+"\u2013"+fmtDate($("e-end").value); dates.placeholder=""; }
+    else { dates.value=""; dates.placeholder="e.g. "+qty+" "+word+(qty===1?"":"s"); }
+  }
 }
 function line(l,r){
   return '<div class="est-line"><span>'+esc(l)+'</span><b>'+esc(r)+'</b></div>';
@@ -933,7 +1001,7 @@ $("est-toggle").addEventListener("click",()=>{
   if(open){ box.setAttribute("hidden",""); btn.classList.remove("open");
             btn.querySelector("span").textContent="See a price estimate"; }
   else { box.removeAttribute("hidden"); btn.classList.add("open");
-         btn.querySelector("span").textContent="Hide estimate"; estimate(); }
+         btn.querySelector("span").textContent="Hide estimate"; estimatorOpened=true; estimate(); }
 });
 
 $("e-book").addEventListener("click",()=>{
