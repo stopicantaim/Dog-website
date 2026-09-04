@@ -36,11 +36,10 @@ body{background:var(--bg);color:var(--ink);
   font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
   padding-bottom:calc(76px + env(safe-area-inset-bottom))}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-body{overflow-x:hidden}
-.doodle{position:absolute;opacity:.16;pointer-events:none;z-index:0;user-select:none}
-.doodle-host{position:relative}
-.doodle-host>*:not(.doodle){position:relative;z-index:1}
-@media (max-width:640px){.doodle{opacity:.13;transform:scale(.72) rotate(var(--r,0deg))!important}}
+body{overflow-x:hidden;position:relative}
+body::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;pointer-events:none;
+  background-image:url('art/wallpaper-tile.png');background-repeat:repeat;
+  background-size:230px 230px;opacity:.16}
 img{max-width:100%;display:block}
 
 /* nav */
@@ -404,20 +403,23 @@ footer a{color:var(--ac);text-decoration:none}
 @keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 
 /* alternating bands so the page isn't a sheet of white */
-#how{background:var(--bg2)}
-#services{background:var(--card)}
-#about{background:var(--bg2)}
+/* wallpaper tile shows through as a soft tint under each band's own colour */
+#how,#about,#faq,#contact{
+  background:linear-gradient(rgba(238,233,220,.76),rgba(238,233,220,.76)),url('art/wallpaper-tile.png');
+  background-repeat:no-repeat,repeat;background-size:cover,320px 320px}
+#services,#reviews,#policy{
+  background:linear-gradient(rgba(255,253,247,.76),rgba(255,253,247,.76)),url('art/wallpaper-tile.png');
+  background-repeat:no-repeat,repeat;background-size:cover,320px 320px}
 #gallery{background:var(--ink);color:#f3f0e6}
 #gallery h2{color:#fff}
 #gallery .lede{color:#c3c9c0}
-#reviews{background:var(--card)}
-#faq{background:var(--bg2)}
-#policy{background:var(--card)}
-#contact{background:var(--bg2)}
 /* full-bleed colour bands, content still inset */
 section,.hero{border-top:none;margin:0 -20px;padding:32px 20px}
 section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
-.hero{background:var(--card);padding-top:38px;padding-bottom:34px}
+.hero{
+  background:linear-gradient(rgba(255,253,247,.76),rgba(255,253,247,.76)),url('art/wallpaper-tile.png');
+  background-repeat:no-repeat,repeat;background-size:cover,320px 320px;
+  padding-top:38px;padding-bottom:34px}
 @media (min-width:700px){
   section{padding:44px 20px}
   .hero{padding-top:60px;padding-bottom:52px}
@@ -444,9 +446,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 
 <div class="wrap">
 
-  <header class="hero doodle-host">
-    <img class="doodle" src="art/dog-3.png" alt="" style="width:170px;top:-10px;right:-30px;--r:6deg;transform:rotate(var(--r))"/>
-    <img class="doodle" src="art/dog-1.png" alt="" style="width:110px;bottom:0;left:-20px;--r:-9deg;transform:rotate(var(--r))"/>
+  <header class="hero">
     <div class="eyebrow" id="hero-area"></div>
     <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
     <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
@@ -531,8 +531,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </section>
 
-  <section id="about" class="doodle-host">
-    <img class="doodle" src="art/dog-6.png" alt="" style="width:220px;bottom:-30px;right:-40px;--r:-4deg;transform:rotate(var(--r))"/>
+  <section id="about">
     <h2>About</h2>
     <div class="about">
       <div class="about-img" id="about-img">
@@ -553,14 +552,12 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <div id="rev-list"></div>
   </section>
 
-  <section id="faq" class="doodle-host">
-    <img class="doodle" src="art/dog-4.png" alt="" style="width:120px;top:-6px;right:-14px;--r:8deg;transform:rotate(var(--r))"/>
+  <section id="faq">
     <h2>Common questions</h2>
     <div id="faq-list" style="margin-top:14px"></div>
   </section>
 
-  <section id="policy" class="doodle-host">
-    <img class="doodle" src="art/dog-8.png" alt="" style="width:150px;bottom:-20px;left:-25px;--r:-6deg;transform:rotate(var(--r))"/>
+  <section id="policy">
     <h2>Health &amp; safety</h2>
     <div class="policy" id="policy-list"></div>
   </section>
@@ -611,8 +608,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   <a class="btn" href="#contact">Request booking</a>
 </div></div>
 
-<footer class="wrap doodle-host" style="position:relative">
-  <img class="doodle" src="art/dog-2.png" alt="" style="width:130px;top:-16px;right:0;--r:5deg;transform:rotate(var(--r))"/>
+<footer class="wrap">
   <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
   <div style="margin-top:5px" id="foot-contact"></div>
   <div style="margin-top:10px;font-size:12px">Serving <span id="foot-area"></span></div>
