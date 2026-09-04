@@ -131,10 +131,11 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .field-hint{font-size:12px;color:var(--sub);margin:-8px 0 14px}
 
 /* videos */
-.vid-wrap{display:grid;gap:18px;align-items:start}
+.vid-wrap{display:grid;gap:20px;align-items:stretch}
 /* on a wide screen the clips sit beside a short note, so a tall
-   phone-shaped video doesn't leave a column of empty space */
-@media (min-width:760px){.vid-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+   phone-shaped video doesn't leave a column of empty space.
+   the clip column takes only the width it needs, the note takes the rest */
+@media (min-width:760px){.vid-wrap{grid-template-columns:minmax(0,auto) minmax(300px,1fr)}}
 .vids{display:grid;gap:12px;grid-template-columns:1fr}
 /* portrait clips are narrow, so fit as many across as the space allows */
 @media (min-width:520px){.vids{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}}
@@ -143,11 +144,12 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .vid.portrait{max-width:330px;width:100%;margin-left:auto;margin-right:auto}
 .vid-frame{position:relative;aspect-ratio:16/9;background:#000;cursor:pointer}
 .vid-frame.portrait{aspect-ratio:9/16;margin:0 auto;width:100%}
-.vid-side{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:16px 17px}
-.vid-side h3{font-size:16px;margin-bottom:8px}
-.vid-side ul{list-style:none;display:grid;gap:9px}
-.vid-side li{display:flex;gap:9px;font-size:14px;color:var(--sub);line-height:1.55}
-.vid-side li svg{width:16px;height:16px;stroke:var(--ac);fill:none;stroke-width:2.2;
+.vid-side{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 24px;display:flex;flex-direction:column;justify-content:center}
+.vid-side h3{font-size:18px;margin-bottom:14px;line-height:1.3}
+.vid-side ul{list-style:none;display:grid;gap:13px}
+.vid-side li{display:flex;gap:11px;font-size:15px;color:var(--sub);line-height:1.55}
+.vid-side li svg{width:17px;height:17px;stroke:var(--ac);fill:none;stroke-width:2.2;
   flex-shrink:0;margin-top:4px}
 .vid-frame img{width:100%;height:100%;object-fit:cover;display:block}
 .vid-frame video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
