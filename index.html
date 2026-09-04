@@ -627,7 +627,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <a class="btn alt" id="f-email" href="#" style="margin-top:10px">Send by email instead</a>
     <div class="f-fallback" id="f-fallback" hidden>
       <p style="font-size:13px;color:var(--sub);margin-bottom:8px">
-        If your email app didn't open, copy the message below and send it to
+        If nothing opened, copy the message below and send it to
         <a href="mailto:dillon@dillonspetcare.com" id="f-fallback-addr">dillon@dillonspetcare.com</a>.
       </p>
       <pre id="f-fallback-body"></pre>
@@ -747,6 +747,8 @@ const SITE = {
     {t:"Emergency plan", d:"If something goes wrong we'll contact you first, then your vet. We keep both numbers on hand for every stay."},
     {t:"Meet before booking", d:"Every new dog comes for a free meet & greet, so nobody's first day is also their first time meeting us."},
     {t:"Honest about fit", d:"If your dog wouldn't be happy in a home with other dogs, we'll tell you rather than take the booking."},
+    {t:"Vet care while you're away", d:"We'll always try you first. If we can't reach you and a dog needs urgent care, we'll take them to your vet — or the nearest emergency clinic if yours is closed — so treatment isn't delayed. We ask for written permission to do that when you book."},
+    {t:"Fully in the loop", d:"You get photo updates every day of the stay, so you always know how your dog is doing rather than wondering."},
   ],
 
   about: [
@@ -783,6 +785,10 @@ const SITE = {
     {q:"What about medications?", a:"Happy to give oral medication at no extra charge. For injections, let us know in advance so we can talk it through."},
     {q:"How do I pay?", a:"Venmo, Zelle or cash, due at the end of the stay. We'll send a simple invoice."},
     {q:"Can I meet you first?", a:"Please do — we recommend a free meet-and-greet before the first booking so you and your dog can size us up."},
+    {q:"What should I send with my dog?", a:"Their usual food (a little extra in case plans change), any medication with written instructions, their lead and collar with ID tags, and a bed or blanket that smells like home. Toys are welcome. Don't worry about bowls — we have plenty."},
+    {q:"How far ahead should I book?", a:"The sooner the better for holidays and school breaks, which fill up first. For ordinary weeks a few days' notice is usually plenty — but just ask, since we can often fit in last-minute stays."},
+    // TODO — confirm these two with Dillon before going live:
+    {q:"What if you need to cancel?", a:"If we ever have to cancel on you, you get a full refund of anything already paid and we'll do our best to help you find someone else. It has not happened yet and we work hard to keep it that way."},
   ],
 
   contactNote: "Prefer to talk first? Call or text either of us any time between 8am and 8pm.",
@@ -972,6 +978,10 @@ function wireForm(){
     if(r.err) return;
     const tel=digits(primaryPhone());
     if(!tel){ $("f-err").textContent="No phone number set — use email below."; return; }
+    // sms: links generally do nothing on desktop, so show the copyable
+    // fallback there instead of leaving the click looking broken
+    const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if(!isMobile){ showEmailFallback(r.body); return; }
     // iOS wants ?& , Android wants ?body=
     const sep = /iPhone|iPad|Macintosh/i.test(navigator.userAgent) ? "&" : "?";
     location.href = "sms:"+tel+sep+"body="+encodeURIComponent(r.body);
