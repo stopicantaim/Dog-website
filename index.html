@@ -37,6 +37,12 @@ body{background:var(--bg);color:var(--ink);
   padding-bottom:calc(76px + env(safe-area-inset-bottom))}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 body{overflow-x:hidden;position:relative}
+/* stop headings/labels/buttons highlighting on tap-and-drag.
+   Body copy, phone numbers and addresses stay selectable on purpose. */
+h1,h2,h3,label,button,.btn,.nav,.eyebrow,.badge,.step-n,.stars,
+.dp-day,.dp-month,.dp-dow,.dp-nav,.dp-done,.est-toggle,.faq-q{
+  -webkit-user-select:none;user-select:none}
+button,.btn,.dp-day,.dp-nav,.dp-done,.est-toggle,.faq-q{-webkit-tap-highlight-color:transparent}
 img{max-width:100%;display:block}
 
 /* nav */
@@ -94,6 +100,7 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 
 /* services */
 .svc{border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:8px;
+  background:rgba(255,255,255,.66);
   display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
 .svc-n{font-size:16px;font-weight:600;margin-bottom:4px}
 .svc-d{font-size:14px;color:var(--sub);line-height:1.6}
@@ -101,7 +108,7 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .svc-amt{font-size:19px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .svc-unit{font-size:12px;color:var(--sub)}
 .note{font-size:13px;color:var(--sub);margin-top:14px;padding:13px 15px;
-  background:var(--bg2);border-radius:10px;line-height:1.6}
+  background:rgba(238,233,220,.72);border-radius:10px;line-height:1.6}
 
 /* about */
 .about{display:flex;gap:16px;align-items:flex-start}
@@ -121,7 +128,8 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .gal-i img{width:100%;height:100%;object-fit:cover}
 
 /* reviews */
-.rev{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px}
+.rev{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px;
+  background:rgba(255,255,255,.66)}
 .stars{color:#f59e0b;font-size:13px;letter-spacing:2px;margin-bottom:8px}
 .rev p{font-size:15px;line-height:1.6}
 .rev-w{font-size:13px;color:var(--sub);margin-top:10px;font-weight:600}
@@ -160,7 +168,7 @@ textarea.in{resize:vertical;min-height:88px}
   font-size:14px;font-weight:500;color:#054f31}
 .avail svg{width:17px;height:17px;stroke:var(--ok);fill:none;stroke-width:1.9;flex-shrink:0}
 
-.est{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:18px;background:var(--bg2)}
+.est{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:18px;background:rgba(238,233,220,.82)}
 .est-h{font-size:15px;font-weight:600;margin-bottom:12px}
 .est-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .est .in{background:#fff}
@@ -200,6 +208,8 @@ textarea.in{resize:vertical;min-height:88px}
   padding-top:10px;border-top:1px solid var(--line)}
 .dp-done{background:var(--ac);color:#fff;border:none;border-radius:8px;padding:9px 16px;
   font-size:13px;font-family:inherit;cursor:pointer}
+.dp-clear{background:#fff;color:var(--sub);border:1px solid var(--line2);border-radius:8px;
+  padding:9px 14px;font-size:13px;font-family:inherit;cursor:pointer}
 
 .gal-i{cursor:pointer;transition:opacity .15s}
 .gal-i:active{opacity:.85}
@@ -239,7 +249,7 @@ textarea.in{resize:vertical;min-height:88px}
 
 .steps{list-style:none;counter-reset:s;display:grid;gap:10px}
 .steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start;
-  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:#fff}
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:rgba(255,255,255,.72)}
 .steps li::before{content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;
   background:var(--ac);color:#fff;font-size:13px;font-weight:700;
   display:flex;align-items:center;justify-content:center;margin-top:1px}
@@ -417,7 +427,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 
 /* commissioned dog illustrations, placed individually through the page —
    z-index:0 keeps them behind each section's own text/cards */
-.doodle{position:absolute;opacity:.22;pointer-events:none;z-index:0;user-select:none}
+.doodle{position:absolute;opacity:.26;pointer-events:none;z-index:0;user-select:none}
 .doodle-host{position:relative;overflow:hidden}
 .doodle-host>*:not(.doodle){position:relative;z-index:1}
 @media (max-width:640px){.doodle{opacity:.18;transform:scale(.8) rotate(var(--r,0deg))!important}}
@@ -448,8 +458,9 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 <div class="wrap">
 
   <header class="hero doodle-host">
-    <img class="doodle" src="ART/dog-3.png" alt="" style="width:190px;top:-14px;right:-34px;--r:6deg;transform:rotate(var(--r))"/>
-    <img class="doodle" src="ART/dog-1.png" alt="" style="width:120px;bottom:6px;left:-22px;--r:-9deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-3.png" alt="" style="width:150px;top:2%;right:6%;--r:6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-1.png" alt="" style="width:105px;bottom:8%;left:8%;--r:-9deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:90px;top:38%;left:30%;--r:4deg;transform:rotate(var(--r))"/>
     <div class="eyebrow" id="hero-area"></div>
     <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
     <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
@@ -471,14 +482,19 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   </div>
 
   <section id="how" class="doodle-host">
-    <img class="doodle" src="ART/dog-5.png" alt="" style="width:130px;top:-8px;right:-18px;--r:10deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:120px;top:8%;right:12%;--r:10deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-2.png" alt="" style="width:100px;bottom:6%;left:22%;--r:-7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-4.png" alt="" style="width:85px;top:45%;right:38%;--r:5deg;transform:rotate(var(--r))"/>
     <h2>How it works</h2>
     <p class="lede">No commitment until you&rsquo;ve met us.</p>
     <ol class="steps" id="steps"></ol>
   </section>
 
   <section id="services" class="doodle-host">
-    <img class="doodle" src="ART/dog-7.png" alt="" style="width:150px;bottom:-16px;left:-24px;--r:-8deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-7.png" alt="" style="width:130px;top:6%;left:8%;--r:-8deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-6.png" alt="" style="width:145px;bottom:8%;right:10%;--r:6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-1.png" alt="" style="width:95px;top:42%;right:30%;--r:-5deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-8.png" alt="" style="width:105px;top:70%;left:26%;--r:9deg;transform:rotate(var(--r))"/>
     <h2 id="svc-h">Services</h2>
     <p class="lede" id="svc-lede"></p>
     <div id="svc-list"></div>
@@ -537,7 +553,9 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   </section>
 
   <section id="about" class="doodle-host">
-    <img class="doodle" src="ART/dog-6.png" alt="" style="width:240px;bottom:-32px;right:-42px;--r:-4deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-6.png" alt="" style="width:160px;bottom:6%;right:8%;--r:-4deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-3.png" alt="" style="width:110px;top:10%;left:12%;--r:7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-4.png" alt="" style="width:90px;top:50%;right:34%;--r:-6deg;transform:rotate(var(--r))"/>
     <h2>About</h2>
     <div class="about">
       <div class="about-img" id="about-img">
@@ -554,25 +572,33 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   </section>
 
   <section id="reviews" class="doodle-host">
-    <img class="doodle" src="ART/dog-2.png" alt="" style="width:150px;top:-10px;left:-20px;--r:7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-2.png" alt="" style="width:125px;top:8%;left:10%;--r:7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-7.png" alt="" style="width:110px;bottom:8%;right:14%;--r:-8deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:90px;top:46%;left:38%;--r:4deg;transform:rotate(var(--r))"/>
     <h2>What clients say</h2>
     <div id="rev-list"></div>
   </section>
 
   <section id="faq" class="doodle-host">
-    <img class="doodle" src="ART/dog-4.png" alt="" style="width:130px;top:-6px;right:-16px;--r:8deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-4.png" alt="" style="width:115px;top:6%;right:10%;--r:8deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-8.png" alt="" style="width:105px;bottom:8%;left:14%;--r:-6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-1.png" alt="" style="width:90px;top:44%;right:36%;--r:5deg;transform:rotate(var(--r))"/>
     <h2>Common questions</h2>
     <div id="faq-list" style="margin-top:14px"></div>
   </section>
 
   <section id="policy" class="doodle-host">
-    <img class="doodle" src="ART/dog-8.png" alt="" style="width:160px;bottom:-22px;left:-26px;--r:-6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-8.png" alt="" style="width:130px;bottom:8%;left:10%;--r:-6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-3.png" alt="" style="width:105px;top:8%;right:12%;--r:7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-6.png" alt="" style="width:95px;top:48%;left:34%;--r:-4deg;transform:rotate(var(--r))"/>
     <h2>Health &amp; safety</h2>
     <div class="policy" id="policy-list"></div>
   </section>
 
   <section id="contact" class="doodle-host">
-    <img class="doodle" src="ART/dog-1.png" alt="" style="width:120px;top:-8px;right:-18px;--r:-7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-1.png" alt="" style="width:110px;top:5%;right:8%;--r:-7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:100px;bottom:6%;left:12%;--r:6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-2.png" alt="" style="width:85px;top:40%;right:32%;--r:4deg;transform:rotate(var(--r))"/>
     <h2>Request a booking</h2>
     <p class="lede">Tell us the dates and we&rsquo;ll get back to you the same day.</p>
     <div class="contact-grid">
@@ -599,7 +625,10 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
         <div class="dp-grid" id="f-dp-grid"></div>
         <div class="dp-foot">
           <span id="f-dp-range-label" style="font-size:12px;color:var(--sub)"></span>
-          <button type="button" class="dp-done" id="f-dp-done">Done</button>
+          <span style="display:flex;gap:8px">
+            <button type="button" class="dp-clear" id="f-dp-clear">Clear</button>
+            <button type="button" class="dp-done" id="f-dp-done">Done</button>
+          </span>
         </div>
       </div>
     </div>
@@ -637,7 +666,8 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 </div></div>
 
 <footer class="wrap doodle-host" style="position:relative">
-  <img class="doodle" src="ART/dog-3.png" alt="" style="width:140px;top:-18px;right:0;--r:5deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-3.png" alt="" style="width:110px;top:0;right:6%;--r:5deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-7.png" alt="" style="width:95px;bottom:4%;left:16%;--r:-6deg;transform:rotate(var(--r))"/>
   <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
   <div style="margin-top:5px" id="foot-contact"></div>
   <div style="margin-top:10px;font-size:12px">Serving <span id="foot-area"></span></div>
@@ -1047,8 +1077,8 @@ function openPicker(){
   $("dp-pop").hidden=false;
 }
 function closePicker(){
+  if(dpStart && !dpEnd){ dpEnd=addDays(dpStart,1); renderCalendarGrid(); commitDates(dpStart,dpEnd); }
   $("dp-pop").hidden=true;
-  if(dpStart && !dpEnd){ dpEnd=addDays(dpStart,1); commitDates(dpStart,dpEnd); }
 }
 
 // ── calendar on the booking form's "Dates needed" field ─────────────────
@@ -1079,21 +1109,24 @@ function renderFormGrid(){
   else if(fStart) lbl.textContent="Now pick an end date";
   else lbl.textContent="Pick a start date";
 }
+function commitFormDates(){
+  $("f-dates").value=fmtDate(fStart)+"\u2013"+fmtDate(fEnd);
+  $("f-dates-label").textContent=fmtDate(fStart)+" \u2013 "+fmtDate(fEnd);
+  $("f-dates-label").style.color="var(--ink)";
+}
 function onFormDayClick(val){
   datesTouchedByUser=true;   // stop the estimator overwriting their choice
   if(!fStart || (fStart && fEnd)){ fStart=val; fEnd=null; }
   else if(val<fStart){ fStart=val; fEnd=null; }
   else { fEnd=val; }
   renderFormGrid();
-  if(fStart && fEnd){
-    $("f-dates").value=fmtDate(fStart)+"\u2013"+fmtDate(fEnd);
-    $("f-dates-label").textContent=fmtDate(fStart)+" \u2013 "+fmtDate(fEnd);
-    $("f-dates-label").style.color="var(--ink)";
-  }
+  if(fStart && fEnd) commitFormDates();
 }
 function closeFormPicker(){
+  // if they picked a start but no end, treat it as a single-night stay
+  // rather than discarding it and leaving half-set state behind
+  if(fStart && !fEnd){ fEnd=addDays(fStart,1); renderFormGrid(); commitFormDates(); }
   $("f-dp-pop").hidden=true;
-  if(fStart && !fEnd){ fEnd=addDays(fStart,1); onFormDayClick(fEnd); $("f-dp-pop").hidden=true; }
 }
 function setupFormPicker(){
   $("f-dp-dow").innerHTML=DOW.map(d=>"<div>"+d+"</div>").join("");
@@ -1113,6 +1146,14 @@ function setupFormPicker(){
     e.stopPropagation(); fViewMonth++; if(fViewMonth>11){fViewMonth=0;fViewYear++;} renderFormGrid();
   });
   $("f-dp-done").addEventListener("click", e=>{ e.stopPropagation(); closeFormPicker(); });
+  $("f-dp-clear").addEventListener("click", e=>{
+    e.stopPropagation();
+    fStart=null; fEnd=null;
+    $("f-dates").value="";
+    $("f-dates-label").textContent="Select dates";
+    $("f-dates-label").style.color="var(--sub)";
+    renderFormGrid();
+  });
   $("f-dp-pop").addEventListener("click", e=>e.stopPropagation());
   document.addEventListener("click", ()=>{ if(!$("f-dp-pop").hidden) closeFormPicker(); });
 }
