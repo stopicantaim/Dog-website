@@ -515,9 +515,9 @@ footer a{color:var(--ac);text-decoration:none}
 @keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 
 /* alternating bands so the page isn't a sheet of white */
-#how{background:var(--bg2)}
 #services{background:var(--card)}
-#about{background:var(--bg2)}
+#how{background:var(--bg2)}
+#about{background:var(--card)}
 #gallery{background:var(--ink);color:#f3f0e6}
 #gallery h2{color:#fff}
 #gallery .lede{color:#c3c9c0}
@@ -603,13 +603,6 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <span id="avail-text"></span>
   </div>
 
-  <section id="how" class="doodle-host">
-    <img class="doodle" src="ART/dog-5.png" alt="" style="width:105px;top:10px;right:14px;--r:8deg;transform:rotate(var(--r))"/>
-    <h2>How it works</h2>
-    <p class="lede">No commitment until you&rsquo;ve met us.</p>
-    <ol class="steps" id="steps"></ol>
-  </section>
-
   <section id="services" class="doodle-host">
     <img class="doodle" src="ART/dog-7.png" alt="" style="width:115px;top:10px;right:14px;--r:-7deg;transform:rotate(var(--r))"/>
     <h2 id="svc-h">Services</h2>
@@ -669,6 +662,13 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </section>
 
+  <section id="how" class="doodle-host">
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:105px;top:10px;right:14px;--r:8deg;transform:rotate(var(--r))"/>
+    <h2>How it works</h2>
+    <p class="lede">No commitment until you&rsquo;ve met us.</p>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
   <section id="about" class="doodle-host">
     <img class="doodle" src="ART/dog-6.png" alt="" style="width:120px;top:8px;right:14px;--r:5deg;transform:rotate(var(--r))"/>
     <h2>About</h2>
@@ -684,12 +684,6 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <h2>Recent guests</h2>
     <p class="lede">Some of the dogs who&rsquo;ve stayed with us.</p>
     <div class="gal" id="gal"></div>
-  </section>
-
-  <section id="reviews" class="doodle-host">
-    <img class="doodle" src="ART/dog-2.png" alt="" style="width:105px;top:10px;right:14px;--r:7deg;transform:rotate(var(--r))"/>
-    <h2>What clients say</h2>
-    <div id="rev-list"></div>
   </section>
 
   <section id="faq" class="doodle-host">
@@ -806,6 +800,12 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   <a class="btn alt" id="bar-call" href="tel:">Call</a>
   <a class="btn" href="#contact">Request booking</a>
 </div></div>
+
+  <section id="reviews" class="doodle-host">
+    <img class="doodle" src="ART/dog-2.png" alt="" style="width:105px;top:10px;right:14px;--r:7deg;transform:rotate(var(--r))"/>
+    <h2>What clients say</h2>
+    <div id="rev-list"></div>
+  </section>
 
 <footer class="wrap doodle-host" style="position:relative">
   <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
