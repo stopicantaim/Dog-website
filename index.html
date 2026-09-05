@@ -226,6 +226,16 @@ textarea.in{resize:vertical;min-height:88px}
 .est-total span:last-child{font-size:24px;font-weight:700;letter-spacing:-.02em;
   color:var(--ac);font-variant-numeric:tabular-nums}
 .est-fine{font-size:12px;color:var(--sub);margin-top:9px}
+.f-alt{display:grid;gap:10px}
+@media (min-width:520px){.f-alt{grid-template-columns:1fr 1fr}}
+.f-sent{text-align:center;padding:26px 20px;background:var(--ac-bg);
+  border:1px solid var(--ac);border-radius:var(--r)}
+.f-sent-ic{width:52px;height:52px;border-radius:50%;background:var(--ac);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.f-sent-ic svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:2.6}
+.f-sent h3{font-size:19px;margin-bottom:6px}
+.f-sent p{font-size:15px;color:var(--sub);line-height:1.6}
+.btn[disabled]{opacity:.6;pointer-events:none}
 .f-fallback{margin-top:12px;padding:13px 14px;background:var(--bg2);
   border:1px solid var(--line);border-radius:10px}
 .f-fallback pre{white-space:pre-wrap;word-break:break-word;font-size:13px;line-height:1.55;
@@ -645,7 +655,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <h2>Request a booking</h2>
     <p class="lede">Tell us the dates and we&rsquo;ll get back to you the same day.</p>
     <div class="contact-grid">
-    <div>
+    <div id="contact-form">
     <div class="field"><label for="f-name">Your name</label>
       <input class="in" id="f-name" autocomplete="name"/></div>
     <div class="field"><label for="f-dog">Dog&rsquo;s name &amp; breed</label>
@@ -691,8 +701,14 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <div class="field"><label for="f-msg">Anything I should know?</label>
       <textarea class="in" id="f-msg" placeholder="Medications, anxiety, routine, other pets..."></textarea></div>
     <div class="err" id="f-err"></div>
-    <a class="btn" id="f-send" href="#">Send request by text</a>
-    <a class="btn alt" id="f-email" href="#" style="margin-top:10px">Send by email instead</a>
+    <button type="button" class="btn" id="f-submit">Send request</button>
+    <p class="field-hint" id="f-alt-hint" style="margin:12px 0 8px;text-align:center">
+      Or reach us directly
+    </p>
+    <div class="f-alt">
+      <a class="btn alt" id="f-send" href="#">Text it instead</a>
+      <a class="btn alt" id="f-email" href="#">Email it instead</a>
+    </div>
     <div class="f-fallback" id="f-fallback" hidden>
       <p style="font-size:13px;color:var(--sub);margin-bottom:8px">
         If nothing opened, copy the message below and send it to
@@ -701,6 +717,14 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
       <pre id="f-fallback-body"></pre>
       <button type="button" class="btn alt" id="f-copy" style="margin-top:8px">Copy message</button>
     </div>
+    </div>
+    <div class="f-sent" id="f-sent" hidden>
+      <div class="f-sent-ic">
+        <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Request sent</h3>
+      <p id="f-sent-msg"></p>
+      <button type="button" class="btn alt" id="f-again" style="margin-top:14px">Send another</button>
     </div>
     <aside class="contact-side">
       <div class="cs-card">
@@ -887,6 +911,14 @@ const SITE = {
   ],
 
   contactNote: "Prefer to talk first? Call or text either of us any time between 8am and 8pm.",
+
+  // Where the booking form sends to. This posts straight from the page, so the
+  // visitor never has to open their own mail or texting app.
+  // FormSubmit needs one activation: the very first request sends Dillon a
+  // confirmation email, he clicks the link once, and every request after that
+  // arrives in his inbox automatically.
+  formEndpoint: "https://formsubmit.co/ajax/dillon@dillonspetcare.com",
+  sentMessage: "Thanks, we've got your request. We'll get back to you today, usually within the hour between 8am and 8pm.",
 };
 /* ═══════════════ nothing below here needs editing ═══════════════ */
 
@@ -1171,7 +1203,81 @@ function showEmailFallback(body){
   box.hidden=false;
   $("f-fallback-body").textContent=body;
 }
+function showSent(){
+  const form=$("contact-form");
+  if(form) form.hidden=true;
+  $("f-sent").hidden=false;
+  $("f-sent-msg").textContent = SITE.sentMessage ||
+    "Thanks, we've got your request and will get back to you shortly.";
+  const el=$("f-sent");
+  if(el && typeof el.scrollIntoView==="function"){
+    try{ el.scrollIntoView({behavior:"smooth", block:"center"}); }catch(_){}
+  }
+}
+function submitRequest(){
+  const r=buildMessage();
+  $("f-err").textContent=r.err||"";
+  if(r.err){ if(r.focus && $(r.focus)) $(r.focus).focus(); return; }
+  if(!SITE.formEndpoint){ showEmailFallback(r.body); return; }
+
+  const btn=$("f-submit"), label=btn.textContent;
+  btn.disabled=true; btn.textContent="Sending...";
+
+  const payload={
+    _subject: "Booking request from "+$("f-name").value.trim(),
+    name:    $("f-name").value.trim(),
+    phone:   $("f-phone").value.trim(),
+    email:   $("f-mail").value.trim(),
+    dog:     $("f-dog").value.trim(),
+    dogs:    $("f-dogs").value,
+    service: $("f-svc").value,
+    dates:   $("f-dates").value.trim(),
+    notes:   $("f-msg").value.trim(),
+  };
+
+  // don't leave someone staring at "Sending..." if the network stalls
+  let delivered=false;
+  const ctrl = (typeof AbortController==="function") ? new AbortController() : null;
+  const timer = setTimeout(()=>{ if(ctrl) ctrl.abort(); }, 12000);
+
+  fetch(SITE.formEndpoint,{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify(payload),
+    signal: ctrl?ctrl.signal:undefined,
+  })
+  .then(res=>{ if(!res.ok) throw new Error("bad status "+res.status); return res.json().catch(()=>({})); })
+  .then(()=>{
+    clearTimeout(timer);
+    delivered=true;              // it reached them, whatever happens next
+    try{ showSent(); }catch(e){ console.error("Confirmation display error:",e); }
+  })
+  .catch(err=>{
+    clearTimeout(timer);
+    // the message was delivered, so don't scare them with a failure notice
+    if(delivered) return;
+    console.error("Booking send failed:",err);
+    btn.disabled=false; btn.textContent=label;
+    // never dead-end: show the message so they can still send it themselves
+    $("f-err").textContent="That didn't go through. Send it with one of the options below instead.";
+    showEmailFallback(r.body);
+  });
+}
+
 function wireForm(){
+  $("f-submit").addEventListener("click",submitRequest);
+  $("f-again").addEventListener("click",()=>{
+    $("f-sent").hidden=true;
+    const form=$("contact-form"); if(form) form.hidden=false;
+    ["f-name","f-dog","f-phone","f-mail","f-dates","f-msg"].forEach(id=>{ if($(id)) $(id).value=""; });
+    $("f-dogs").value="1";
+    $("f-dates-label").textContent="Select dates";
+    $("f-dates-label").style.color="var(--sub)";
+    fStart=null; fEnd=null; datesTouchedByUser=false;
+    $("f-err").textContent="";
+    $("f-fallback").hidden=true;
+    const sb=$("f-submit"); sb.disabled=false; sb.textContent="Send request";
+  });
   $("f-send").addEventListener("click",e=>{
     e.preventDefault();
     const r=buildMessage();
