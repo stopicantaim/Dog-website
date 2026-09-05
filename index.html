@@ -532,10 +532,10 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 
 /* commissioned dog illustrations, placed individually through the page,
    z-index:0 keeps them behind each section's own text/cards */
-.doodle{position:absolute;opacity:.26;pointer-events:none;z-index:0;user-select:none}
+.doodle{position:absolute;opacity:.30;pointer-events:none;z-index:0;user-select:none}
 .doodle-host{position:relative;overflow:hidden}
 .doodle-host>*:not(.doodle){position:relative;z-index:1}
-@media (max-width:640px){.doodle{opacity:.18;transform:scale(.8) rotate(var(--r,0deg))!important}}
+@media (max-width:640px){.doodle{opacity:.24;transform:scale(.72) rotate(var(--r,0deg))!important}}
 @media (min-width:700px){
   section{padding:44px 20px}
   .hero{padding-top:60px;padding-bottom:52px}
@@ -598,13 +598,8 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </header>
 
-  <div class="avail" id="avail" style="display:none">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
-    <span id="avail-text"></span>
-  </div>
-
   <section id="services" class="doodle-host">
-    <img class="doodle" src="ART/dog-7.png" alt="" style="width:115px;top:10px;right:14px;--r:-7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-7.png" alt="" style="width:196px;top:10px;right:14px;--r:-7deg;transform:rotate(var(--r))"/>
     <h2 id="svc-h">Services</h2>
     <p class="lede" id="svc-lede"></p>
     <div id="svc-list" class="tiles"></div>
@@ -662,15 +657,20 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </section>
 
+  <div class="avail" id="avail" style="display:none">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+    <span id="avail-text"></span>
+  </div>
+
   <section id="how" class="doodle-host">
-    <img class="doodle" src="ART/dog-5.png" alt="" style="width:105px;top:10px;right:14px;--r:8deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:178px;top:10px;right:14px;--r:8deg;transform:rotate(var(--r))"/>
     <h2>How it works</h2>
     <p class="lede">No commitment until you&rsquo;ve met us.</p>
     <ol class="steps" id="steps"></ol>
   </section>
 
   <section id="about" class="doodle-host">
-    <img class="doodle" src="ART/dog-6.png" alt="" style="width:120px;top:8px;right:14px;--r:5deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-6.png" alt="" style="width:204px;top:8px;right:14px;--r:5deg;transform:rotate(var(--r))"/>
     <h2>About</h2>
     <div class="about">
       <div class="about-img" id="about-img">
@@ -687,19 +687,19 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   </section>
 
   <section id="faq" class="doodle-host">
-    <img class="doodle" src="ART/dog-4.png" alt="" style="width:100px;top:10px;right:14px;--r:-6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-4.png" alt="" style="width:170px;top:10px;right:14px;--r:-6deg;transform:rotate(var(--r))"/>
     <h2>Common questions</h2>
     <div id="faq-list" style="margin-top:14px"></div>
   </section>
 
   <section id="policy" class="doodle-host">
-    <img class="doodle" src="ART/dog-8.png" alt="" style="width:110px;top:10px;right:14px;--r:6deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-8.png" alt="" style="width:187px;top:10px;right:14px;--r:6deg;transform:rotate(var(--r))"/>
     <h2>Health &amp; safety</h2>
     <div class="policy" id="policy-list"></div>
   </section>
 
   <section id="contact" class="doodle-host">
-    <img class="doodle" src="ART/dog-1.png" alt="" style="width:100px;top:10px;right:14px;--r:-5deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-1.png" alt="" style="width:170px;top:10px;right:14px;--r:-5deg;transform:rotate(var(--r))"/>
     <h2>Request a booking</h2>
     <p class="lede">Tell us the dates and we&rsquo;ll get back to you the same day.</p>
     <div class="contact-grid">
@@ -802,7 +802,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 </div></div>
 
   <section id="reviews" class="doodle-host">
-    <img class="doodle" src="ART/dog-2.png" alt="" style="width:105px;top:10px;right:14px;--r:7deg;transform:rotate(var(--r))"/>
+    <img class="doodle" src="ART/dog-2.png" alt="" style="width:178px;top:10px;right:14px;--r:7deg;transform:rotate(var(--r))"/>
     <h2>What clients say</h2>
     <div id="rev-list"></div>
   </section>
