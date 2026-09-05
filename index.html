@@ -139,6 +139,25 @@ h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 body.no-tel a[href^="tel:"]{cursor:copy}
 
+/* hero banner: a quiet looping clip with the headline over it */
+.banner{position:relative;margin:0 -20px 22px;overflow:hidden;background:var(--ink);
+  min-height:430px;display:flex;align-items:center;justify-content:center}
+@media (min-width:700px){.banner{min-height:500px;border-radius:0}}
+.banner-v{position:absolute;top:0;left:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 42%;display:block;z-index:0}
+/* dark wash so white text stays readable over a bright sunny yard */
+.banner-scrim{position:absolute;top:0;left:0;right:0;bottom:0;z-index:1;
+  background:linear-gradient(180deg,rgba(15,22,17,.55) 0%,rgba(15,22,17,.38) 40%,rgba(15,22,17,.72) 100%)}
+.banner-in{position:relative;z-index:2;text-align:center;padding:38px 22px;
+  max-width:620px;margin:0 auto}
+.banner-in h1{color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.45)}
+.banner-in p{color:rgba(255,255,255,.93);text-shadow:0 1px 10px rgba(0,0,0,.45);margin-bottom:20px}
+.banner .eyebrow.eyebrow-on-v{background:rgba(255,255,255,.18);color:#fff;
+  backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.32)}
+.banner-alt{background:rgba(255,255,255,.94);border-color:transparent;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.banner-v{display:none}
+  .banner{background:var(--ink) url('videos/hero.jpg') center 42%/cover}}
+
 /* videos */
 .vid-wrap{display:grid;gap:20px;align-items:stretch}
 /* on a wide screen the clips sit beside a short note, so a tall
@@ -519,13 +538,19 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 <div class="wrap">
 
   <header class="hero doodle-host">
-    <img class="doodle" src="ART/dog-3.png" alt="" style="width:130px;top:6px;right:10px;--r:6deg;transform:rotate(var(--r))"/>
-    <div class="eyebrow" id="hero-area"></div>
-    <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
-    <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
-    <div class="btn-row">
-      <a class="btn" id="cta-text" href="#contact">Request a booking</a>
-      <a class="btn alt" id="cta-call" href="tel:">Call or text</a>
+    <div class="banner" id="banner">
+      <video class="banner-v" id="banner-v" muted loop playsinline autoplay preload="none"
+             poster="videos/hero.jpg" aria-hidden="true" tabindex="-1"></video>
+      <div class="banner-scrim"></div>
+      <div class="banner-in">
+        <div class="eyebrow eyebrow-on-v" id="hero-area"></div>
+        <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
+        <p id="hero-p">Boarding, house sitting, drop-in visits and walks from two brothers who treat your dog like their own.</p>
+        <div class="btn-row">
+          <a class="btn" id="cta-text" href="#contact">Request a booking</a>
+          <a class="btn alt banner-alt" id="cta-call" href="tel:">Call or text</a>
+        </div>
+      </div>
     </div>
     <div class="hero-strip" id="hero-strip"></div>
     <div class="trust">
@@ -873,8 +898,8 @@ const SITE = {
   // Nothing downloads until the visitor actually taps, so these cost nothing on page load.
   videos: [
     {src:"videos/yard-play.mp4", poster:"videos/yard-play.jpg", caption:"Afternoon in the yard", portrait:true},
+    {src:"videos/fetch.mp4", poster:"videos/fetch.jpg", caption:"Fetch in the back field", portrait:true},
     // Add more the same way. Set portrait:true for videos filmed upright on a phone.
-    // {src:"videos/fetch.mp4", poster:"videos/fetch.jpg", caption:"Fetch never gets old", portrait:true},
   ],
 
   // Shown beside the clips on a wide screen. Set to null to hide it.
@@ -1135,6 +1160,33 @@ function render(){
 }
 
 // ── booking request → prefilled text or email ─────────────────────────
+// The banner clip is decorative. It only loads once the page is usable, and
+// never on reduced-motion or data-saver, where the poster image stands in.
+function initBanner(){
+  const v=$("banner-v"); if(!v) return;
+  const reduce = (typeof matchMedia==="function")
+    && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const conn = navigator.connection || navigator.webkitConnection;
+  const saveData = !!(conn && (conn.saveData || /2g/i.test(conn.effectiveType||"")));
+  if(reduce || saveData){ v.remove(); return; }
+
+  const start=()=>{
+    v.src="videos/hero.mp4";
+    v.load();
+    const p=v.play();
+    // if the browser blocks autoplay we simply keep the poster frame
+    if(p && typeof p.catch==="function") p.catch(()=>{});
+  };
+  if(document.readyState==="complete") start();
+  else window.addEventListener("load",start,{once:true});
+
+  // don't keep decoding video while the tab is in the background
+  document.addEventListener("visibilitychange",()=>{
+    if(!v.src) return;
+    if(document.hidden) v.pause(); else v.play().catch(()=>{});
+  });
+}
+
 function isMobile(){
   return /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
 }
@@ -1784,6 +1836,8 @@ catch(e){ console.error("Site error:",e); }
 // own try block. Decorative code failing must never take the phone links with it.
 try{ wireDesktopPhones(); }
 catch(e){ console.error("Contact wiring error:",e); }
+try{ initBanner(); }
+catch(e){ console.error("Banner error:",e); }
 try{ initMotion(); initScrollChrome(); }
 catch(e){ console.error("Motion error:",e); }
 </script>
