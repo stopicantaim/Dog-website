@@ -158,39 +158,6 @@ body.no-tel a[href^="tel:"]{cursor:copy}
 @media (prefers-reduced-motion:reduce){.banner-v{display:none}
   .banner{background:var(--ink) url('videos/hero.jpg') center 42%/cover}}
 
-/* videos */
-.vid-wrap{display:grid;gap:20px;align-items:stretch}
-/* on a wide screen the clips sit beside a short note, so a tall
-   phone-shaped video doesn't leave a column of empty space.
-   the clip column takes only the width it needs, the note takes the rest */
-@media (min-width:760px){.vid-wrap{grid-template-columns:minmax(0,auto) minmax(300px,1fr)}}
-.vids{display:grid;gap:12px;grid-template-columns:1fr}
-/* portrait clips are narrow, so fit as many across as the space allows */
-@media (min-width:520px){.vids{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}}
-.vid{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg2)}
-/* a phone-shaped clip should never stretch across a desktop screen */
-.vid.portrait{max-width:330px;width:100%;margin-left:auto;margin-right:auto}
-.vid-frame{position:relative;aspect-ratio:16/9;background:#000;cursor:pointer}
-.vid-frame.portrait{aspect-ratio:9/16;margin:0 auto;width:100%}
-.vid-side{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);
-  padding:22px 24px;display:flex;flex-direction:column;justify-content:center}
-.vid-side h3{font-size:18px;margin-bottom:10px;line-height:1.3}
-.vid-side-p{font-size:14px;color:var(--sub);line-height:1.6;margin-bottom:16px}
-.vid-side-f{font-size:14px;color:var(--sub);line-height:1.6;margin-top:16px}
-.vid-side-cta{margin-top:14px;align-self:flex-start}
-.vid-side ul{list-style:none;display:grid;gap:13px}
-.vid-side li{display:flex;gap:11px;font-size:15px;color:var(--sub);line-height:1.55}
-.vid-side li svg{width:17px;height:17px;stroke:var(--ac);fill:none;stroke-width:2.2;
-  flex-shrink:0;margin-top:4px}
-.vid-frame img{width:100%;height:100%;object-fit:cover;display:block}
-.vid-frame video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
-.vid-play{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;
-  border:none;background:rgba(0,0,0,.22);cursor:pointer;padding:0;transition:background .15s}
-.vid-frame:hover .vid-play{background:rgba(0,0,0,.34)}
-.vid-play span{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.94);
-  display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.28)}
-.vid-play svg{width:22px;height:22px;fill:var(--ac);margin-left:3px}
-.vid-cap{font-size:14px;color:var(--ink);padding:10px 13px}
 
 /* reviews */
 .rev{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:8px}
@@ -539,7 +506,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 
   <header class="hero doodle-host">
     <div class="banner" id="banner">
-      <video class="banner-v" id="banner-v" muted loop playsinline autoplay preload="none"
+      <video class="banner-v" id="banner-v" muted playsinline autoplay preload="none"
              poster="videos/hero.jpg" aria-hidden="true" tabindex="-1"></video>
       <div class="banner-scrim"></div>
       <div class="banner-in">
@@ -646,15 +613,6 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     <h2>Recent guests</h2>
     <p class="lede">Some of the dogs who&rsquo;ve stayed with us.</p>
     <div class="gal" id="gal"></div>
-  </section>
-
-  <section id="videos" hidden>
-    <h2>See us in action</h2>
-    <p class="lede">A few clips from days with the dogs.</p>
-    <div class="vid-wrap">
-      <div class="vids" id="vid-list"></div>
-      <aside class="vid-side" id="vid-side"></aside>
-    </div>
   </section>
 
   <section id="reviews" class="doodle-host">
@@ -893,28 +851,15 @@ const SITE = {
     "photos/poodle-in-the-sun.jpg",
   ],
 
-  // Videos live in the videos/ folder next to this page.
-  // Each needs a poster image, which is the still shown before someone taps play.
-  // Nothing downloads until the visitor actually taps, so these cost nothing on page load.
-  videos: [
-    {src:"videos/yard-play.mp4", poster:"videos/yard-play.jpg", caption:"Afternoon in the yard", portrait:true},
-    {src:"videos/fetch.mp4", poster:"videos/fetch.jpg", caption:"Fetch in the back field", portrait:true},
-    // Add more the same way. Set portrait:true for videos filmed upright on a phone.
+  // Clips that play behind the headline at the top of the page.
+  // They play one after another, muted, and loop back to the first.
+  // Only the first one loads up front, the rest load as they are needed.
+  bannerClips: [
+    {src:"videos/hero.mp4",      poster:"videos/hero.jpg"},
+    {src:"videos/fetch.mp4",     poster:"videos/fetch.jpg"},
+    {src:"videos/yard-play.mp4", poster:"videos/yard-play.jpg"},
   ],
 
-  // Shown beside the clips on a wide screen. Set to null to hide it.
-  videoNote: {
-    title: "This is what a normal day looks like",
-    intro: "No kennels, no concrete runs, no dogs left alone all day. Just our house and our yard, with someone home most of the day.",
-    points: [
-      "A fenced yard they can actually run in",
-      "Play with other friendly dogs, never forced",
-      "Clips and photos sent to you through the stay",
-      "Home comforts, not a kennel run",
-    ],
-    footer: "Come see it for yourself. The first meet & greet is free.",
-    cta: { label: "Request a booking", href: "#contact" },
-  },
 
   // All real, from verified Rover stays. Add more as they come in.
   reviews: [
@@ -1051,54 +996,6 @@ function render(){
       '<div><b>'+esc(p.t)+'</b><span>'+esc(p.d)+'</span></div></div>').join("");
   }
 
-  // videos, click to play so nothing downloads until someone asks for it
-  const vids=(SITE.videos||[]).filter(v=>v && v.src);
-  const vsec=$("videos"), vlist=$("vid-list");
-  if(vsec && vlist){
-    if(!vids.length){ vsec.hidden=true; }
-    else{
-      vsec.hidden=false;
-      vlist.innerHTML = vids.map((v,i)=>
-        '<div class="vid'+(v.portrait?' portrait':'')+'">'+
-          '<div class="vid-frame'+(v.portrait?' portrait':'')+'" data-v="'+i+'">'+
-            (v.poster ? '<img src="'+esc(v.poster)+'" alt="'+esc(v.caption||"Dog in our care")+'" loading="lazy"/>' : '')+
-            '<button class="vid-play" aria-label="Play video">'+
-              '<span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'+
-            '</button>'+
-          '</div>'+
-          (v.caption ? '<div class="vid-cap">'+esc(v.caption)+'</div>' : '')+
-        '</div>').join("");
-
-      const side=$("vid-side"), note=SITE.videoNote;
-      if(side){
-        if(note && note.title){
-          const tick='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-          side.innerHTML=
-            '<h3>'+esc(note.title)+'</h3>'+
-            (note.intro?'<p class="vid-side-p">'+esc(note.intro)+'</p>':'')+
-            '<ul>'+(note.points||[]).map(p=>'<li>'+tick+'<span>'+esc(p)+'</span></li>').join("")+'</ul>'+
-            (note.footer?'<p class="vid-side-f">'+esc(note.footer)+'</p>':'')+
-            (note.cta&&note.cta.href
-              ? '<a class="btn vid-side-cta" href="'+esc(note.cta.href)+'">'+esc(note.cta.label||"Get in touch")+'</a>'
-              : '');
-        } else { side.style.display="none"; }
-      }
-
-      vlist.querySelectorAll(".vid-frame").forEach(frame=>{
-        frame.addEventListener("click",()=>{
-          if(frame.dataset.loaded) return;
-          const v=vids[+frame.dataset.v];
-          frame.dataset.loaded="1";
-          // pause any other clip so two don't play over each other
-          vlist.querySelectorAll("video").forEach(el=>el.pause());
-          frame.innerHTML='<video controls autoplay playsinline preload="metadata"'+
-            (v.poster?' poster="'+esc(v.poster)+'"':'')+
-            ' src="'+esc(v.src)+'"></video>';
-        });
-      });
-    }
-  }
-
   // about
   $("about-text").innerHTML = (SITE.about||[]).map(p=>'<p>'+esc(p)+'</p>').join("");
   const ai=$("about-img");
@@ -1160,23 +1057,37 @@ function render(){
 }
 
 // ── booking request → prefilled text or email ─────────────────────────
-// The banner clip is decorative. It only loads once the page is usable, and
-// never on reduced-motion or data-saver, where the poster image stands in.
+// The banner clips are decorative. They only load once the page is usable,
+// and never on reduced-motion or data-saver, where the poster image stands in.
 function initBanner(){
   const v=$("banner-v"); if(!v) return;
+  const clips=(SITE.bannerClips||[]).filter(c=>c && c.src);
+  if(!clips.length){ v.remove(); return; }
+
+  if(clips[0].poster) v.setAttribute("poster",clips[0].poster);
+
   const reduce = (typeof matchMedia==="function")
     && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const conn = navigator.connection || navigator.webkitConnection;
   const saveData = !!(conn && (conn.saveData || /2g/i.test(conn.effectiveType||"")));
   if(reduce || saveData){ v.remove(); return; }
 
-  const start=()=>{
-    v.src="videos/hero.mp4";
+  let i=0;
+  const playAt=n=>{
+    i = n % clips.length;
+    v.src = clips[i].src;
     v.load();
     const p=v.play();
-    // if the browser blocks autoplay we simply keep the poster frame
+    // if the browser blocks autoplay we just keep the poster frame
     if(p && typeof p.catch==="function") p.catch(()=>{});
   };
+
+  // move to the next clip when one finishes, wrapping back to the start
+  v.addEventListener("ended",()=>playAt(i+1));
+  // a broken or missing file shouldn't stall the banner on a black frame
+  v.addEventListener("error",()=>{ if(clips.length>1) playAt(i+1); });
+
+  const start=()=>playAt(0);
   if(document.readyState==="complete") start();
   else window.addEventListener("load",start,{once:true});
 
