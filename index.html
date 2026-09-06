@@ -64,6 +64,32 @@ img{max-width:100%;display:block}
 .eyebrow{display:inline-block;background:var(--ac-bg);color:var(--ac2);
   font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:16px}
 h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
+/* two-panel split: the one decision a visitor actually has to make */
+.split{margin:0 -20px;display:grid;gap:10px;background:var(--ink)}
+@media (min-width:760px){.split{grid-template-columns:1fr 1fr;gap:12px;padding:12px}}
+.sp{position:relative;overflow:hidden;min-height:340px;display:flex;
+  align-items:flex-end;justify-content:center;text-align:center;
+  background-size:cover;background-position:center}
+@media (min-width:760px){.sp{min-height:420px;border-radius:14px}}
+.sp::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(180deg,rgba(12,20,14,.28) 0%,rgba(12,20,14,.42) 45%,rgba(12,20,14,.86) 100%)}
+.sp-in{position:relative;z-index:2;padding:28px 22px 30px;max-width:420px;width:100%}
+.sp-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#fff;background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(4px);
+  padding:5px 11px;border-radius:999px;margin-bottom:11px}
+.sp h3{font-size:clamp(21px,5.2vw,26px);color:#fff;line-height:1.18;
+  letter-spacing:-.02em;margin-bottom:8px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.sp p{font-size:14.5px;color:rgba(255,255,255,.9);line-height:1.55;
+  margin-bottom:16px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.sp-list{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:6px;margin-bottom:16px}
+.sp-list li{font-size:12px;color:#fff;background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 10px}
+.sp-go{display:inline-block;background:#fff;color:var(--ink);text-decoration:none;
+  font-size:14px;font-weight:600;padding:11px 20px;border-radius:10px}
+.sp-go:hover{background:var(--ac);color:#fff}
+
 /* photo mosaic: everything visible at once, a few tiles given more weight */
 .strip-wrap{margin:0 -20px;padding:28px 20px 32px;background:var(--bg2)}
 .mosaic{display:grid;gap:8px;max-width:var(--max);margin:0 auto;
@@ -605,6 +631,27 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </header>
 
+  <section class="split" id="split" aria-label="Two ways we can help">
+    <div class="sp" id="sp-stay" style="background-image:url('photos/settled-by-the-fire.jpg')">
+      <div class="sp-in">
+        <span class="sp-tag">They stay with us</span>
+        <h3>Your dog comes to our home</h3>
+        <p>A fenced yard, a real routine and company through the day. No kennels, no concrete runs.</p>
+        <ul class="sp-list"><li>Overnight boarding</li><li>Daycare</li></ul>
+        <a class="sp-go" href="#services">See boarding and daycare</a>
+      </div>
+    </div>
+    <div class="sp" id="sp-visit" style="background-image:url('photos/morning-walk-in-the-fog.jpg')">
+      <div class="sp-in">
+        <span class="sp-tag">We come to you</span>
+        <h3>Your dog stays in their own home</h3>
+        <p>Same bed, same yard, same routine. We come to your place and leave it as we found it.</p>
+        <ul class="sp-list"><li>House sitting</li><li>Drop-in visits</li><li>Walks</li></ul>
+        <a class="sp-go" href="#services">See visits and walks</a>
+      </div>
+    </div>
+  </section>
+
   <section id="services" class="doodle-host">
     <img class="doodle" src="ART/dog-7.png" alt="" style="width:196px;top:10px;right:14px;--r:-7deg;transform:rotate(var(--r))"/>
     <h2 id="svc-h">Services</h2>
@@ -825,7 +872,7 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="lb" id="lb"><button class="lb-x" id="lb-x">&times;</button>
-  <img id="lb-img" alt="Dog in my care"/>
+  <img id="lb-img" alt=""/>
   <button class="lb-nav prev" id="lb-prev">&lsaquo;</button>
   <button class="lb-nav next" id="lb-next">&rsaquo;</button>
 </div>
@@ -916,12 +963,9 @@ const SITE = {
   // Photos live in the photos/ folder next to this page.
   photos: [
     "photos/morning-walk-in-the-fog.jpg",
-    "photos/pair-on-the-lead.jpg",
-    "photos/small-dogs-in-the-yard.jpg",
     "photos/settled-by-the-fire.jpg",
     "photos/collie-close-up.jpg",
     "photos/two-friends.jpg",
-    "photos/happy-after-fetch.jpg",
     "photos/aussie-in-the-field.jpg",
     "photos/waiting-for-the-throw.jpg",
     "photos/group-play-yard.jpg",
@@ -1128,10 +1172,17 @@ function render(){
     else{
       const FIRST=12;           // shown up front, the rest sit behind the button
       const BIG=new Set([0,5]); // a couple of tiles get double width and height
+      // describe each photo from its filename rather than repeating the same
+      // line 18 times, which helps screen readers and search alike
+      const describe = src => {
+        const base=(src.split("/").pop()||"").replace(/\.[a-z0-9]+$/i,"");
+        const words=base.replace(/[-_]+/g," ").trim();
+        return words ? words.charAt(0).toUpperCase()+words.slice(1) : "";
+      };
       grid.innerHTML=photos.map(function(src,i){
         const cls="ms"+(BIG.has(i)?" big":"")+(i>=FIRST?" extra":"");
         return '<div class="'+cls+'" data-i="'+i+'">'+
-               '<img src="'+esc(src)+'" alt="A dog in our care" '+
+               '<img src="'+esc(src)+'" alt="'+esc(describe(src))+'" '+
                (i<6?'':'loading="lazy"')+'/></div>';
       }).join("");
       [].slice.call(grid.querySelectorAll("[data-i]")).forEach(function(el){
