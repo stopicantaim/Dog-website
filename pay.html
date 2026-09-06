@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#2f5d3a"/>
+<meta name="theme-color" content="#f6f4ec"/>
 <title>Pay your invoice, Dillon's Pet Care</title>
 <meta name="description" content="Pay for boarding, house sitting, drop-in visits, walks or daycare with Dillon's Pet Care in Smithfield, NC."/>
 <meta name="robots" content="noindex"/>
@@ -16,109 +16,156 @@
   --line:#ddd6c4;--line2:#c8bfa8;
   --ink:#1d2a20;--sub:#5f6b60;
   --ac:#2f5d3a;--ac2:#24492e;--ac-bg:#e6efe6;
-  --r:12px;--max:640px;
+  --r:12px;--max:900px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,sans-serif;
-  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;position:relative;padding-bottom:30px}
 img{max-width:100%;display:block}
-h1,h2,h3,label,button,.btn{-webkit-user-select:none;user-select:none}
+h1,h2,h3,label,button,.btn,.nav,.eyebrow,.pay-n{-webkit-user-select:none;user-select:none}
+
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 
-nav{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
-.nav-in{max-width:var(--max);margin:0 auto;padding:11px 20px;display:flex;
-  align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;letter-spacing:-.01em;
-  color:var(--ink);text-decoration:none}
-.brand img{width:30px;height:30px;object-fit:contain;flex-shrink:0}
-.nav-back{font-size:14px;color:var(--sub);text-decoration:none}
-.nav-back:hover{color:var(--ac)}
+/* nav, same as the main site */
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:13px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;
+  letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.brand-logo{width:30px;height:30px;object-fit:contain;flex-shrink:0}
+.nav-cta{background:var(--ac);color:#fff;border:none;border-radius:8px;
+  font-size:13px;font-weight:600;padding:8px 14px;text-decoration:none}
 
-header{text-align:center;padding:34px 0 22px}
-h1{font-size:28px;line-height:1.2;letter-spacing:-.02em;margin-bottom:10px}
-.lede{color:var(--sub);font-size:15px;max-width:430px;margin:0 auto}
+/* commissioned dog art, as on the main site */
+.doodle{position:absolute;opacity:.30;pointer-events:none;z-index:0;user-select:none}
+.doodle-host{position:relative;overflow:hidden}
+.doodle-host>*:not(.doodle){position:relative;z-index:1}
+@media (max-width:640px){.doodle{opacity:.24;transform:scale(.72) rotate(var(--r,0deg))!important}}
 
-section{padding:22px 0}
-h2{font-size:19px;letter-spacing:-.01em;margin-bottom:6px}
-.sub{color:var(--sub);font-size:14px;margin-bottom:14px}
+header{text-align:center;padding:40px 0 26px}
+h1{font-size:29px;line-height:1.18;letter-spacing:-.02em;margin-bottom:10px}
+@media (min-width:700px){h1{font-size:36px}}
+.lede{color:var(--sub);font-size:15px;max-width:460px;margin:0 auto}
+.eyebrow{display:inline-block;background:#f0c14b;color:#3a2f0b;
+  font-size:12px;font-weight:700;letter-spacing:.02em;
+  padding:6px 13px;border-radius:999px;margin-bottom:14px}
 
-/* payment method cards */
-.pays{display:grid;gap:10px}
-.pay{display:flex;align-items:center;gap:14px;background:var(--card);
-  border:1px solid var(--line);border-radius:var(--r);padding:14px 15px;
+section{margin:0 -20px;padding:30px 20px}
+section>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+#methods-sec{background:var(--card)}
+#rates-sec{background:var(--bg2)}
+#terms-sec{background:var(--card)}
+h2{font-size:21px;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--sub);font-size:14px;margin-bottom:16px}
+
+/* payment methods */
+.pays{display:grid;gap:11px}
+@media (min-width:700px){.pays{grid-template-columns:1fr 1fr}}
+.pay{display:flex;align-items:center;gap:14px;background:var(--bg);
+  border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;
   text-decoration:none;color:var(--ink);transition:border-color .18s,transform .12s}
 .pay:hover{border-color:var(--ac)}
 .pay:active{transform:scale(.995)}
-.pay-ic{width:42px;height:42px;border-radius:10px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--ac-bg);color:var(--ac);font-weight:700;font-size:15px}
+.pay-ic{width:44px;height:44px;border-radius:11px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;background:var(--ac-bg)}
 .pay-ic svg{width:21px;height:21px;stroke:var(--ac);fill:none;stroke-width:1.8}
 .pay-b{flex:1;min-width:0}
 .pay-n{font-weight:600;font-size:15px}
 .pay-d{font-size:13px;color:var(--sub);word-break:break-word}
-.pay-go{color:var(--line2);font-size:19px;flex-shrink:0}
+.pay-act{flex-shrink:0;font-size:12px;font-weight:600;color:var(--ac);
+  border:1px solid var(--line2);border-radius:8px;padding:7px 11px;
+  background:#fff;cursor:pointer;font-family:inherit}
+.pay-act:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
 
-/* rate reference */
+/* rates */
 .rates{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card)}
 .rate{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
-  padding:11px 15px;border-bottom:1px solid var(--line);font-size:15px}
+  padding:12px 16px;border-bottom:1px solid var(--line);font-size:15px}
 .rate:last-child{border-bottom:none}
-.rate b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rate b{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:16px}
 .rate span{color:var(--sub);font-size:13px}
 
 .note{font-size:14px;color:var(--sub);background:var(--bg2);border:1px solid var(--line);
-  border-radius:10px;padding:13px 15px;line-height:1.6}
+  border-radius:10px;padding:14px 16px;line-height:1.6}
 .note b{color:var(--ink)}
-.note + .note{margin-top:10px}
+.note+.note{margin-top:10px}
+.note a{color:var(--ac);font-weight:600}
 
-.help{text-align:center;padding:26px 0 10px;font-size:14px;color:var(--sub)}
-.help a{color:var(--ac);font-weight:600}
-footer{text-align:center;padding:20px 0;font-size:12px;color:var(--sub);
-  border-top:1px solid var(--line);margin-top:26px}
+.help{text-align:center;padding:30px 20px 12px;font-size:14px;color:var(--sub)}
+.help a{color:var(--ac);font-weight:600;text-decoration:none}
+footer{text-align:center;padding:22px 0;font-size:12px;color:var(--sub);
+  border-top:1px solid var(--line);margin-top:20px}
+footer a{color:var(--ac);font-weight:600;text-decoration:none}
+
+/* copy feedback, same pattern as the main site */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);
+  background:var(--ink);color:#fff;padding:11px 18px;border-radius:10px;font-size:14px;
+  z-index:200;box-shadow:0 6px 22px rgba(0,0,0,.28);opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s;max-width:88vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+body.no-tel a[href^="tel:"]{cursor:copy}
+
+@media (prefers-reduced-motion: no-preference){
+  .reveal{opacity:0;transform:translateY(18px);
+    transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.shown{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
 
-<nav><div class="nav-in">
+<nav class="nav"><div class="nav-in">
   <a class="brand" href="index.html">
-    <img src="ART/logo.png" alt=""/>
+    <img class="brand-logo" src="ART/logo.png" alt=""/>
     <span id="brand-name">Dillon's Pet Care</span>
   </a>
-  <a class="nav-back" href="index.html">Back to site</a>
+  <a class="nav-cta" href="index.html">Back to site</a>
 </div></nav>
 
 <div class="wrap">
-  <header>
+  <header class="doodle-host">
+    <img class="doodle" src="ART/dog-3.png" alt="" style="width:150px;top:0;right:-10px;--r:6deg;transform:rotate(var(--r))"/>
+    <div class="eyebrow" id="hero-eyebrow">Dillon's Pet Care</div>
     <h1>Pay your invoice</h1>
     <p class="lede" id="hero-note"></p>
   </header>
+</div>
 
-  <section id="methods-sec">
+<div class="wrap">
+  <section id="methods-sec" class="doodle-host reveal">
+    <img class="doodle" src="ART/dog-7.png" alt="" style="width:170px;bottom:-20px;right:-16px;--r:-6deg;transform:rotate(var(--r))"/>
     <h2>How to pay</h2>
     <p class="sub">Pick whichever is easiest for you.</p>
     <div class="pays" id="methods"></div>
   </section>
 
-  <section id="rates-sec">
+  <section id="rates-sec" class="doodle-host reveal">
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:160px;top:8px;right:-14px;--r:9deg;transform:rotate(var(--r))"/>
     <h2>Our rates</h2>
     <p class="sub">So you can check the amount before you send it.</p>
     <div class="rates" id="rates"></div>
   </section>
 
-  <section id="terms-sec">
+  <section id="terms-sec" class="doodle-host reveal">
+    <img class="doodle" src="ART/dog-8.png" alt="" style="width:165px;bottom:-18px;left:-18px;--r:-5deg;transform:rotate(var(--r))"/>
     <h2>Good to know</h2>
     <div id="terms"></div>
   </section>
 
-  <div class="help" id="help"></div>
+  <div class="help reveal" id="help"></div>
 </div>
 
 <footer class="wrap">
   <div id="foot-name">Dillon's Pet Care LLC</div>
   <div style="margin-top:4px">Smithfield, NC</div>
+  <div style="margin-top:10px"><a href="index.html">Back to the main site</a></div>
 </footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
@@ -168,6 +215,29 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s==null?"":s).replace(/[&<>"']/g,
   c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const digits = s => String(s||"").replace(/\D/g,"");
+const isMobile = () => /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+
+let toastTimer=null;
+function toast(msg){
+  const t=$("toast"); if(!t) return;
+  t.textContent=msg; t.classList.add("on");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove("on"),2200);
+}
+function fallbackCopy(txt,done){
+  const a=document.createElement("textarea");
+  a.value=txt; a.setAttribute("readonly","");
+  a.style.position="fixed"; a.style.left="-9999px";
+  document.body.appendChild(a); a.select();
+  try{ document.execCommand("copy"); done(); }catch(_){ toast("Couldn't copy. It is "+txt); }
+  document.body.removeChild(a);
+}
+function copyText(txt, okMsg){
+  const done=()=>toast(okMsg||"Copied");
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  } else fallbackCopy(txt,done);
+}
 
 const ICON = {
   venmo: '<svg viewBox="0 0 24 24"><path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke-linejoin="round"/><path d="M9 8.5c1.6 2 2.4 4.2 2.6 6.5 1.6-2.1 2.6-4.4 2.6-6.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -176,14 +246,19 @@ const ICON = {
   cash:  '<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>',
 };
 
-function row(icon, name, detail, href, note){
+// A card is a link when there's somewhere to go, otherwise it carries a
+// copy button, because a Zelle address is useless unless you can paste it.
+function card(icon, name, detail, opts){
+  opts = opts || {};
+  const href = opts.href || "", note = opts.note || "", copy = opts.copy || "";
   const inner =
     '<div class="pay-ic">'+icon+'</div>'+
     '<div class="pay-b">'+
       '<div class="pay-n">'+esc(name)+'</div>'+
       '<div class="pay-d">'+esc(detail)+(note?' &middot; '+esc(note):'')+'</div>'+
     '</div>'+
-    (href?'<div class="pay-go">&rsaquo;</div>':'');
+    (href ? '<span class="pay-act">Open</span>' : '')+
+    (copy ? '<button class="pay-act" type="button" data-copy="'+esc(copy)+'">Copy</button>' : '');
   return href
     ? '<a class="pay" href="'+esc(href)+'" target="_blank" rel="noopener">'+inner+'</a>'
     : '<div class="pay">'+inner+'</div>';
@@ -193,39 +268,51 @@ function render(){
   $("brand-name").textContent = PAY.business;
   $("foot-name").textContent  = PAY.legalName;
   $("hero-note").textContent  = PAY.dueNote || "";
+  $("hero-eyebrow").textContent = PAY.business;
 
   const m = PAY.methods || {}, out = [];
 
   if(m.venmo && m.venmo.handle){
-    const h = String(m.venmo.handle).replace(/^@/,"");
-    out.push(row(ICON.venmo, "Venmo", "@"+h, "https://venmo.com/u/"+encodeURIComponent(h), m.venmo.note));
+    const hn = String(m.venmo.handle).replace(/^@/,"");
+    out.push(card(ICON.venmo, "Venmo", "@"+hn,
+      {href:"https://venmo.com/u/"+encodeURIComponent(hn), note:m.venmo.note}));
   }
   if(m.zelle && m.zelle.contact){
-    out.push(row(ICON.zelle, "Zelle", m.zelle.contact, "", m.zelle.note));
+    out.push(card(ICON.zelle, "Zelle", m.zelle.contact,
+      {note:m.zelle.note, copy:m.zelle.contact}));
   }
   if(m.link && m.link.url){
-    out.push(row(ICON.link, m.link.label || "Pay by card", m.link.url.replace(/^https?:\/\//,""), m.link.url, m.link.note));
+    out.push(card(ICON.link, m.link.label || "Pay by card",
+      m.link.url.replace(/^https?:\/\//,""), {href:m.link.url, note:m.link.note}));
   }
   if(m.cash && m.cash.on){
-    out.push(row(ICON.cash, "Cash", "In person", "", m.cash.note));
+    out.push(card(ICON.cash, "Cash", "In person", {note:m.cash.note}));
   }
 
   if(!out.length){
-    // nothing set up yet, so tell people how to reach us rather than showing an empty page
     $("methods").innerHTML =
-      '<div class="note">We are just setting our online payment options up. '+
+      '<div class="note" style="grid-column:1/-1">We are just setting our online payment options up. '+
       'Please '+(PAY.phone?'text us on '+esc(PAY.phone):'get in touch')+
       (PAY.email?' or email <a href="mailto:'+esc(PAY.email)+'">'+esc(PAY.email)+'</a>':'')+
       ' and we will sort it out with you.</div>';
   } else {
     $("methods").innerHTML = out.join("");
+    // slice into a real array first, NodeList.forEach is missing on older browsers
+    // and an error here would stop the rest of the page rendering
+    [].slice.call($("methods").querySelectorAll("[data-copy]")).forEach(function(b){
+      b.addEventListener("click",function(e){
+        e.preventDefault(); e.stopPropagation();
+        copyText(b.dataset.copy, "Copied "+b.dataset.copy);
+      });
+    });
   }
 
   const rates = PAY.rates || [];
   if(!rates.length){ $("rates-sec").style.display="none"; }
-  else $("rates").innerHTML = rates.map(r =>
-    '<div class="rate"><div>'+esc(r.name)+' <span>'+esc(r.unit||"")+'</span></div>'+
-    '<b>'+esc(r.price)+'</b></div>').join("");
+  else $("rates").innerHTML = rates.map(function(r){
+    return '<div class="rate"><div>'+esc(r.name)+' <span>'+esc(r.unit||"")+'</span></div>'+
+           '<b>'+esc(r.price)+'</b></div>';
+  }).join("");
 
   const terms = [];
   if(PAY.dueNote)      terms.push('<div class="note"><b>When to pay.</b> '+esc(PAY.dueNote)+'</div>');
@@ -236,13 +323,56 @@ function render(){
   $("terms").innerHTML = terms.join("");
 
   const bits = [];
-  if(PAY.phone) bits.push('<a href="sms:'+digits(PAY.phone)+'">'+esc(PAY.phone)+'</a>');
+  if(PAY.phone) bits.push('<a href="tel:'+digits(PAY.phone)+'">'+esc(PAY.phone)+'</a>');
   if(PAY.email) bits.push('<a href="mailto:'+esc(PAY.email)+'">'+esc(PAY.email)+'</a>');
   $("help").innerHTML = bits.length
-    ? "Question about an invoice? " + bits.join(" &nbsp;or&nbsp; ")
-    : "";
+    ? "Question about an invoice? " + bits.join(" &nbsp;or&nbsp; ") : "";
 }
-render();
+
+// On a computer a tel: link opens nothing, so copy the number instead.
+function wireDesktopPhones(){
+  if(isMobile()) return;
+  document.body.classList.add("no-tel");
+  document.addEventListener("click",function(e){
+    const a=e.target.closest && e.target.closest('a[href^="tel:"]');
+    if(!a) return;
+    e.preventDefault();
+    const num=a.textContent.trim() || a.getAttribute("href").replace("tel:","");
+    copyText(num, "Copied "+num);
+  });
+}
+
+function initReveal(){
+  const reduce=(typeof matchMedia==="function")
+    && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const els=[].slice.call(document.querySelectorAll(".reveal"));
+  if(reduce || typeof IntersectionObserver!=="function"){
+    els.forEach(function(el){ el.classList.add("shown"); });
+    return;
+  }
+  const io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      en.target.classList.add("shown");
+      io.unobserve(en.target);
+    });
+  },{threshold:0.08, rootMargin:"0px 0px -40px 0px"});
+  els.forEach(function(el){ io.observe(el); });
+  // safety net so nothing can get stuck invisible
+  setTimeout(function(){ els.forEach(function(el){ el.classList.add("shown"); }); }, 2500);
+}
+
+try{ render(); }catch(e){
+  console.error("Pay page error:",e);
+  // last resort: make sure the rates and terms are never left blank
+  try{
+    if($("rates") && !$("rates").innerHTML) $("rates").innerHTML=(PAY.rates||[]).map(function(r){
+      return '<div class="rate"><div>'+esc(r.name)+' <span>'+esc(r.unit||"")+'</span></div><b>'+esc(r.price)+'</b></div>';
+    }).join("");
+  }catch(_){}
+}
+try{ wireDesktopPhones(); }catch(e){ console.error("Contact wiring error:",e); }
+try{ initReveal(); }catch(e){ console.error("Reveal error:",e); }
 </script>
 </body>
 </html>
