@@ -261,10 +261,11 @@ textarea.in{resize:vertical;min-height:88px}
 .bar-in{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .bar .btn{padding:13px;font-size:15px}
 
-.avail{display:flex;align-items:center;gap:9px;background:var(--ok-bg);
-  border:1px solid #a6f4c5;border-radius:10px;padding:11px 14px;margin-top:6px;
-  font-size:14px;font-weight:500;color:#054f31}
-.avail svg{width:17px;height:17px;stroke:var(--ok);fill:none;stroke-width:1.9;flex-shrink:0}
+.avail{display:flex;align-items:center;justify-content:center;gap:9px;
+  background:#fdf6e0;border:none;border-top:1px solid #eddb9c;border-bottom:1px solid #eddb9c;
+  border-radius:0;margin:0 -20px;padding:13px 20px;
+  font-size:14px;font-weight:600;color:#6b5410;text-align:center}
+.avail svg{width:17px;height:17px;stroke:#a8811a;fill:none;stroke-width:1.9;flex-shrink:0}
 
 .est{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:18px;background:var(--bg2)}
 .est-h{font-size:15px;font-weight:600;margin-bottom:12px}
@@ -494,12 +495,12 @@ footer a{color:var(--ac);text-decoration:none}
 
 /* alternating bands so the page isn't a sheet of white */
 #services{background:var(--card)}
-#how{background:var(--bg2)}
-#about{background:var(--card)}
-#reviews{background:var(--card)}
-#faq{background:var(--bg2)}
-#policy{background:var(--card)}
-#contact{background:var(--bg2)}
+#how{background:var(--card)}
+#about{background:var(--bg2)}
+#reviews{background:var(--bg2)}
+#faq{background:var(--card)}
+#policy{background:var(--bg2)}
+#contact{background:var(--card)}
 /* full-bleed colour bands, content still inset */
 section,.hero{border-top:none;margin:0 -20px;padding:32px 20px}
 section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
@@ -518,8 +519,6 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 .nav{background:rgba(246,244,236,.94)}
 /* mustard as the highlight, used sparingly */
 .eyebrow{background:#f0c14b;color:#3a2f0b}
-.avail{background:#fdf6e0;border-color:#eddb9c;color:#6b5410}
-.avail svg{stroke:#a8811a}
 .steps li::before{background:#f0c14b;color:#3a2f0b}
 .trust svg{stroke:var(--ac)}
 .stars{color:#c99a1f}
