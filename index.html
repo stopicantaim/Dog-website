@@ -65,33 +65,44 @@ img{max-width:100%;display:block}
   font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:16px}
 h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
 
-/* how it works, laid over a photo so the steps sit in a real place */
-#how{position:relative;margin:0 -20px;padding:0;background:var(--ink)}
-.how-bg{position:relative;overflow:hidden;background-size:cover;
-  background-position:32% center;min-height:520px;display:flex;align-items:center}
-@media (min-width:820px){.how-bg{min-height:460px}}
-.how-bg::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;
-  background:linear-gradient(180deg,rgba(14,22,16,.72) 0%,rgba(14,22,16,.62) 40%,rgba(14,22,16,.88) 100%)}
-@media (min-width:820px){
-  /* on a wide screen the photo breathes on the left and the text sits right */
-  .how-bg::after{background:linear-gradient(100deg,rgba(14,22,16,.30) 0%,rgba(14,22,16,.52) 38%,rgba(14,22,16,.90) 62%)}
+/* how it works: a photo card leading a row of steps */
+.how-head{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:20px;margin-bottom:20px;flex-wrap:wrap}
+.how-head .lede{margin:0}
+.how-cta{border:1px solid var(--ac);color:var(--ac);text-decoration:none;
+  font-size:13px;font-weight:600;padding:9px 16px;border-radius:9px;white-space:nowrap}
+.how-cta:hover{background:var(--ac);color:#fff}
+.how-row{display:grid;gap:12px;grid-template-columns:1fr}
+@media (min-width:640px){.how-row{grid-template-columns:1fr 1fr}}
+@media (min-width:980px){.how-row{grid-template-columns:1.25fr 1fr 1fr 1fr}}
+.how-photo{border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  min-height:210px;position:relative;display:flex;align-items:flex-end;
+  background-size:cover;background-position:center}
+@media (min-width:640px){.how-photo{grid-column:1/-1}}
+@media (min-width:980px){.how-photo{grid-column:auto;min-height:230px}}
+.how-photo::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(180deg,rgba(14,22,16,.10),rgba(14,22,16,.74))}
+.how-photo-in{position:relative;z-index:2;padding:16px 16px 18px}
+.how-photo-in .k{font-size:11px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px}
+.how-photo-in .t{font-size:17px;font-weight:700;color:#fff;line-height:1.25;
+  text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.steps{list-style:none;counter-reset:s;display:contents}
+/* older browsers ignore display:contents, which would stack the list on its
+   own. fall back to the steps sitting in their own row of three. */
+@supports not (display:contents){
+  .steps{display:grid;gap:12px;grid-template-columns:1fr}
+  @media (min-width:640px){.steps{grid-template-columns:repeat(3,1fr);grid-column:1/-1}}
 }
-.how-in{position:relative;z-index:2;width:100%;max-width:var(--max);
-  margin:0 auto;padding:44px 20px}
-@media (min-width:820px){.how-in{display:grid;grid-template-columns:1fr 1.15fr;gap:34px;align-items:center;padding:52px 20px}}
-.how-copy h2{color:#fff;margin-bottom:8px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
-.how-copy .lede{color:rgba(255,255,255,.88);text-shadow:0 1px 8px rgba(0,0,0,.5)}
-@media (max-width:819px){.how-copy{margin-bottom:22px}}
-.steps{list-style:none;counter-reset:s;display:grid;gap:10px}
-@media (min-width:560px){.steps{grid-template-columns:repeat(3,1fr)}}
-.steps li{counter-increment:s;display:block;
-  background:rgba(255,255,255,.10);backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,.24);border-radius:12px;padding:16px 15px}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:18px 16px;display:flex;flex-direction:column}
 .steps li::before{content:counter(s);display:flex;align-items:center;justify-content:center;
-  width:26px;height:26px;border-radius:50%;margin-bottom:10px;
+  width:27px;height:27px;border-radius:50%;margin-bottom:11px;
   background:#f0c14b;color:#3a2f0b;font-size:13px;font-weight:700}
-.steps b{display:block;font-size:15px;font-weight:600;margin-bottom:4px;color:#fff}
-.steps span{font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.5}
+.steps b{display:block;font-size:15.5px;font-weight:600;margin-bottom:5px;color:var(--ink)}
+.steps span{font-size:13.5px;color:var(--sub);line-height:1.55;flex:1}
+.steps a{font-size:13px;font-weight:600;color:var(--ac);text-decoration:none;margin-top:12px}
+.steps a:hover{text-decoration:underline}
 
 /* photo mosaic: everything visible at once, a few tiles given more weight */
 .strip-wrap{margin:0 -20px;padding:28px 20px 32px;background:var(--bg2)}
@@ -696,15 +707,23 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
     </div>
   </div>
 
-  <section id="how">
-    <div class="how-bg" style="background-image:url('photos/aussie-in-the-field.jpg')">
-      <div class="how-in">
-        <div class="how-copy">
-          <h2>How it works</h2>
-          <p class="lede">No commitment until you&rsquo;ve met us.</p>
-        </div>
-        <ol class="steps" id="steps"></ol>
+  <section id="how" class="doodle-host">
+    <img class="doodle" src="ART/dog-5.png" alt="" style="width:178px;top:10px;right:14px;--r:8deg;transform:rotate(var(--r))"/>
+    <div class="how-head">
+      <div>
+        <h2>How it works</h2>
+        <p class="lede">No commitment until you&rsquo;ve met us.</p>
       </div>
+      <a class="how-cta" href="#contact">Request a booking</a>
+    </div>
+    <div class="how-row">
+      <div class="how-photo" style="background-image:url('photos/two-friends.jpg')">
+        <div class="how-photo-in">
+          <div class="k">Smithfield, NC</div>
+          <div class="t">Three steps and your dog has a place to stay</div>
+        </div>
+      </div>
+      <ol class="steps" id="steps"></ol>
     </div>
   </section>
 
@@ -919,9 +938,12 @@ const SITE = {
   aboutPhoto: "",          // e.g. "photos/dillon.jpg"
 
   howItWorks: [
-    {t:"Send a message", d:"Tell us your dates and a bit about your dog. We reply the same day."},
-    {t:"Free meet & greet", d:"We meet before anything is booked, so nothing about the first day is a surprise."},
-    {t:"Booked and updated", d:"Dates confirmed, then photos and updates through every stay."},
+    {t:"Send a message", d:"Tell us your dates and a bit about your dog. We reply the same day.",
+     link:"Start here", href:"#contact"},
+    {t:"Free meet & greet", d:"We meet before anything is booked, so nothing about the first day is a surprise.",
+     link:"Common questions", href:"#faq"},
+    {t:"Booked and updated", d:"Dates confirmed, then photos and updates through every stay.",
+     link:"See our rates", href:"#services"},
   ],
 
   policy: [
@@ -1118,7 +1140,9 @@ function render(){
     const steps=SITE.howItWorks||[];
     if(!steps.length){ document.getElementById("how").style.display="none"; }
     else stepsEl.innerHTML = steps.map(s=>
-      '<li><div><b>'+esc(s.t)+'</b><span>'+esc(s.d)+'</span></div></li>').join("");
+      '<li><b>'+esc(s.t)+'</b><span>'+esc(s.d)+'</span>'+
+      (s.link&&s.href ? '<a href="'+esc(s.href)+'">'+esc(s.link)+'</a>' : '')+
+      '</li>').join("");
   }
 
   // health & safety
