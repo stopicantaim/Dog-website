@@ -64,35 +64,40 @@ img{max-width:100%;display:block}
 .eyebrow{display:inline-block;background:var(--ac-bg);color:var(--ac2);
   font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:16px}
 h1{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
-/* photo carousel: one track that slides, so nothing fights the scroll */
-.strip-wrap{position:relative;margin:0 -20px;padding:26px 0 30px;background:var(--bg2)}
-.strip-view{overflow:hidden;max-width:calc(var(--max) + 40px);margin:0 auto;padding:0 20px}
-.hero-strip{display:flex;gap:14px;will-change:transform;
-  transition:transform .6s cubic-bezier(.22,.75,.28,1)}
-.hero-strip.dragging{transition:none}
-.hero-strip .hs{flex:0 0 100%;border-radius:14px;overflow:hidden;background:var(--card);
-  border:1px solid var(--line);cursor:zoom-in;position:relative;aspect-ratio:4/3;
-  opacity:.55;transform:scale(.96);
-  transition:opacity .5s ease,transform .5s cubic-bezier(.22,.75,.28,1)}
-.hero-strip .hs.live{opacity:1;transform:scale(1)}
-@media (min-width:700px){.hero-strip .hs{flex-basis:calc((100% - 14px)/2)}}
-@media (min-width:1000px){.hero-strip .hs{flex-basis:calc((100% - 28px)/3)}}
-.hero-strip .hs img{width:100%;height:100%;object-fit:cover;display:block;
-  -webkit-user-drag:none;user-select:none;pointer-events:none}
-.strip-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;
-  width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
-  background:rgba(255,253,247,.92);color:var(--ink);cursor:pointer;
-  display:none;align-items:center;justify-content:center;font-size:19px;line-height:1;
-  box-shadow:0 2px 10px rgba(0,0,0,.12)}
-@media (min-width:700px){.strip-nav{display:flex}}
-.strip-nav.prev{left:8px}
-.strip-nav.next{right:8px}
-.strip-nav:disabled{opacity:.35;cursor:default}
-.strip-dots{display:flex;justify-content:center;gap:7px;margin-top:18px}
-.strip-dots button{width:7px;height:7px;padding:0;border-radius:50%;border:none;
-  background:var(--line2);cursor:pointer;transition:background .25s,width .25s}
-.strip-dots button.on{background:var(--ac);width:22px;border-radius:4px}
-.strip-dots.counter{font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums}
+/* photo mosaic: everything visible at once, a few tiles given more weight */
+.strip-wrap{margin:0 -20px;padding:28px 20px 32px;background:var(--bg2)}
+.mosaic{display:grid;gap:8px;max-width:var(--max);margin:0 auto;
+  grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr}
+@media (min-width:640px){.mosaic{grid-template-columns:repeat(3,1fr);gap:10px}}
+@media (min-width:1000px){.mosaic{grid-template-columns:repeat(4,1fr);gap:11px}}
+.ms{position:relative;overflow:hidden;border-radius:12px;background:var(--card);
+  border:1px solid var(--line);aspect-ratio:1;cursor:zoom-in}
+/* the strongest shots get a bigger tile so the grid isn't a flat wall */
+.ms.big{grid-column:span 2;grid-row:span 2}
+@media (max-width:639px){
+  /* on a phone a 2x2 tile would fill the screen, so only the first is large */
+  .ms.big{grid-column:span 2;grid-row:span 1;aspect-ratio:16/11}
+  .ms.big ~ .ms.big{grid-column:span 1;grid-row:span 1;aspect-ratio:1}
+}
+.ms img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .55s cubic-bezier(.2,.7,.3,1)}
+/* older browsers ignore aspect-ratio, which would collapse every tile to
+   nothing. fall back to the padding trick so the grid still has shape. */
+@supports not (aspect-ratio: 1 / 1){
+  .ms{height:0;padding-bottom:100%}
+  .ms.big{padding-bottom:100%}
+  .ms img{position:absolute;top:0;left:0}
+}
+@media (hover:hover){.ms:hover img{transform:scale(1.06)}}
+.ms:active img{transform:scale(1.02)}
+/* everything past the first dozen stays folded away until asked for */
+.ms.extra{display:none}
+.mosaic.all .ms.extra{display:block}
+.mosaic-more{display:flex;justify-content:center;margin-top:16px}
+.mosaic-more button{background:#fff;border:1px solid var(--line2);border-radius:10px;
+  padding:11px 20px;font-size:14px;font-weight:600;color:var(--ink);
+  cursor:pointer;font-family:inherit}
+.mosaic-more button:hover{border-color:var(--ac);color:var(--ac)}
 .hero p{font-size:16px;color:var(--sub);max-width:460px;margin:0 auto 20px}
 .btn{display:block;width:100%;background:var(--ac);color:#fff;border:1px solid var(--ac);
   border-radius:10px;font-size:16px;font-weight:600;padding:14px;cursor:pointer;
@@ -490,12 +495,6 @@ footer a{color:var(--ac);text-decoration:none}
   .hero h1{animation:fadeUp .6s .13s both cubic-bezier(.2,.7,.3,1)}
   .hero > p{animation:fadeUp .6s .22s both cubic-bezier(.2,.7,.3,1)}
   .hero .btn-row{animation:fadeUp .6s .3s both cubic-bezier(.2,.7,.3,1)}
-  .hero-strip .hs{animation:photoIn .7s both cubic-bezier(.2,.7,.3,1)}
-  .hero-strip .hs:nth-child(1){animation-delay:.34s}
-  .hero-strip .hs:nth-child(2){animation-delay:.42s}
-  .hero-strip .hs:nth-child(3){animation-delay:.50s}
-  .hero-strip .hs:nth-child(4){animation-delay:.58s}
-  .hero-strip .hs:nth-child(5){animation-delay:.66s}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes photoIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
 
@@ -671,12 +670,10 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
   </div>
 
   <div class="strip-wrap">
-    <div class="strip-view" id="strip-view">
-      <div class="hero-strip" id="hero-strip"></div>
+    <div class="mosaic" id="mosaic"></div>
+    <div class="mosaic-more" id="mosaic-more" hidden>
+      <button type="button" id="mosaic-btn">Show all photos</button>
     </div>
-    <button class="strip-nav prev" id="strip-prev" type="button" aria-label="Previous photo">&lsaquo;</button>
-    <button class="strip-nav next" id="strip-next" type="button" aria-label="Next photo">&rsaquo;</button>
-    <div class="strip-dots" id="strip-dots"></div>
   </div>
 
   <section id="how" class="doodle-host">
@@ -1122,20 +1119,33 @@ function render(){
     ai.classList.add("has-photo");
   }
 
-  // one photo list, shown in the carousel
+  // one photo list, laid out as a mosaic
   const photos = SITE.photos||[];
-  const hs=$("hero-strip");
-  if(hs){
-    const wrap=hs.closest(".strip-wrap");
+  const grid=$("mosaic");
+  if(grid){
+    const wrap=grid.closest(".strip-wrap");
     if(!photos.length){ if(wrap) wrap.style.display="none"; }
     else{
-      hs.innerHTML=photos.map((src,i)=>
-        '<div class="hs" data-hero="'+i+'"><img src="'+esc(src)+'" '+
-        'alt="A dog in our care" '+(i<3?'':'loading="lazy"')+'/></div>').join("");
-      hs.querySelectorAll("[data-hero]").forEach(el=>el.addEventListener("click",()=>{
-        openLightbox(+el.dataset.hero);
-      }));
-      initStrip(hs, photos.length);
+      const FIRST=12;           // shown up front, the rest sit behind the button
+      const BIG=new Set([0,5]); // a couple of tiles get double width and height
+      grid.innerHTML=photos.map(function(src,i){
+        const cls="ms"+(BIG.has(i)?" big":"")+(i>=FIRST?" extra":"");
+        return '<div class="'+cls+'" data-i="'+i+'">'+
+               '<img src="'+esc(src)+'" alt="A dog in our care" '+
+               (i<6?'':'loading="lazy"')+'/></div>';
+      }).join("");
+      [].slice.call(grid.querySelectorAll("[data-i]")).forEach(function(el){
+        el.addEventListener("click",function(){ openLightbox(+el.dataset.i); });
+      });
+      const more=$("mosaic-more"), btn=$("mosaic-btn");
+      if(photos.length>FIRST && more && btn){
+        more.hidden=false;
+        btn.textContent="Show all "+photos.length+" photos";
+        btn.addEventListener("click",function(){
+          grid.classList.add("all");
+          more.hidden=true;
+        });
+      }
     }
   }
 
@@ -1729,117 +1739,6 @@ $("e-book").addEventListener("click",()=>{
   const s=(SITE.services||[])[+$("e-svc").value];
   if(s && $("f-svc")) $("f-svc").value=s.name;
 });
-
-// ── photo carousel ─────────────────────────────────────────────────────
-// One flex track moved with transform. Nothing scrolls, so the auto advance
-// and a person's own swipe never fight each other.
-function initStrip(hs, count){
-  const dots=$("strip-dots"), prev=$("strip-prev"), next=$("strip-next");
-  const tiles=[...hs.querySelectorAll(".hs")];
-  if(!tiles.length) return;
-
-  const perView=()=>{
-    const w=window.innerWidth;
-    return w>=1000 ? 3 : (w>=700 ? 2 : 1);
-  };
-  const maxIndex=()=>Math.max(0, count-perView());
-
-  let idx=0, timer=null, paused=false;
-
-  const paint=()=>{
-    const step=tiles[0].getBoundingClientRect().width+14;   // tile + gap
-    hs.style.transform="translateX("+(-idx*step)+"px)";
-    // the tiles currently in view get full weight, the rest sit back
-    tiles.forEach((t,i)=>t.classList.toggle("live", i>=idx && i<idx+perView()));
-    if(dots){
-      if(useCounter){
-        const c=$("strip-count");
-        if(c) c.textContent=(idx+1)+" / "+(maxIndex()+1);
-      }else{
-        [...dots.children].forEach((b,i)=>b.classList.toggle("on", i===idx));
-      }
-    }
-    if(prev) prev.disabled = idx<=0;
-    if(next) next.disabled = idx>=maxIndex();
-  };
-  const goTo=n=>{ idx=Math.max(0,Math.min(maxIndex(), n)); paint(); };
-  const advance=()=>goTo(idx>=maxIndex() ? 0 : idx+1);
-
-  // one dot per stopping point, not per photo, since a wide screen shows several.
-  // past eight stops a row of dots turns to mush, so show a count instead.
-  const DOT_LIMIT=8;
-  let useCounter=false;
-  function buildDots(){
-    if(!dots) return;
-    const stops=maxIndex()+1;
-    if(stops<2){ dots.style.display="none"; dots.innerHTML=""; return; }
-    dots.style.display="flex";
-    useCounter = stops>DOT_LIMIT;
-    if(useCounter){
-      dots.classList.add("counter");
-      dots.innerHTML='<span id="strip-count"></span>';
-    }else{
-      dots.classList.remove("counter");
-      dots.innerHTML=Array.from({length:stops},(_,i)=>
-        '<button type="button" aria-label="Photo group '+(i+1)+'"></button>').join("");
-      [...dots.children].forEach((b,i)=>b.addEventListener("click",()=>{ goTo(i); restart(); }));
-    }
-  }
-  buildDots();
-  if(prev) prev.addEventListener("click",()=>{ goTo(idx-1); restart(); });
-  if(next) next.addEventListener("click",()=>{ goTo(idx+1); restart(); });
-
-  // drag to swipe, on touch and with a mouse
-  let startX=0, dragX=0, dragging=false, moved=false;
-  const down=e=>{
-    dragging=true; moved=false;
-    startX=(e.touches?e.touches[0].clientX:e.clientX); dragX=0;
-    hs.classList.add("dragging"); stop();
-  };
-  const move=e=>{
-    if(!dragging) return;
-    dragX=(e.touches?e.touches[0].clientX:e.clientX)-startX;
-    if(Math.abs(dragX)>6) moved=true;
-    const step=tiles[0].getBoundingClientRect().width+14;
-    hs.style.transform="translateX("+(-idx*step+dragX)+"px)";
-  };
-  const up=()=>{
-    if(!dragging) return;
-    dragging=false; hs.classList.remove("dragging");
-    const step=tiles[0].getBoundingClientRect().width+14;
-    if(Math.abs(dragX)>step*0.2) goTo(idx + (dragX<0?1:-1)); else paint();
-    restart();
-  };
-  hs.addEventListener("touchstart",down,{passive:true});
-  hs.addEventListener("touchmove",move,{passive:true});
-  hs.addEventListener("touchend",up);
-  hs.addEventListener("mousedown",e=>{ e.preventDefault(); down(e); });
-  window.addEventListener("mousemove",move);
-  window.addEventListener("mouseup",up);
-  // a drag shouldn't also count as a click into the lightbox
-  hs.addEventListener("click",e=>{ if(moved){ e.stopPropagation(); e.preventDefault(); } },true);
-
-  const reduce=(typeof matchMedia==="function")
-    && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function stop(){ clearInterval(timer); timer=null; }
-  function restart(){
-    stop();
-    if(reduce || paused || count<2) return;
-    timer=setInterval(()=>{ if(!document.hidden) advance(); }, 5000);
-  }
-  ["mouseenter","focusin"].forEach(e=>hs.addEventListener(e,()=>{ paused=true; stop(); }));
-  ["mouseleave","focusout"].forEach(e=>hs.addEventListener(e,()=>{ paused=false; restart(); }));
-  document.addEventListener("visibilitychange",()=>{ if(!document.hidden) restart(); });
-
-  // the number of stops changes with the screen width, so rebuild on resize
-  let rt=null;
-  window.addEventListener("resize",()=>{
-    clearTimeout(rt);
-    rt=setTimeout(()=>{ buildDots(); goTo(idx); },140);
-  });
-
-  paint(); restart();
-}
 
 // ── photo lightbox ─────────────────────────────────────────────────────
 let lbIdx=0;
