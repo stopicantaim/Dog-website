@@ -593,6 +593,24 @@ section>*,.hero>*{max-width:var(--max);margin-left:auto;margin-right:auto}
 .trust svg{stroke:var(--ac)}
 .stars{color:#c99a1f}
 </style>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2278204926271393');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -1402,6 +1420,10 @@ function submitRequest(){
   .then(()=>{
     clearTimeout(timer);
     delivered=true;              // it reached them, whatever happens next
+    // tell Meta a real booking request happened, not just a page view
+    if(typeof fbq==="function"){
+      try{ fbq('track','Lead'); }catch(e){ console.error("Pixel Lead event error:",e); }
+    }
     try{ showSent(); }catch(e){ console.error("Confirmation display error:",e); }
   })
   .catch(err=>{
