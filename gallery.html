@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Photos | Dillon's Pet Care</title>
+<meta name="description" content="Photos of dogs in our care — Dillon's Pet Care, Smithfield, NC."/>
+<link rel="icon" href="favicon.ico"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f6f4ec;--card:#fffdf7;--line:#ddd6c4;--ink:#1d2a20;--sub:#5f6b60;--ac:#2f5d3a;--max:1080px;
+}
+body{background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,sans-serif;
+  font-size:16px;line-height:1.6}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+img{max-width:100%;display:block}
+.top{padding:18px 0;border-bottom:1px solid var(--line);background:var(--card)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.back{color:var(--ac);text-decoration:none;font-weight:600;font-size:15px}
+.back:hover{text-decoration:underline}
+h1{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);padding:24px 0 40px}
+@media (min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:960px){.grid{grid-template-columns:repeat(4,1fr)}}
+.ph{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);
+  aspect-ratio:1;cursor:zoom-in;background:var(--card)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+/* older browsers ignore aspect-ratio; fall back to padding trick */
+@supports not (aspect-ratio: 1 / 1){
+  .ph{height:0;padding-bottom:100%}
+  .ph img{position:absolute;top:0;left:0}
+}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(8,11,16,.95);display:none;
+  align-items:center;justify-content:center;padding:20px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:82vh;border-radius:8px;object-fit:contain}
+.lb-x{position:absolute;top:calc(14px + env(safe-area-inset-top));right:16px;
+  background:rgba(255,255,255,.14);border:none;color:#fff;font-size:26px;line-height:1;
+  width:44px;height:44px;border-radius:50%;cursor:pointer}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);
+  border:none;color:#fff;font-size:32px;line-height:1;width:48px;height:48px;
+  border-radius:50%;cursor:pointer}
+.lb-nav.prev{left:12px}.lb-nav.next{right:12px}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <h1>Photos</h1>
+  <a class="back" href="index.html">&larr; Back to Dillon's Pet Care</a>
+</div></div>
+
+<div class="wrap">
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="lb" id="lb">
+  <button class="lb-x" id="lb-x" aria-label="Close">&times;</button>
+  <img id="lb-img" alt=""/>
+  <button class="lb-nav prev" id="lb-prev" aria-label="Previous photo">&lsaquo;</button>
+  <button class="lb-nav next" id="lb-next" aria-label="Next photo">&rsaquo;</button>
+</div>
+
+<script>
+// keep this list in sync with the photos array in index.html
+const PHOTOS = [
+  "photos/morning-walk-in-the-fog.jpg",
+  "photos/settled-by-the-fire.jpg",
+  "photos/collie-close-up.jpg",
+  "photos/two-friends.jpg",
+  "photos/aussie-in-the-field.jpg",
+  "photos/group-play-yard.jpg",
+  "photos/hello-at-the-fence.jpg",
+  "photos/pool-day.jpg",
+  "photos/puppy-on-the-deck.jpg",
+  "photos/fenced-yard-play.jpg",
+  "photos/walk-time.jpg",
+  "photos/settled-indoors.jpg",
+  "photos/soccer-in-the-sun.jpg",
+  "photos/fetch-at-the-park.jpg",
+  "photos/toy-collection.jpg",
+  "photos/shepherd-in-the-yard.jpg",
+  "photos/poodle-in-the-sun.jpg",
+];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function describe(src){
+  const base=(src.split("/").pop()||"").replace(/\.[a-z0-9]+$/i,"");
+  const words=base.replace(/[-_]+/g," ").trim();
+  return words ? words.charAt(0).toUpperCase()+words.slice(1) : "";
+}
+
+const grid=$("grid");
+grid.innerHTML = PHOTOS.map((src,i)=>
+  '<div class="ph" data-i="'+i+'"><img src="'+esc(src)+'" alt="'+esc(describe(src))+'" loading="lazy"/></div>'
+).join("");
+grid.querySelectorAll("[data-i]").forEach(el=>{
+  el.addEventListener("click",()=>openLightbox(+el.dataset.i));
+});
+
+let idx=0;
+function openLightbox(i){
+  if(!PHOTOS.length) return;
+  idx=(i+PHOTOS.length)%PHOTOS.length;
+  $("lb-img").src=PHOTOS[idx];
+  $("lb").classList.add("on");
+  document.body.style.overflow="hidden";
+}
+function closeLightbox(){
+  $("lb").classList.remove("on");
+  document.body.style.overflow="";
+}
+$("lb-x").addEventListener("click",closeLightbox);
+$("lb").addEventListener("click",e=>{ if(e.target===$("lb")) closeLightbox(); });
+$("lb-prev").addEventListener("click",e=>{e.stopPropagation();openLightbox(idx-1)});
+$("lb-next").addEventListener("click",e=>{e.stopPropagation();openLightbox(idx+1)});
+addEventListener("keydown",e=>{
+  if(!$("lb").classList.contains("on")) return;
+  if(e.key==="Escape") closeLightbox();
+  if(e.key==="ArrowLeft") openLightbox(idx-1);
+  if(e.key==="ArrowRight") openLightbox(idx+1);
+});
+</script>
+</body>
+</html>

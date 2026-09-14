@@ -3,23 +3,23 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>Dillon's Pet Care</title>
-<meta name="description" content="Dog boarding, house sitting, drop-in visits and walks in Smithfield, Selma, Clayton, Four Oaks and Johnston County, NC. Book directly."/>
+<title>Dillon's Pet Care | Dog Sitter &amp; Boarding in Smithfield, NC</title>
+<meta name="description" content="Local dog sitter in Smithfield, NC. Boarding, house sitting, drop-in visits and walks in Smithfield, Selma, Clayton, Four Oaks and Johnston County. Book directly, no app fees."/>
 <meta name="theme-color" content="#2f5d3a"/>
 <link rel="icon" href="favicon.ico"/>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 
 <!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
-<meta property="og:title" content="Dillon's Pet Care, Smithfield, NC"/>
-<meta property="og:description" content="Boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
+<meta property="og:title" content="Dillon's Pet Care | Dog Sitter in Smithfield, NC"/>
+<meta property="og:description" content="Local dog sitter for boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
 <meta property="og:type" content="website"/>
 <meta property="og:image" content="photos/social-preview.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Dillon's Pet Care, Smithfield, NC"/>
-<meta name="twitter:description" content="Boarding, house sitting, drop-in visits and walks."/>
+<meta name="twitter:title" content="Dillon's Pet Care | Dog Sitter in Smithfield, NC"/>
+<meta name="twitter:description" content="Local dog sitter: boarding, house sitting, drop-in visits and walks."/>
 <meta name="twitter:image" content="photos/social-preview.jpg"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -305,8 +305,6 @@ body.no-tel a[href^="tel:"]{cursor:copy}
 .banner .eyebrow.eyebrow-on-v{background:rgba(255,255,255,.18);color:#fff;
   backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.32)}
 .banner-alt{background:rgba(255,255,255,.94);border-color:transparent;color:var(--ink)}
-@media (prefers-reduced-motion:reduce){.banner-v{display:none}
-  .banner{background:var(--ink) url('photos/two-friends.jpg') center 42%/cover}}
 
 
 /* reviews */
@@ -514,27 +512,8 @@ footer a{color:var(--ac);text-decoration:none}
 }
 
 /* ═══ MOTION ═══ */
-@media (prefers-reduced-motion: no-preference){
-
-  /* things fade up as they come into view */
-  .reveal{opacity:0;transform:translateY(18px);
-    transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
-  .reveal.shown{opacity:1;transform:none}
-
-  /* hero pieces arrive in sequence on load */
-  .hero .eyebrow{animation:fadeUp .55s .05s both cubic-bezier(.2,.7,.3,1)}
-  .hero h1{animation:fadeUp .6s .13s both cubic-bezier(.2,.7,.3,1)}
-  .hero > p{animation:fadeUp .6s .22s both cubic-bezier(.2,.7,.3,1)}
-  .hero .btn-row{animation:fadeUp .6s .3s both cubic-bezier(.2,.7,.3,1)}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  @keyframes photoIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
-
-  /* gallery tiles stagger in */
-
-  /* availability banner gives one quiet pulse when it appears */
-  .avail.shown svg{animation:tick 2.4s 1.2s ease-in-out 2}
-  @keyframes tick{0%,100%{transform:none}12%{transform:scale(1.18)}24%{transform:none}}
-}
+/* Entrance animations removed — content appears immediately, no fading or
+   movement, for the simplest possible first impression. */
 
 /* hover / press behaviour, these are fine even with reduced motion */
 @media (hover:hover){
@@ -639,8 +618,7 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
 
   <header class="hero doodle-host">
     <div class="banner" id="banner">
-      <video class="banner-v" id="banner-v" muted playsinline autoplay preload="none"
-             poster="photos/two-friends.jpg" aria-hidden="true" tabindex="-1"></video>
+      <img class="banner-v" id="banner-v" src="photos/dillon.jpg" alt="Dillon with a dog in Smithfield, NC"/>
       <div class="banner-scrim"></div>
       <div class="banner-in">
         <div class="eyebrow eyebrow-on-v" id="hero-area"></div>
@@ -658,6 +636,13 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
     <img class="doodle" src="ART/dog-1.png" alt="" style="width:170px;top:10px;right:14px;--r:-5deg;transform:rotate(var(--r))"/>
     <h2>Request a booking</h2>
     <p class="lede">Tell us the dates and we&rsquo;ll get back to you the same day.</p>
+    <div class="rating-line" id="rating-line" style="font-size:13px;color:var(--sub);display:flex;align-items:center;gap:6px;margin:-10px 0 16px"></div>
+    <div class="trust" style="justify-content:flex-start;margin-top:0 0 18px">
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t1"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t2"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t3"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t4"></span></span>
+    </div>
     <div class="contact-grid">
     <div id="contact-form">
     <div class="field"><label for="f-name">Your name</label>
@@ -814,11 +799,8 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
     <span id="avail-text"></span>
   </div>
 
-  <div class="strip-wrap">
-    <div class="mosaic" id="mosaic"></div>
-    <div class="mosaic-more" id="mosaic-more" hidden>
-      <button type="button" id="mosaic-btn">Show all photos</button>
-    </div>
+  <div class="wrap" style="text-align:center;padding:20px 0">
+    <a href="gallery.html" class="btn alt" style="display:inline-block;width:auto;padding:13px 26px">See more photos</a>
   </div>
 
   <section id="how" class="doodle-host">
@@ -887,11 +869,6 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<div class="lb" id="lb"><button class="lb-x" id="lb-x">&times;</button>
-  <img id="lb-img" alt=""/>
-  <button class="lb-nav prev" id="lb-prev">&lsaquo;</button>
-  <button class="lb-nav next" id="lb-next">&rsaquo;</button>
-</div>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
@@ -922,7 +899,7 @@ const SITE = {
 
   // The three ticks under the buttons.
   // Only put things here that are true, people rely on these.
-  trust: ["Someone home most of the day", "Free meet & greet first", "A home, not a kennel"],
+  trust: ["Someone home most of the day", "Free meet & greet first", "A home, not a kennel", "Insured & bonded"],
 
   services: [
     {name:"Overnight boarding", unit:"per night",  price:50,
@@ -1001,19 +978,6 @@ const SITE = {
     "photos/poodle-in-the-sun.jpg",
   ],
 
-  // Clips that play behind the headline at the top of the page.
-  // They play one after another, muted, and loop back to the first.
-  // Only the first one loads up front, the rest load as they are needed.
-  bannerClips: [
-    {src:"videos/hero.mp4",  poster:"photos/two-friends.jpg"},
-    {src:"videos/frisbee.mp4", poster:"videos/frisbee.jpg"},
-    {src:"videos/walk.mp4",  poster:"videos/walk.jpg"},
-    {src:"videos/play.mp4",  poster:"videos/play.jpg"},
-    {src:"videos/run.mp4",   poster:"videos/run.jpg"},
-    {src:"videos/ball.mp4",  poster:"videos/ball.jpg"},
-    {src:"videos/fetch.mp4", poster:"videos/fetch.jpg"},
-  ],
-
 
   // All real, from verified Rover stays. Add more as they come in.
   reviews: [
@@ -1073,7 +1037,7 @@ const money = n => "$"+(+n||0);
 
 function render(){
   // identity
-  document.title = SITE.name + ", Smithfield, NC";
+  document.title = SITE.name + " | Dog Sitter & Boarding in Smithfield, NC";
   $("nav-name").textContent = SITE.name;
   $("foot-name").textContent = SITE.name;
   $("hero-h1").textContent = SITE.headline;
@@ -1089,9 +1053,21 @@ function render(){
   window.addEventListener("resize",()=>{ clearTimeout(areaRt); areaRt=setTimeout(setArea,150); });
   $("foot-area").textContent = SITE.area;
 
-  (SITE.trust||[]).slice(0,3).forEach((t,i)=>{
+  (SITE.trust||[]).slice(0,4).forEach((t,i)=>{
     const el=$("t"+(i+1)); if(el) el.textContent=t;
   });
+
+  // rating summary, computed from the real review data below rather than hardcoded
+  const ratingEl=$("rating-line");
+  if(ratingEl){
+    const revs=SITE.reviews||[];
+    if(revs.length){
+      const avg=revs.reduce((s,r)=>s+(r.stars||5),0)/revs.length;
+      ratingEl.innerHTML='<span style="color:#c99a1f;letter-spacing:1px">'+
+        "★".repeat(Math.round(avg))+'</span> '+
+        avg.toFixed(1)+' from '+revs.length+' verified review'+(revs.length===1?"":"s");
+    } else { ratingEl.style.display="none"; }
+  }
 
   // contact links, the buttons ring the first person listed
   const tel = digits(primaryPhone());
@@ -1203,43 +1179,6 @@ function render(){
     ai.classList.add("has-photo");
   }
 
-  // one photo list, laid out as a mosaic
-  const photos = SITE.photos||[];
-  const grid=$("mosaic");
-  if(grid){
-    const wrap=grid.closest(".strip-wrap");
-    if(!photos.length){ if(wrap) wrap.style.display="none"; }
-    else{
-      const FIRST=12;           // shown up front, the rest sit behind the button
-      const BIG=new Set([0,5]); // a couple of tiles get double width and height
-      // describe each photo from its filename rather than repeating the same
-      // line 18 times, which helps screen readers and search alike
-      const describe = src => {
-        const base=(src.split("/").pop()||"").replace(/\.[a-z0-9]+$/i,"");
-        const words=base.replace(/[-_]+/g," ").trim();
-        return words ? words.charAt(0).toUpperCase()+words.slice(1) : "";
-      };
-      grid.innerHTML=photos.map(function(src,i){
-        const cls="ms"+(BIG.has(i)?" big":"")+(i>=FIRST?" extra":"");
-        return '<div class="'+cls+'" data-i="'+i+'">'+
-               '<img src="'+esc(src)+'" alt="'+esc(describe(src))+'" '+
-               (i<6?'':'loading="lazy"')+'/></div>';
-      }).join("");
-      [].slice.call(grid.querySelectorAll("[data-i]")).forEach(function(el){
-        el.addEventListener("click",function(){ openLightbox(+el.dataset.i); });
-      });
-      const more=$("mosaic-more"), btn=$("mosaic-btn");
-      if(photos.length>FIRST && more && btn){
-        more.hidden=false;
-        btn.textContent="Show all "+photos.length+" photos";
-        btn.addEventListener("click",function(){
-          grid.classList.add("all");
-          more.hidden=true;
-        });
-      }
-    }
-  }
-
   // reviews
   $("rev-list").innerHTML = (SITE.reviews||[]).map(r=>
     '<div class="rev"><div class="stars">'+"★".repeat(Math.max(1,Math.min(5,r.stars||5)))+'</div>'+
@@ -1257,46 +1196,6 @@ function render(){
 }
 
 // ── booking request → prefilled text or email ─────────────────────────
-// The banner clips are decorative. They only load once the page is usable,
-// and never on reduced-motion or data-saver, where the poster image stands in.
-function initBanner(){
-  const v=$("banner-v"); if(!v) return;
-  const clips=(SITE.bannerClips||[]).filter(c=>c && c.src);
-  if(!clips.length){ v.remove(); return; }
-
-  if(clips[0].poster) v.setAttribute("poster",clips[0].poster);
-
-  const reduce = (typeof matchMedia==="function")
-    && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const conn = navigator.connection || navigator.webkitConnection;
-  const saveData = !!(conn && (conn.saveData || /2g/i.test(conn.effectiveType||"")));
-  if(reduce || saveData){ v.remove(); return; }
-
-  let i=0;
-  const playAt=n=>{
-    i = n % clips.length;
-    v.src = clips[i].src;
-    v.load();
-    const p=v.play();
-    // if the browser blocks autoplay we just keep the poster frame
-    if(p && typeof p.catch==="function") p.catch(()=>{});
-  };
-
-  // move to the next clip when one finishes, wrapping back to the start
-  v.addEventListener("ended",()=>playAt(i+1));
-  // a broken or missing file shouldn't stall the banner on a black frame
-  v.addEventListener("error",()=>{ if(clips.length>1) playAt(i+1); });
-
-  const start=()=>playAt(0);
-  if(document.readyState==="complete") start();
-  else window.addEventListener("load",start,{once:true});
-
-  // don't keep decoding video while the tab is in the background
-  document.addEventListener("visibilitychange",()=>{
-    if(!v.src) return;
-    if(document.hidden) v.pause(); else v.play().catch(()=>{});
-  });
-}
 
 function initNav(){
   const b=$("nav-burger"), l=$("nav-links");
@@ -1544,6 +1443,60 @@ function wireForm(){
       document.body.removeChild(t);
     }
   });
+}
+
+
+// ── structured data for Google (LocalBusiness + reviews) ────────────────
+// built from the same SITE data everything else on the page uses, so it
+// never drifts out of sync with what's actually shown to visitors
+function buildStructuredData(){
+  const revs=SITE.reviews||[];
+  const avg=revs.length ? revs.reduce((s,r)=>s+(r.stars||5),0)/revs.length : null;
+  const prices=(SITE.services||[]).map(s=>s.price).filter(n=>typeof n==="number");
+  const tel=digits(primaryPhone());
+
+  const data={
+    "@context":"https://schema.org",
+    "@type":"LocalBusiness",
+    "name":SITE.name,
+    "description":"Local dog sitter offering boarding, house sitting, drop-in visits and walks.",
+    "url":location.origin+location.pathname,
+    "telephone":tel?("+1"+tel):undefined,
+    "email":SITE.email||undefined,
+    "address":{
+      "@type":"PostalAddress",
+      "addressLocality":"Smithfield",
+      "addressRegion":"NC",
+      "addressCountry":"US"
+    },
+    "areaServed":(SITE.area||"").split(/,| & /).map(s=>s.trim()).filter(Boolean),
+    "priceRange":prices.length ? ("$"+Math.min(...prices)+"-$"+Math.max(...prices)) : undefined,
+  };
+  if(avg!==null){
+    data.aggregateRating={
+      "@type":"AggregateRating",
+      "ratingValue":avg.toFixed(1),
+      "reviewCount":revs.length,
+      "bestRating":"5"
+    };
+    data.review=revs.map(r=>({
+      "@type":"Review",
+      "author":{"@type":"Person","name":r.who||"Client"},
+      "reviewRating":{"@type":"Rating","ratingValue":r.stars||5,"bestRating":"5"},
+      "reviewBody":r.text
+    }));
+  }
+  // drop undefined keys so the JSON stays clean
+  Object.keys(data).forEach(k=>{ if(data[k]===undefined) delete data[k]; });
+
+  let tag=document.getElementById("ld-json");
+  if(!tag){
+    tag=document.createElement("script");
+    tag.type="application/ld+json";
+    tag.id="ld-json";
+    document.head.appendChild(tag);
+  }
+  tag.textContent=JSON.stringify(data);
 }
 
 
@@ -1835,112 +1788,20 @@ $("e-book").addEventListener("click",()=>{
   if(s && $("f-svc")) $("f-svc").value=s.name;
 });
 
-// ── photo lightbox ─────────────────────────────────────────────────────
-let lbIdx=0;
-function openLightbox(i){
-  const photos=SITE.photos||[];
-  if(!photos.length) return;
-  lbIdx=(i+photos.length)%photos.length;
-  $("lb-img").src=photos[lbIdx];
-  $("lb").classList.add("on");
-  document.body.style.overflow="hidden";
-  const multi=photos.length>1;
-  $("lb-prev").style.display=multi?"":"none";
-  $("lb-next").style.display=multi?"":"none";
-}
-function closeLightbox(){
-  $("lb").classList.remove("on");
-  document.body.style.overflow="";
-}
-$("lb-x").addEventListener("click",closeLightbox);
-$("lb").addEventListener("click",e=>{ if(e.target===$("lb")) closeLightbox(); });
-$("lb-prev").addEventListener("click",e=>{e.stopPropagation();openLightbox(lbIdx-1)});
-$("lb-next").addEventListener("click",e=>{e.stopPropagation();openLightbox(lbIdx+1)});
-addEventListener("keydown",e=>{
-  if(!$("lb").classList.contains("on")) return;
-  if(e.key==="Escape") closeLightbox();
-  if(e.key==="ArrowLeft") openLightbox(lbIdx-1);
-  if(e.key==="ArrowRight") openLightbox(lbIdx+1);
-});
-// swipe between photos
-(function(){
-  let x0=null;
-  const lb=$("lb");
-  lb.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
-  lb.addEventListener("touchend",e=>{
-    if(x0===null) return;
-    const dx=e.changedTouches[0].clientX-x0;
-    if(Math.abs(dx)>50) openLightbox(lbIdx+(dx<0?1:-1));
-    x0=null;
-  },{passive:true});
-})();
-
 
 // ── reveal on scroll ───────────────────────────────────────────────────
 function initMotion(){
-  const reduce = (typeof matchMedia==="function")
-    ? matchMedia("(prefers-reduced-motion: reduce)").matches : false;
-
-  // mark the blocks that should fade in
-  const targets = document.querySelectorAll(
-    "section h2, .lede, .svc, .rev, .faq, .about, .note, .est-toggle, " +
-    "#contact .field, #contact .btn, .contact-side, .avail, .trust span");
-  targets.forEach(el=>el.classList.add("reveal"));
-
-  if(reduce || !("IntersectionObserver" in window)){
-    // no animation wanted or supported, just show everything
-    document.querySelectorAll(".reveal").forEach(el=>el.classList.add("shown"));
-    return;
-  }
-
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(!e.isIntersecting) return;
-      e.target.classList.add("shown");
-      io.unobserve(e.target);
-    });
-  }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
-
-  targets.forEach((el,i)=>{
-    el.style.transitionDelay = Math.min(i%6,5)*40 + "ms";
-    io.observe(el);
-  });
-
-
-  // Safety net. An element sitting behind the sticky bar, or inside a
-  // container that scrolled past in one jump, can miss its trigger, and a
-  // permanently invisible section is far worse than an un-animated one.
-  function showStragglers(){
-    const vh = innerHeight;
-    document.querySelectorAll(".reveal:not(.shown)").forEach(el=>{
-      const r = el.getBoundingClientRect();
-      if(r.top < vh + 80) el.classList.add("shown");
-    });
-  }
-  addEventListener("scroll", showStragglers, {passive:true});
-  addEventListener("resize", showStragglers);
-  setTimeout(showStragglers, 1200);
-  // and once the page has settled, never leave anything hidden
-  setTimeout(()=>document.querySelectorAll(".reveal:not(.shown)").forEach(el=>{
-    const r=el.getBoundingClientRect();
-    if(r.top < document.documentElement.scrollHeight) el.classList.add("shown");
-  }), 4000);
+  // Entrance/scroll animations were removed for a simpler first-run
+  // experience — everything is visible immediately, nothing to wire up.
 }
 
-// ── nav shadow + sticky bar hides while scrolling down ─────────────────
+// ── nav shadow on scroll (the sticky bar now always stays visible) ─────
 function initScrollChrome(){
   const nav=document.querySelector(".nav");
-  const bar=document.querySelector(".bar");
   let last=window.scrollY, ticking=false;
   function onScroll(){
     const y=window.scrollY;
     if(nav) nav.classList.toggle("stuck", y>8);
-    if(bar){
-      const down = y > last + 4;
-      const up   = y < last - 4;
-      if(down && y>240) bar.classList.add("hide");
-      else if(up) bar.classList.remove("hide");
-    }
     last=y; ticking=false;
   }
   addEventListener("scroll", ()=>{
@@ -1951,12 +1812,12 @@ function initScrollChrome(){
 
 try{ render(); wireForm(); renderAvailability(); renderEstimator(); }
 catch(e){ console.error("Site error:",e); }
+try{ buildStructuredData(); }
+catch(e){ console.error("Structured data error:",e); }
 // contact handling is the most important thing on the page, so it gets its
 // own try block. Decorative code failing must never take the phone links with it.
 try{ wireDesktopPhones(); }
 catch(e){ console.error("Contact wiring error:",e); }
-try{ initBanner(); }
-catch(e){ console.error("Banner error:",e); }
 try{ initNav(); }
 catch(e){ console.error("Nav error:",e); }
 try{ initMotion(); initScrollChrome(); }
