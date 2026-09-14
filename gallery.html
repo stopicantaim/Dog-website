@@ -6,6 +6,8 @@
 <title>Photos | Dillon's Pet Care</title>
 <meta name="description" content="Photos of dogs in our care — Dillon's Pet Care, Smithfield, NC."/>
 <link rel="icon" href="favicon.ico"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -26,22 +28,23 @@ img{max-width:100%;display:block}
 .top-links a.cta:hover{text-decoration:none;opacity:.9}
 h1{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:22px 0 4px}
 .lede{color:var(--sub);font-size:15px;margin-bottom:4px}
-.grid{display:grid;gap:20px;grid-template-columns:repeat(2,1fr);padding:20px 0 40px}
-@media (min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
-.ph-card{cursor:zoom-in}
-.ph{position:relative;overflow:hidden;border:1px solid var(--line);border-bottom:none;
-  border-radius:12px 12px 0 0;aspect-ratio:4/3;background:var(--card)}
-.ph img{width:100%;height:100%;object-fit:cover;display:block}
-.ph-cap{border:1px solid var(--line);border-top:none;border-radius:0 0 12px 12px;
-  padding:10px 13px;font-size:14px;color:var(--sub);background:var(--card)}
-.ph-zoom{position:absolute;right:8px;bottom:8px;width:30px;height:30px;border-radius:50%;
+.grid{display:grid;gap:28px 20px;grid-template-columns:repeat(2,1fr);padding:26px 0 44px}
+@media (min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:960px){.grid{grid-template-columns:repeat(4,1fr)}}
+.ph{position:relative;background:#fffefb;border:1px solid var(--line);border-radius:4px;
+  padding:10px 10px 8px;box-shadow:0 3px 10px rgba(30,25,10,.12);cursor:zoom-in}
+.ph-img{position:relative;overflow:hidden;border-radius:2px;aspect-ratio:1;background:var(--card)}
+.ph-img img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-cap{font-family:'Caveat',cursive;font-size:21px;line-height:1.2;text-align:center;
+  padding-top:7px;color:var(--ink)}
+.ph-zoom{position:absolute;right:16px;bottom:34px;width:30px;height:30px;border-radius:50%;
   background:rgba(20,26,20,.55);display:flex;align-items:center;justify-content:center;
   pointer-events:none}
 .ph-zoom svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}
 /* older browsers ignore aspect-ratio; fall back to padding trick */
-@supports not (aspect-ratio: 4 / 3){
-  .ph{height:0;padding-bottom:75%}
-  .ph img{position:absolute;top:0;left:0}
+@supports not (aspect-ratio: 1 / 1){
+  .ph-img{height:0;padding-bottom:100%}
+  .ph-img img{position:absolute;top:0;left:0}
 }
 .lb{position:fixed;inset:0;z-index:100;background:rgba(8,11,16,.95);display:none;
   align-items:center;justify-content:center;padding:20px}
@@ -115,14 +118,16 @@ function describe(src){
   return words ? words.charAt(0).toUpperCase()+words.slice(1) : "";
 }
 
+// a repeating, modest tilt pattern so the cards look scattered but stay readable
+const TILT=[-3,2,-1.5,3,-2.5,1.5];
 const grid=$("grid");
 grid.innerHTML = PHOTOS.map((src,i)=>{
   const cap=describe(src);
-  return '<div class="ph-card" data-i="'+i+'">'+
-    '<div class="ph"><img src="'+esc(src)+'" alt="'+esc(cap)+'" loading="lazy"/>'+
+  const r=TILT[i%TILT.length];
+  return '<div class="ph" data-i="'+i+'" style="transform:rotate('+r+'deg)">'+
+    '<div class="ph-img"><img src="'+esc(src)+'" alt="'+esc(cap)+'" loading="lazy"/>'+
     '<span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>'+
-    '<div class="ph-cap">'+esc(cap)+'</div>'+
-    '</div>';
+    '<div class="ph-cap">'+esc(cap)+'</div></div>';
 }).join("");
 grid.querySelectorAll("[data-i]").forEach(el=>{
   el.addEventListener("click",()=>openLightbox(+el.dataset.i));
