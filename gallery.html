@@ -16,11 +16,15 @@ body{background:var(--bg);color:var(--ink);
   font-size:16px;line-height:1.6}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 img{max-width:100%;display:block}
-.top{padding:18px 0;border-bottom:1px solid var(--line);background:var(--card)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.back{color:var(--ac);text-decoration:none;font-weight:600;font-size:15px}
-.back:hover{text-decoration:underline}
-h1{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.top{padding:16px 0;border-bottom:1px solid var(--line);background:var(--card)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand-link{font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.top-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.top-links a{color:var(--ac);text-decoration:none;font-weight:600;font-size:14px}
+.top-links a:hover{text-decoration:underline}
+.top-links a.cta{background:var(--ac);color:#fff;padding:8px 14px;border-radius:8px}
+.top-links a.cta:hover{text-decoration:none;opacity:.9}
+h1{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:22px 0 4px}
 .grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);padding:24px 0 40px}
 @media (min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
 @media (min-width:960px){.grid{grid-template-columns:repeat(4,1fr)}}
@@ -48,9 +52,16 @@ h1{font-size:22px;font-weight:800;letter-spacing:-.02em}
 <body>
 
 <div class="top"><div class="wrap">
-  <h1>Photos</h1>
-  <a class="back" href="index.html">&larr; Back to Dillon's Pet Care</a>
+  <a href="index.html" class="brand-link">Dillon's Pet Care</a>
+  <nav class="top-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#reviews">Reviews</a>
+    <a href="pay.html">Pay</a>
+    <a href="index.html#contact" class="cta">Book now</a>
+  </nav>
 </div></div>
+
+<div class="wrap"><h1>Photos</h1></div>
 
 <div class="wrap">
   <div class="grid" id="grid"></div>
