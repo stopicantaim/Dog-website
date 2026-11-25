@@ -847,6 +847,186 @@ footer{padding:64px 20px 110px;text-align:left;border-top:1px solid var(--line);
 .toast{background:#fff;color:var(--on-ac)}
 .lb{background:rgba(4,5,5,.96)}
 @media (prefers-reduced-motion:reduce){.banner{background:var(--bg) url('photos/two-friends.jpg') center 42%/cover}}
+
+/* reviews "read all" button, dark version */
+.rev-more button{background:transparent;color:var(--ink);border:1px solid var(--line2);border-radius:2px;
+  text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:800;padding:14px 22px}
+.rev-more button:hover{background:#fff;color:var(--on-ac);border-color:#fff}
+
+/* anything the code hides stays hidden, whatever display a class gives it */
+[hidden]{display:none!important}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ═══ 3D SERVICES SHOWROOM ═══ */
+.svc3d{position:relative;max-width:none!important;margin:6px -20px 0}
+.svc3d-stage{position:relative;height:min(78svh,620px);min-height:440px;cursor:grab;outline:none;
+  -webkit-user-select:none;user-select:none}
+@media (min-width:700px){.svc3d-stage{height:min(80vh,760px)}}
+.svc3d-stage:active{cursor:grabbing}
+.svc3d-stage:focus-visible{box-shadow:inset 0 0 0 2px var(--ac)}
+.svc3d-stage canvas{display:block;width:100%!important;height:100%!important}
+/* soft fade so the scene melts into the page above and below */
+.svc3d::before,.svc3d::after{content:"";position:absolute;left:0;right:0;height:70px;z-index:2;pointer-events:none}
+.svc3d::before{top:0;background:linear-gradient(var(--bg),rgba(10,12,11,0))}
+.svc3d::after{bottom:0;background:linear-gradient(rgba(10,12,11,0),var(--bg))}
+.svc3d-hint{position:absolute;left:0;right:0;bottom:22px;z-index:3;text-align:center;pointer-events:none;
+  font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);
+  display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .6s}
+.svc3d-hint.gone{opacity:0}
+.svc3d-hint .h-narrow{display:none}
+@media (max-width:599px){.svc3d-hint .h-wide{display:none}.svc3d-hint .h-narrow{display:inline}}
+.svc3d-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 0 rgba(240,193,75,.6);
+  animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(240,193,75,0)}100%{box-shadow:0 0 0 0 rgba(240,193,75,0)}}
+/* while the 3D scene is on, the flat tiles step aside */
+#services.is-3d #svc-list{display:none}
+#services.is-3d .lineup-ctl{margin-top:4px}
+
+/* ═══ SERVICE PAGE ═══ */
+.sp{position:fixed;inset:0;z-index:90;background:var(--bg);color:var(--ink);
+  perspective:1600px;perspective-origin:50% 40%;display:flex;flex-direction:column}
+.sp[hidden]{display:none}
+.sp-top{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:14px;
+  justify-content:space-between;padding:14px 20px calc(14px);padding-top:calc(14px + env(safe-area-inset-top));
+  background:linear-gradient(rgba(6,8,7,.75),rgba(6,8,7,0));pointer-events:none}
+.sp-top>*{pointer-events:auto}
+.sp-back{display:flex;align-items:center;gap:8px;background:rgba(10,12,11,.55);color:#fff;
+  border:1px solid rgba(255,255,255,.3);border-radius:2px;padding:10px 14px 10px 10px;cursor:pointer;
+  font:800 12px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:.14em;text-transform:uppercase;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sp-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2}
+.sp-back:hover{background:#fff;color:var(--on-ac)}
+.sp-count{font-family:var(--disp);font-stretch:118%;font-weight:800;font-size:13px;letter-spacing:.14em;
+  color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums}
+@media (max-width:699px){.sp-top-book{display:none}.sp-count{margin-left:auto}}
+.sp-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  transform-style:preserve-3d}
+.sp-page{transform-origin:50% 30vh;backface-visibility:hidden;will-change:transform,opacity}
+.sp-bar{display:none}
+@media (max-width:699px){
+  .sp-bar{display:block;position:absolute;left:0;right:0;bottom:0;z-index:5;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(10,12,11,.9);
+    border-top:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .sp-page{padding-bottom:84px}
+}
+
+/* hero: the service's own clip, full screen */
+.sp-hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden}
+@supports (height:100svh){.sp-hero{min-height:100svh}}
+@media (max-width:699px){@supports (height:100svh){.sp-hero{min-height:calc(100svh - 76px)}}}
+.sp-media{position:absolute;inset:0}
+.sp-media img,.sp-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sp-media video{opacity:0;transition:opacity .8s}
+.sp-media video.ready{opacity:1}
+.sp-hero .sp-media img{animation:kb 16s ease-out both}
+@keyframes kb{from{transform:scale(1.12)}to{transform:scale(1)}}
+.sp-shade{position:absolute;inset:0;background:
+  linear-gradient(0deg,rgba(6,8,7,.97) 0%,rgba(6,8,7,.6) 32%,rgba(6,8,7,.08) 62%),
+  linear-gradient(90deg,rgba(6,8,7,.5) 0%,rgba(6,8,7,0) 60%)}
+.sp-hero-in{position:relative;z-index:2;width:100%;max-width:1440px;margin:0 auto;padding:0 24px 44px}
+.sp-num{font-family:var(--disp);font-stretch:118%;font-weight:800;line-height:.8;
+  font-size:clamp(90px,16vw,220px);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.55);margin-bottom:10px}
+.sp-tag{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ac);margin-bottom:14px}
+.sp-tag::before{content:"";width:34px;height:1px;background:var(--ac)}
+.sp-hero h1{font-family:var(--disp);font-stretch:118%;font-size:clamp(42px,8.4vw,120px);line-height:.92;
+  font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin:0 0 18px;color:#fff;max-width:12ch}
+.sp-price{font-size:15px;color:rgba(255,255,255,.82);margin-bottom:24px}
+.sp-price b{font-family:var(--disp);font-stretch:118%;font-size:28px;color:var(--ac);margin-right:6px}
+.sp-ctas{display:grid;gap:10px;max-width:520px}
+@media (min-width:520px){.sp-ctas{grid-template-columns:1fr 1fr}}
+.sp-scrollcue{position:absolute;right:24px;bottom:44px;z-index:2;width:1px;height:70px;background:rgba(255,255,255,.25);overflow:hidden}
+.sp-scrollcue::after{content:"";position:absolute;left:0;top:-30px;width:1px;height:30px;background:var(--ac);animation:cue 1.8s infinite}
+@keyframes cue{to{top:70px}}
+@media (max-width:699px){.sp-scrollcue{display:none}}
+
+.sp-sec{max-width:1440px;margin:0 auto;padding:64px 24px;border-top:1px solid var(--line)}
+@media (min-width:900px){.sp-sec{padding:96px 24px}}
+.sp-k{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:18px}
+.sp-h{font-family:var(--disp);font-stretch:118%;font-size:clamp(28px,4.4vw,52px);line-height:1;font-weight:800;
+  text-transform:uppercase;margin-bottom:26px}
+.sp-detail{display:grid;gap:34px}
+@media (min-width:900px){.sp-detail{grid-template-columns:1.1fr 1fr;gap:64px;align-items:start}}
+.sp-desc{font-size:clamp(18px,1.8vw,23px);line-height:1.5;color:#dfe3df}
+.sp .sp-h2::before{content:none;display:none}
+.sp-inc{list-style:none;border-top:1px solid var(--line)}
+.sp-inc li{display:flex;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);font-size:16px}
+.sp-inc li b{font-family:var(--disp);font-stretch:118%;color:var(--ac);font-size:13px;letter-spacing:.1em;min-width:26px}
+
+/* photos that tilt in 3D under your finger or mouse */
+.sp-gal{display:grid;gap:14px;grid-template-columns:1fr 1fr;perspective:900px}
+@media (min-width:900px){.sp-gal{grid-template-columns:repeat(4,1fr);gap:18px}}
+.sp-ph{position:relative;aspect-ratio:3/4;border-radius:4px;overflow:hidden;border:1px solid var(--line);
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);transition:transform .5s cubic-bezier(.2,.7,.2,1);
+  transform-style:preserve-3d;cursor:zoom-in}
+.sp-ph.tilting{transition:transform .08s linear}
+.sp-ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.08)}
+.sp-ph::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.18),rgba(255,255,255,0) 55%);
+  opacity:0;transition:opacity .3s}
+.sp-ph.tilting::after{opacity:1}
+
+.sp-revs{display:grid;gap:14px}
+@media (min-width:900px){.sp-revs{grid-template-columns:repeat(3,1fr)}}
+.sp-rev{border:1px solid var(--line);border-radius:4px;padding:24px;background:var(--card2)}
+.sp-rev .stars{margin-bottom:10px}
+.sp-rev p{color:#d9ddd9;font-size:15.5px}
+.sp-rev .rev-w{margin-top:12px}
+
+/* the next service, as a big card you can step into */
+.sp-next{position:relative;display:block;min-height:min(60vh,520px);overflow:hidden;text-decoration:none;color:#fff;
+  border-top:1px solid var(--line)}
+.sp-next img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.sp-next:hover img{transform:scale(1.06)}
+.sp-next .sp-shade{background:linear-gradient(0deg,rgba(6,8,7,.95),rgba(6,8,7,.35))}
+.sp-next-in{position:absolute;left:0;right:0;bottom:0;z-index:2;max-width:1440px;margin:0 auto;padding:0 24px 48px}
+.sp-next-in .sp-k{margin-bottom:12px}
+.sp-next-in .sp-h{margin:0;display:flex;align-items:center;gap:18px}
+.sp-next-in .sp-h svg{width:clamp(28px,4vw,48px);height:clamp(28px,4vw,48px);stroke:var(--ac);fill:none;stroke-width:2;
+  transition:transform .4s}
+.sp-next:hover .sp-h svg{transform:translateX(10px)}
+.sp-foot{text-align:center;padding:30px 20px 40px;color:var(--sub);font-size:14px}
+.sp-foot a{color:var(--ac);font-weight:700;text-decoration:none}
+
+/* ── the 3D transitions ── */
+/* arriving from the 3D showroom: the camera has already flown into the
+   card, so the page simply resolves out of it */
+.sp.enter-3d .sp-page{animation:spResolve .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes spResolve{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+/* arriving from a flat tile: it swings up out of the page toward you */
+.sp.enter-tile .sp-page{animation:spSwing .8s cubic-bezier(.16,.84,.24,1) both}
+@keyframes spSwing{from{opacity:0;transform:translate3d(0,120px,-520px) rotateX(24deg) rotateY(-8deg)}
+  60%{opacity:1}to{opacity:1;transform:none}}
+.sp.enter-tile{animation:spBg .5s both}
+@keyframes spBg{from{background:rgba(10,12,11,0)}to{background:var(--bg)}}
+/* leaving: falls back away into the page */
+.sp.leaving .sp-page{animation:spAway .5s cubic-bezier(.5,0,.75,0) both}
+.sp.leaving{animation:spFade .5s both}
+@keyframes spAway{to{opacity:0;transform:translate3d(0,60px,-420px) rotateX(16deg)}}
+@keyframes spFade{to{opacity:0}}
+.sp.leaving-3d .sp-page{animation:spDissolve .45s ease both}
+.sp.leaving-3d{animation:spFade .45s both}
+@keyframes spDissolve{to{opacity:0;transform:scale(1.04)}}
+/* next / previous service: the page turns like a card on the turntable */
+.sp.turn-out .sp-page{animation:turnOut .45s cubic-bezier(.5,0,.75,0) both;transform-origin:0% 50%}
+@keyframes turnOut{to{opacity:0;transform:rotateY(-78deg) translateZ(-200px)}}
+.sp.turn-in .sp-page{animation:turnIn .7s cubic-bezier(.16,.84,.24,1) both;transform-origin:100% 50%}
+@keyframes turnIn{from{opacity:0;transform:rotateY(70deg) translateZ(-200px)}to{opacity:1;transform:none}}
+.sp.turn-out.back .sp-page{transform-origin:100% 50%;animation-name:turnOutBack}
+@keyframes turnOutBack{to{opacity:0;transform:rotateY(78deg) translateZ(-200px)}}
+.sp.turn-in.back .sp-page{transform-origin:0% 50%;animation-name:turnInBack}
+@keyframes turnInBack{from{opacity:0;transform:rotateY(-70deg) translateZ(-200px)}to{opacity:1;transform:none}}
+/* content inside the hero rises in after the page arrives */
+.sp-hero-in>*{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.sp-hero-in>:nth-child(1){animation-delay:.15s}.sp-hero-in>:nth-child(2){animation-delay:.22s}
+.sp-hero-in>:nth-child(3){animation-delay:.29s}.sp-hero-in>:nth-child(4){animation-delay:.36s}
+.sp-hero-in>:nth-child(5){animation-delay:.43s}
+@media (prefers-reduced-motion:reduce){
+  .sp .sp-page,.sp,.sp-hero-in>*,.sp-hero .sp-media img{animation:none!important}
+  .sp-ph{transform:none!important}
+}
+body.sp-lock{overflow:hidden}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -1026,6 +1206,14 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
     <img class="doodle" src="ART/dog-7.png" alt="" style="width:196px;top:10px;right:14px;--r:-7deg;transform:rotate(var(--r))"/>
     <h2 id="svc-h" data-k="The lineup">Services</h2>
     <p class="lede" id="svc-lede"></p>
+    <!-- the 3D showroom. Only switched on where the device can handle it;
+         everywhere else the swipeable tiles below are shown instead. -->
+    <div class="svc3d" id="svc3d" hidden>
+      <div class="svc3d-stage" id="svc3d-stage" tabindex="0" role="group"
+           aria-roledescription="carousel" aria-label="Services. Use the arrow keys to turn, Enter to open."></div>
+      <div class="svc3d-hint" aria-hidden="true"><span class="svc3d-dot"></span><span class="h-wide">Drag to spin &middot; tap the front card to step inside</span><span class="h-narrow">Swipe to spin &middot; tap to open</span></div>
+      <div class="sr-only" id="svc3d-live" aria-live="polite"></div>
+    </div>
     <div id="svc-list" class="tiles"></div>
     <div class="lineup-ctl">
       <button type="button" class="lineup-btn" id="lu-prev" aria-label="Previous service"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -1145,6 +1333,23 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- a service's own page. Opens over the homepage at #service/<name>,
+     so each one has a link you can share or use in an ad. -->
+<div class="sp" id="sp" role="dialog" aria-modal="true" aria-labelledby="sp-title" hidden>
+  <div class="sp-top">
+    <button type="button" class="sp-back" id="sp-back">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      All services
+    </button>
+    <span class="sp-count" id="sp-count"></span>
+    <a class="nav-cta sp-top-book" href="#contact" data-book>Book this</a>
+  </div>
+  <div class="sp-scroll" id="sp-scroll">
+    <div class="sp-page" id="sp-page"></div>
+  </div>
+  <div class="sp-bar"><a class="btn" href="#contact" data-book>Book this service</a></div>
+</div>
+
 <script>
 /* ═══════════════════════════════════════════════════════════════
    EDIT THIS BLOCK: everything on the page comes from here.
@@ -1178,23 +1383,38 @@ const SITE = {
 
   services: [
     {name:"Overnight boarding", unit:"per night",  price:50,
-     img:"photos/settled-indoors.jpg", tag:"Stay with us",
+     img:"photos/settled-indoors.jpg", tag:"Stay with us", slug:"boarding",
+     clip:"videos/yard-play.mp4",
+     photos:["photos/settled-by-the-fire.jpg","photos/two-friends.jpg","photos/group-play-yard.jpg","photos/puppy-on-the-deck.jpg"],
+     included:["Stays in our home, not a crate or a kennel run","Fed on their own schedule","Settled in the same rooms we are","A daily walk if you ask for one","Photos and updates every day"],
      desc:"Your dog stays in our home, not a crate or a kennel run. Fed on their own schedule, and settled in the same rooms we are. Ask for a daily walk and it's included."},
 
     {name:"House sitting", unit:"per night",  price:85,
-     img:"photos/shepherd-in-the-yard.jpg", tag:"We stay with you",
+     img:"photos/shepherd-in-the-yard.jpg", tag:"We stay with you", slug:"house-sitting",
+     clip:"videos/run.mp4",
+     photos:["photos/toy-collection.jpg","photos/settled-indoors.jpg","photos/aussie-in-the-field.jpg","photos/collie-close-up.jpg"],
+     included:["Overnight at your place","Their own bed, routine and yard","Mail brought in","Lights on and off so the house looks lived in","Left as we found it"],
      desc:"I stay overnight at your place so your dog keeps their own bed, their own routine and their own yard. We bring in the mail, turn lights on and off so the place looks lived in, and leave it as we found it."},
 
     {name:"Drop-in visits", unit:"per visit", price:25,
-     img:"photos/hello-at-the-fence.jpg", tag:"30 minutes",
+     img:"photos/hello-at-the-fence.jpg", tag:"30 minutes", slug:"drop-in-visits",
+     clip:"videos/ball.mp4",
+     photos:["photos/poodle-in-the-sun.jpg","photos/pool-day.jpg","photos/happy-after-fetch.jpg","photos/puppy-on-the-deck.jpg"],
+     included:["Feeding and fresh water","A potty break","Medication if needed","Real play or a short walk","A photo and a note after every visit"],
      desc:"A 30-minute visit: feeding, fresh water, a potty break, medication if needed, and real play or a short walk. You get a photo and a note after every visit."},
 
     {name:"Dog walking", unit:"per walk",  price:25,
-     img:"photos/walk-time.jpg", tag:"30 minutes",
+     img:"photos/walk-time.jpg", tag:"30 minutes", slug:"dog-walking",
+     clip:"videos/walk.mp4",
+     photos:["photos/morning-walk-in-the-fog.jpg","photos/pair-on-the-lead.jpg","photos/aussie-in-the-field.jpg","photos/fetch-at-the-park.jpg"],
+     included:["A full 30 minutes on the leash","Rain or shine","Paced to suit your dog","Paws wiped before we leave"],
      desc:"A full 30 minutes on the leash, rain or shine. Paced to suit your dog, whether that's a brisk loop for a young shepherd or an easy stroll for an older one. Paws wiped before we leave."},
 
     {name:"Daycare", unit:"per day",   price:40,
-     img:"photos/group-play-yard.jpg", tag:"8am to 8pm",
+     img:"photos/group-play-yard.jpg", tag:"8am to 8pm", slug:"daycare",
+     clip:"videos/play.mp4",
+     photos:["photos/fenced-yard-play.jpg","photos/soccer-in-the-sun.jpg","photos/small-dogs-in-the-yard.jpg","photos/frisbee.jpg"],
+     included:["Roughly 8am to 8pm","Company instead of a long day alone","Time in the big fenced yard","A midday walk"],
      desc:"Daytime care while you're at work, roughly 8am to 8pm. Your dog gets company, time in the yard and a midday walk instead of a long day alone at home."},
   ],  // Show rates next to each service? false keeps the list clean and lets
   // people ask first. The estimator below still works either way.
@@ -1269,21 +1489,21 @@ const SITE = {
 
   // All real, from verified Rover stays. Add more as they come in.
   reviews: [
-    {stars:5, text:"We absolutely love Dillon! He takes such wonderful care of our Winnie, a 90 pound German Shepard & Dobermann Mix. She absolutely adores him, and I truly think it is the best part of her day. We have been using Dillon's services for over a year, 5 days a week while we are at work. Dillon sends an update and a video every day of what the two of them are up too. He has other dogs that he watches too, so Winnie gets lots of socialization and exercise. We trust him in our home, and with taking the best care of Winnie.", who:"Maddy M."},
+    {stars:5, text:"We absolutely love Dillon! He takes such wonderful care of our Winnie, a 90 pound German Shepard & Dobermann Mix. She absolutely adores him, and I truly think it is the best part of her day. We have been using Dillon's services for over a year, 5 days a week while we are at work. Dillon sends an update and a video every day of what the two of them are up too. He has other dogs that he watches too, so Winnie gets lots of socialization and exercise. We trust him in our home, and with taking the best care of Winnie.", who:"Maddy M.", for:"daycare"},
 
-    {stars:5, text:"I have used Dillion many times. He is awesome. Our dog Duke loves to go to his house and play. He has a girlfriend there and loves spending the night and weekends too. Dillion loves Duke and treats him like it's his own dog. His whole family loves to see Duke come over. I don't use anyone else to keep our baby. I highly recommend him. You will not be disappointed.", who:"Kathy H."},
+    {stars:5, text:"I have used Dillion many times. He is awesome. Our dog Duke loves to go to his house and play. He has a girlfriend there and loves spending the night and weekends too. Dillion loves Duke and treats him like it's his own dog. His whole family loves to see Duke come over. I don't use anyone else to keep our baby. I highly recommend him. You will not be disappointed.", who:"Kathy H.", for:"boarding"},
 
-    {stars:5, text:"Dillon is very attentive and thoughtful of your pets needs and personality. He responded quickly and sent plenty of updates and pictures to know how Hildy was doing throughout the weekend. He's got a nice big fenced yard for the dogs to play in and took Hildy for walks with his dogs as well.", who:"Ian D."},
+    {stars:5, text:"Dillon is very attentive and thoughtful of your pets needs and personality. He responded quickly and sent plenty of updates and pictures to know how Hildy was doing throughout the weekend. He's got a nice big fenced yard for the dogs to play in and took Hildy for walks with his dogs as well.", who:"Ian D.", for:"boarding"},
 
-    {stars:5, text:"Dillon has been pup-sitting for me for almost three years now. My pup loves him and looks forward to seeing \u201Chis boy\u201D. I just brought home a new puppy and Dillon has been a huge help in the potty training and puppy energy burn. I love the daily photos or videos he sends. 100/10.", who:"JillShannon D."},
+    {stars:5, text:"Dillon has been pup-sitting for me for almost three years now. My pup loves him and looks forward to seeing \u201Chis boy\u201D. I just brought home a new puppy and Dillon has been a huge help in the potty training and puppy energy burn. I love the daily photos or videos he sends. 100/10.", who:"JillShannon D.", for:"daycare"},
 
-    {stars:5, text:"We have been using Dillon since we first got Phoenix as a puppy! He has been a great resource! My husband is out of town frequently, so instead of being in her crate all day, she gets to spend the day with Dillon and then comes home exhausted. We have a long trip out of state planned and Dillon will have her for the whole week and it is a huge relief to have someone trustworthy to take care of your pup!", who:"Elizabeth P."},
+    {stars:5, text:"We have been using Dillon since we first got Phoenix as a puppy! He has been a great resource! My husband is out of town frequently, so instead of being in her crate all day, she gets to spend the day with Dillon and then comes home exhausted. We have a long trip out of state planned and Dillon will have her for the whole week and it is a huge relief to have someone trustworthy to take care of your pup!", who:"Elizabeth P.", for:"daycare,boarding"},
 
-    {stars:5, text:"So good to my girl!!! She loved seeing him and he made an effort to meet her before our trip. Super communicative and i loved getting all the pictures!! My dog is a little more high maintenance and he was very understanding and happy to cater to her needs. Very sweet guy, will definitely be reaching out for other trips.", who:"Charity E."},
+    {stars:5, text:"So good to my girl!!! She loved seeing him and he made an effort to meet her before our trip. Super communicative and i loved getting all the pictures!! My dog is a little more high maintenance and he was very understanding and happy to cater to her needs. Very sweet guy, will definitely be reaching out for other trips.", who:"Charity E.", for:"boarding"},
 
-    {stars:5, text:"Dillon watched Nala and Beamer for the first time for about 4 to 5 days while we were away! He was very responsive, consistent, and took great care of the pups. They were excited to see him each day he arrived! Will definitely book with Dillon in the future!", who:"Kara B."},
+    {stars:5, text:"Dillon watched Nala and Beamer for the first time for about 4 to 5 days while we were away! He was very responsive, consistent, and took great care of the pups. They were excited to see him each day he arrived! Will definitely book with Dillon in the future!", who:"Kara B.", for:"drop-in-visits,house-sitting"},
 
-    {stars:5, text:"Dillon was great, very responsive, provided daily updates, and was flexible when our return flight was delayed. Jack Frost had a great time with the other dogs that Dillon had there.", who:"Aruna V."},
+    {stars:5, text:"Dillon was great, very responsive, provided daily updates, and was flexible when our return flight was delayed. Jack Frost had a great time with the other dogs that Dillon had there.", who:"Aruna V.", for:"boarding"},
   ],
 
   faq: [
@@ -1420,34 +1640,15 @@ function render(){
             (showP ? money(s.price)+' <span>'+esc(s.unit)+'</span>'
                    : '<span>'+esc(s.unit)+'</span>')+
           '</div>'+
-          '<a class="tile-btn" href="#contact" data-svc="'+esc(s.name)+'">Request this</a>'+
+          '<a class="tile-btn" href="#service/'+esc(svcSlug(s,i))+'" data-i="'+i+'">Explore</a>'+
         '</div>'+
       '</div>'+
     '</div>').join("");
-  // tapping anywhere on a tile (not just the small button) preselects that
-  // service on the booking form and jumps straight to it
-  function pickServiceAndJump(name){
-    const sel=$("f-svc");
-    if(sel) sel.value=name;
-    const dest=$("contact");
-    if(dest && typeof dest.scrollIntoView==="function"){
-      try{ dest.scrollIntoView({behavior:"smooth", block:"start"}); }catch(_){ location.hash="#contact"; }
-    } else { location.hash="#contact"; }
-  }
-  $("svc-list").querySelectorAll(".tile").forEach(t=>{
-    t.addEventListener("click",e=>{
-      // the inner link already handles its own navigation; avoid double-jumping
-      if(e.target.closest(".tile-btn")) return;
-      pickServiceAndJump(t.dataset.svc);
-    });
+  // tapping anywhere on a tile opens that service's own page
+  $("svc-list").querySelectorAll(".tile").forEach((t,i)=>{
+    t.addEventListener("click",e=>{ e.preventDefault(); openService(i,"tile",t); });
     t.addEventListener("keydown",e=>{
-      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); pickServiceAndJump(t.dataset.svc); }
-    });
-  });
-  $("svc-list").querySelectorAll(".tile-btn").forEach(b=>{
-    b.addEventListener("click",()=>{
-      const sel=$("f-svc");
-      if(sel) sel.value=b.dataset.svc;
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); openService(i,"tile",t); }
     });
   });
   $("svc-note").textContent = SITE.servicesNote||"";
@@ -2102,6 +2303,308 @@ $("e-book").addEventListener("click",()=>{
 });
 
 
+// ── service pages ──────────────────────────────────────────────────────
+// Each service has its own page at #service/<slug>. It opens over the
+// homepage with a 3D transition, and the link can be shared or used in an ad.
+function svcSlug(s,i){
+  return s.slug || String(s.name||("service-"+(i+1))).toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+}
+const SVC_HASH=/^#service\/([a-z0-9-]+)$/i;
+let spIdx=-1, spMode="", spOpenMode="", spPushed=false, spTurnBack=false, svc3d=null;
+const pageTitle=document.title;
+const pad2=n=>String(n).padStart(2,"0");
+function reduceMotion(){
+  return typeof matchMedia==="function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+function saveData(){
+  const c=navigator.connection||navigator.webkitConnection;
+  return !!(c && (c.saveData || /2g/i.test(c.effectiveType||"")));
+}
+
+function openService(i, mode){
+  const svcs=SITE.services||[]; if(!svcs[i]) return;
+  spMode=mode||"tile"; spPushed=true;
+  const h="#service/"+svcSlug(svcs[i],i);
+  if(location.hash===h) showService(i); else location.hash=h;
+}
+function serviceFromHash(){
+  const m=(location.hash||"").match(SVC_HASH); if(!m) return -1;
+  const want=m[1].toLowerCase();
+  return (SITE.services||[]).findIndex((s,i)=>svcSlug(s,i)===want);
+}
+function onRoute(){
+  const i=serviceFromHash();
+  if(i>=0){
+    if(spIdx<0) showService(i);
+    else if(i!==spIdx) turnService(i);
+  } else if(spIdx>=0) hideService();
+}
+
+function spHTML(i){
+  const svcs=SITE.services||[], s=svcs[i], n=svcs.length;
+  const slug=svcSlug(s,i);
+  const showP=SITE.showPrices!==false;
+  const price = showP
+    ? '<b>'+money(s.price)+'</b>'+esc(s.unit)
+    : 'Priced '+esc(s.unit)+' &middot; we quote you the same day';
+  const tel=digits(primaryPhone());
+  const callOK = tel && isMobile();
+  const nx=svcs[(i+1)%n];
+  const video = s.clip && !reduceMotion() && !saveData();
+  const tagged=(SITE.reviews||[]).filter(r=>
+    String(r.for||"").split(",").map(x=>x.trim()).indexOf(slug)>=0);
+  const revs=(tagged.length ? tagged : (SITE.reviews||[])).slice(0,3);
+  const inc=s.included||[];
+  const photos=(s.photos||[]).slice(0,4);
+
+  return ''+
+  '<header class="sp-hero">'+
+    '<div class="sp-media">'+
+      '<img src="'+esc(s.img)+'" alt=""/>'+
+      (video ? '<video muted playsinline loop autoplay preload="auto" poster="'+esc(s.img)+'" src="'+esc(s.clip)+'"></video>' : '')+
+    '</div>'+
+    '<div class="sp-shade"></div>'+
+    '<div class="sp-hero-in">'+
+      '<div class="sp-num" aria-hidden="true">'+pad2(i+1)+'</div>'+
+      (s.tag ? '<div class="sp-tag">'+esc(s.tag)+'</div>' : '<div></div>')+
+      '<h1 id="sp-title">'+esc(s.name)+'</h1>'+
+      '<p class="sp-price">'+price+'</p>'+
+      '<div class="sp-ctas">'+
+        '<a class="btn" href="#contact" data-book>Book this</a>'+
+        '<a class="btn alt" href="'+(callOK ? 'tel:'+esc(tel) : '#contact')+'"'+(callOK?'':' data-book')+'>'+
+          (callOK ? 'Call or text' : 'Ask a question')+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="sp-scrollcue" aria-hidden="true"></div>'+
+  '</header>'+
+
+  '<div class="sp-sec">'+
+    '<div class="sp-k">01 &mdash; The details</div>'+
+    '<div class="sp-detail">'+
+      '<p class="sp-desc">'+esc(s.desc)+'</p>'+
+      (inc.length ? '<ul class="sp-inc">'+inc.map((t,k)=>'<li><b>'+pad2(k+1)+'</b><span>'+esc(t)+'</span></li>').join("")+'</ul>' : '')+
+    '</div>'+
+  '</div>'+
+
+  (photos.length ?
+  '<div class="sp-sec">'+
+    '<div class="sp-k">02 &mdash; In real life</div>'+
+    '<h2 class="sp-h sp-h2">Dogs in our care</h2>'+
+    '<div class="sp-gal">'+photos.map(p=>
+      '<div class="sp-ph"><img src="'+esc(p)+'" alt="" loading="lazy"/></div>').join("")+'</div>'+
+  '</div>' : '')+
+
+  (revs.length ?
+  '<div class="sp-sec">'+
+    '<div class="sp-k">'+(photos.length?'03':'02')+' &mdash; From our clients</div>'+
+    '<h2 class="sp-h sp-h2">'+(tagged.length ? 'What they say' : 'What clients say')+'</h2>'+
+    '<div class="sp-revs">'+revs.map(r=>
+      '<div class="sp-rev"><div class="stars">'+"★".repeat(Math.max(1,Math.min(5,r.stars||5)))+'</div>'+
+      '<p>'+esc(r.text)+'</p><div class="rev-w">'+esc(r.who)+'</div></div>').join("")+'</div>'+
+  '</div>' : '')+
+
+  (n>1 ?
+  '<a class="sp-next" href="#service/'+esc(svcSlug(nx,(i+1)%n))+'" data-next>'+
+    '<img src="'+esc(nx.img)+'" alt="" loading="lazy"/>'+
+    '<div class="sp-shade"></div>'+
+    '<div class="sp-next-in">'+
+      '<div class="sp-k">Next &mdash; '+pad2(((i+1)%n)+1)+' / '+pad2(n)+'</div>'+
+      '<div class="sp-h">'+esc(nx.name)+
+        '<svg viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'+
+    '</div>'+
+  '</a>' : '')+
+  '<div class="sp-foot">Questions first? <a href="#contact" data-book>Send us a message</a></div>';
+}
+
+function renderSP(i){
+  const svcs=SITE.services||[], s=svcs[i];
+  $("sp-page").innerHTML=spHTML(i);
+  $("sp-count").textContent=pad2(i+1)+" / "+pad2(svcs.length);
+  $("sp-scroll").scrollTop=0;
+  document.title=s.name+" | "+SITE.name;
+
+  // fade the clip in over the photo once it is actually playing
+  const v=$("sp-page").querySelector("video");
+  if(v){
+    v.addEventListener("playing",()=>v.classList.add("ready"),{once:true});
+    v.addEventListener("error",()=>v.remove(),{once:true});
+    const p=v.play(); if(p && p.catch) p.catch(()=>{});
+  }
+  // photos lean toward the pointer, with a soft highlight following it
+  if(!reduceMotion()){
+    $("sp-page").querySelectorAll(".sp-ph").forEach(ph=>{
+      ph.addEventListener("pointermove",e=>{
+        const r=ph.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+        ph.classList.add("tilting");
+        ph.style.setProperty("--ry",((x-.5)*16)+"deg");
+        ph.style.setProperty("--rx",((.5-y)*12)+"deg");
+        ph.style.setProperty("--gx",(x*100)+"%");
+        ph.style.setProperty("--gy",(y*100)+"%");
+      });
+      const reset=()=>{ ph.classList.remove("tilting"); ph.style.setProperty("--rx","0deg"); ph.style.setProperty("--ry","0deg"); };
+      ph.addEventListener("pointerleave",reset);
+      ph.addEventListener("pointercancel",reset);
+    });
+  }
+  if(typeof fbq==="function"){
+    try{ fbq('track','ViewContent',{content_name:s.name, content_category:"Service"}); }catch(_){}
+  }
+}
+
+function showService(i){
+  const sp=$("sp");
+  const mode=spMode||"direct"; spMode="";
+  spOpenMode=mode; spIdx=i;
+  renderSP(i);
+  sp.hidden=false;
+  sp.className="sp "+(mode==="3d" ? "enter-3d" : "enter-tile");
+  document.body.classList.add("sp-lock");
+  if(svc3d && mode!=="3d") svc3d.goTo(i,true);
+  setTimeout(()=>{ try{ $("sp-back").focus({preventScroll:true}); }catch(_){} },60);
+}
+
+function turnService(i){
+  const sp=$("sp");
+  const v=$("sp-page").querySelector("video"); if(v) v.pause();
+  sp.className="sp turn-out"+(spTurnBack?" back":"");
+  spIdx=i;
+  if(svc3d) svc3d.goTo(i,true);
+  setTimeout(()=>{
+    if(spIdx!==i) return;
+    renderSP(i);
+    sp.className="sp turn-in"+(spTurnBack?" back":"");
+    spTurnBack=false;
+  }, reduceMotion()?0:420);
+}
+
+function hideService(){
+  const sp=$("sp"); if(spIdx<0) return;
+  const was=spIdx, mode=spOpenMode;
+  spIdx=-1; spPushed=false;
+  const v=$("sp-page").querySelector("video"); if(v) v.pause();
+  sp.className="sp leaving"+(mode==="3d"?" leaving-3d":"");
+  document.body.classList.remove("sp-lock");
+  document.title=pageTitle;
+  if(svc3d && mode==="3d") svc3d.flyBack(was);
+  setTimeout(()=>{
+    if(spIdx>=0) return;              // reopened in the meantime
+    sp.hidden=true; sp.className="sp"; $("sp-page").innerHTML="";
+  }, reduceMotion()?0:470);
+}
+
+function closeService(){
+  if(spPushed){ history.back(); return; }
+  // they landed straight on a service link, so there's nothing to go back to
+  history.replaceState(null,"",location.pathname+location.search+"#services");
+  hideService();
+  const sec=$("services"); if(sec) sec.scrollIntoView({block:"start"});
+}
+
+function wireServicePage(){
+  const sp=$("sp"); if(!sp) return;
+  $("sp-back").addEventListener("click",closeService);
+  document.addEventListener("keydown",e=>{
+    if(spIdx<0) return;
+    if(e.key==="Escape") closeService();
+    else if(e.key==="ArrowRight" && !/INPUT|TEXTAREA|SELECT/.test((e.target.tagName||""))) goService(spIdx+1);
+    else if(e.key==="ArrowLeft" && !/INPUT|TEXTAREA|SELECT/.test((e.target.tagName||""))) goService(spIdx-1, true);
+  });
+  sp.addEventListener("click",e=>{
+    const book=e.target.closest("[data-book]");
+    if(book){
+      e.preventDefault();
+      const s=(SITE.services||[])[spIdx];
+      if(s && $("f-svc")) $("f-svc").value=s.name;
+      // swap the service page for the booking form, then land on it
+      history.replaceState(null,"",location.pathname+location.search+"#contact");
+      hideService();
+      setTimeout(()=>{
+        const c=$("contact");
+        if(c) c.scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"start"});
+        const f=$("f-name"); if(f) setTimeout(()=>{ try{ f.focus({preventScroll:true}); }catch(_){} },500);
+      },60);
+      return;
+    }
+    const nx=e.target.closest("[data-next]");
+    if(nx){ e.preventDefault(); goService(spIdx+1); }
+  });
+  // swipe sideways on a phone to turn to the next or previous service
+  let sx=0, sy=0, st=0;
+  $("sp-scroll").addEventListener("touchstart",e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; st=Date.now(); },{passive:true});
+  $("sp-scroll").addEventListener("touchend",e=>{
+    const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Date.now()-st<600 && Math.abs(dx)>80 && Math.abs(dx)>Math.abs(dy)*1.8){
+      if(dx<0) goService(spIdx+1); else goService(spIdx-1,true);
+    }
+  },{passive:true});
+  addEventListener("hashchange",onRoute);
+}
+function goService(i, back){
+  const svcs=SITE.services||[]; if(spIdx<0 || !svcs.length) return;
+  i=((i%svcs.length)+svcs.length)%svcs.length;
+  spTurnBack=!!back;
+  // replace rather than push, so the back button still closes the page
+  location.replace("#service/"+svcSlug(svcs[i],i));
+}
+
+// ── 3D showroom loader ─────────────────────────────────────────────────
+// The 3D library is about 600KB, so it only loads when the visitor gets
+// near the services, and never on reduced-motion, data-saver or devices
+// without WebGL. If anything goes wrong the flat tiles simply stay.
+function init3D(){
+  const host=$("svc3d"), stage=$("svc3d-stage"), sec=$("services");
+  if(!host||!stage||!sec) return;
+  if(reduceMotion()||saveData()) return;
+  try{
+    const c=document.createElement("canvas");
+    if(!(window.WebGLRenderingContext && (c.getContext("webgl")||c.getContext("experimental-webgl")))) return;
+  }catch(_){ return; }
+
+  const load=src=>new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src=src; s.async=true; s.onload=res; s.onerror=()=>rej(new Error("couldn't load "+src));
+    document.head.appendChild(s);
+  });
+  const fallback=e=>{
+    console.error("3D services unavailable, showing tiles:",e);
+    host.hidden=true; sec.classList.remove("is-3d"); svc3d=null;
+  };
+  let started=false;
+  const go=()=>{
+    if(started) return; started=true;
+    (window.THREE ? Promise.resolve() : load("js/three.min.js"))
+      .then(()=>window.Services3D ? null : load("js/services3d.js"))
+      .then(()=>{
+        host.hidden=false; sec.classList.add("is-3d");
+        const svcs=SITE.services||[], hint=host.querySelector(".svc3d-hint");
+        const count=$("lu-count"), bar=$("lu-bar"), live=$("svc3d-live");
+        svc3d=window.Services3D.create(stage, svcs, {
+          onChange:i=>{
+            if(count) count.textContent=pad2(i+1)+" / "+pad2(svcs.length);
+            if(bar){ bar.style.width=(100/svcs.length)+"%"; bar.style.transform="translateX("+(i*100)+"%)"; }
+            if(live) live.textContent=svcs[i].name+", "+(i+1)+" of "+svcs.length;
+            if(hint && i!==0) hint.classList.add("gone");
+          },
+          onStart:()=>{ if(hint) hint.classList.add("gone"); },
+          onOpen:i=>openService(i,"3d"),
+        });
+        if(!svc3d) return fallback("no scene");
+        ["lu-prev","lu-next"].forEach(id=>{ const b=$(id); if(b) b.disabled=false; });
+        if(bar){ bar.style.width=(100/svcs.length)+"%"; bar.style.transform="translateX(0)"; }
+        if(spIdx>=0) svc3d.goTo(spIdx,true);
+      })
+      .catch(fallback);
+  };
+  if("IntersectionObserver" in window){
+    const io=new IntersectionObserver(es=>{
+      if(es.some(e=>e.isIntersecting)){ io.disconnect(); go(); }
+    },{rootMargin:"900px 0px"});
+    io.observe(sec);
+  } else go();
+}
+
 // ── services lineup: arrows, progress line and 01 / 05 counter ──────────
 function initLineup(){
   const list=$("svc-list"), prev=$("lu-prev"), next=$("lu-next"),
@@ -2111,6 +2614,7 @@ function initLineup(){
   const step=()=>{ const c=cards()[0]; return c ? c.getBoundingClientRect().width+16 : list.clientWidth*.8; };
   const pad=n=>String(n).padStart(2,"0");
   function update(){
+    if(svc3d) return;
     const n=cards().length, max=list.scrollWidth-list.clientWidth;
     const p=max>0 ? list.scrollLeft/max : 0;
     const idx=max>0 ? Math.min(n-1,Math.round(list.scrollLeft/step())) : 0;
@@ -2120,8 +2624,9 @@ function initLineup(){
     prev.disabled=list.scrollLeft<4;
     next.disabled=list.scrollLeft>max-4;
   }
-  prev.addEventListener("click",()=>list.scrollBy({left:-step(),behavior:"smooth"}));
-  next.addEventListener("click",()=>list.scrollBy({left:step(),behavior:"smooth"}));
+  // with the 3D showroom on, the arrows turn the turntable instead
+  prev.addEventListener("click",()=>{ if(svc3d) return svc3d.prev(); list.scrollBy({left:-step(),behavior:"smooth"}); });
+  next.addEventListener("click",()=>{ if(svc3d) return svc3d.next(); list.scrollBy({left:step(),behavior:"smooth"}); });
   let t=false;
   list.addEventListener("scroll",()=>{ if(!t){ t=true; requestAnimationFrame(()=>{ update(); t=false; }); } },{passive:true});
   addEventListener("resize",update);
@@ -2163,6 +2668,10 @@ try{ initNav(); }
 catch(e){ console.error("Nav error:",e); }
 try{ initLineup(); }
 catch(e){ console.error("Lineup error:",e); }
+try{ wireServicePage(); onRoute(); }
+catch(e){ console.error("Service page error:",e); }
+try{ init3D(); }
+catch(e){ console.error("3D services error:",e); }
 try{ initMotion(); initScrollChrome(); }
 catch(e){ console.error("Motion error:",e); }
 </script>
