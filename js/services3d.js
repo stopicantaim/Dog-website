@@ -52,7 +52,7 @@ function wrapLines(g,text,maxW){
 
 // The card artwork is drawn onto a canvas, so the text is real text and
 // stays sharp, and it matches the rest of the site's type.
-function drawCard(img, s, i){
+function drawCard(img, s, i, icon){
   const c = document.createElement("canvas");
   c.width = TEX_W; c.height = TEX_H;
   const g = c.getContext("2d");
@@ -75,6 +75,16 @@ function drawCard(img, s, i){
   g.font = "800 132px "+disp;
   g.lineWidth = 2.5; g.strokeStyle = "rgba(255,255,255,.78)";
   g.strokeText(String(i+1).padStart(2,"0"), 46, 160);
+
+  // the service's icon in a cream disc, top right
+  if(icon){
+    const cx = TEX_W-96, cy = 100, r = 54;
+    g.save();
+    g.shadowColor = "rgba(0,0,0,.3)"; g.shadowBlur = 18; g.shadowOffsetY = 4;
+    g.beginPath(); g.arc(cx,cy,r,0,Math.PI*2); g.fillStyle = "rgba(255,253,247,.96)"; g.fill();
+    g.restore();
+    g.drawImage(icon, cx-34, cy-34, 68, 68);
+  }
 
   // name, wrapped, from the bottom up
   g.font = "800 76px "+disp;
@@ -174,8 +184,8 @@ function create(host, services, opts){
     : Promise.resolve();
   fontReady.then(()=>{
     services.forEach((s,i)=>{
-      loadImage(s.img).then(img=>{
-        const tex = new T.CanvasTexture(drawCard(img,s,i));
+      Promise.all([loadImage(s.img), loadImage(s.iconURL)]).then(([img,icon])=>{
+        const tex = new T.CanvasTexture(drawCard(img,s,i,icon));
         if("encoding" in tex) tex.encoding = T.sRGBEncoding;
         tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
         cards[i].mat.map = tex; cards[i].mat.needsUpdate = true;
