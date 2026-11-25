@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Dillon's Pet Care | Dog Sitter &amp; Boarding in Smithfield, NC</title>
 <meta name="description" content="Local dog sitter in Smithfield, NC. Boarding, house sitting, drop-in visits and walks in Smithfield, Selma, Clayton, Four Oaks and Johnston County. Book directly, no app fees."/>
-<meta name="theme-color" content="#0a0c0b"/>
+<meta name="theme-color" content="#2f5d3a"/>
 <link rel="icon" href="favicon.ico"/>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
@@ -1027,6 +1027,112 @@ footer{padding:64px 20px 110px;text-align:left;border-top:1px solid var(--line);
   .sp-ph{transform:none!important}
 }
 body.sp-lock{overflow:hidden}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLASSIC COLOURS
+   The original cream, forest green and mustard, laid over the
+   showroom layout. Delete this whole block to go back to dark.
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#f6f4ec;--bg2:#eee9dc;--card:#fffdf7;--card2:#f5f1e6;
+  --line:#ddd6c4;--line2:#c8bfa8;
+  --ink:#1d2a20;--sub:#5f6b60;
+  --ac:#2f5d3a;--ac2:#24492e;--ac-bg:#e6efe6;--ac-bd:#2f5d3a;
+  --ok:#2f5d3a;--ok-bg:#e6efe6;
+  --on-ac:#fff;
+  --gold:#f0c14b;--gold-ink:#3a2f0b;--gold-deep:#c99a1f;
+  color-scheme:light;
+}
+::selection{background:var(--gold);color:var(--gold-ink)}
+#services,#how,#faq,#contact{background:var(--card)}
+#about,#reviews,#policy{background:var(--bg2)}
+.doodle{filter:none;mix-blend-mode:normal;opacity:.30}
+@media (max-width:640px){.doodle{opacity:.24}}
+
+/* nav: white over the video at the top, cream once you scroll */
+.nav.stuck,.nav.menu-open{background:rgba(246,244,236,.95);border-bottom-color:var(--line)}
+.nav.stuck .brand,.nav.menu-open .brand{color:var(--ink)}
+.nav.stuck .brand-logo,.nav.menu-open .brand-logo{filter:none;mix-blend-mode:normal}
+.nav.stuck .nav-links a,.nav.menu-open .nav-links a{color:var(--sub)}
+.nav.stuck .nav-links a:hover{color:var(--ink)}
+.nav.stuck .nav-burger,.nav.menu-open .nav-burger{border-color:var(--line2);background:#fff}
+.nav.stuck .nav-burger span,.nav.menu-open .nav-burger span{background:var(--ink)}
+.how-cta{border-color:var(--ac);color:var(--ac)}
+.how-cta:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.nav:not(.stuck):not(.menu-open) .how-cta{border-color:rgba(255,255,255,.6);color:#fff}
+.nav:not(.stuck):not(.menu-open) .how-cta:hover{background:#fff;color:var(--ink)}
+@media (max-width:859px){
+  .nav-links.open{background:var(--card)}
+  .nav-links.open a{color:var(--ink)!important}
+}
+
+/* gold for highlights on top of photos and video */
+.banner .eyebrow.eyebrow-on-v{color:var(--gold)}
+.banner .eyebrow.eyebrow-on-v::before{background:var(--gold)}
+.spec b em{color:var(--gold)}
+.tile-tag{color:var(--gold)}
+.stars,#rating-line span{color:var(--gold-deep)!important}
+.svc3d-dot{background:var(--gold)}
+
+/* buttons */
+.btn{background:var(--ac);border-color:var(--ac);color:#fff}
+.btn:hover{background:var(--ac2);border-color:var(--ac2);color:#fff}
+.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line2)}
+.btn.alt:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+/* over a photo or video the outline buttons stay white */
+.banner-alt,.sp-ctas .btn.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6)}
+.banner-alt:hover,.sp-ctas .btn.alt:hover{background:#fff;color:var(--ink);border-color:#fff}
+.lineup-btn{color:var(--ink);border-color:var(--line2)}
+.lineup-btn:hover:not(:disabled){background:var(--ac);color:#fff;border-color:var(--ac)}
+.rev-more button{color:var(--ink);background:#fff}
+.rev-more button:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.tile-btn:hover,.tile:hover .tile-btn{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+
+/* panels, form and calendar */
+.note,.cs-card,.est,.rev,.policy .p,.steps li,.f-fallback{background:var(--card)}
+#about .rev,#reviews .rev,#policy .p{background:var(--card)}
+.note{background:transparent}
+.in,.est .in{background:#fff;color:var(--ink)}
+.in::placeholder{color:#9aa39b}
+select.in option{background:#fff;color:var(--ink)}
+.f-fallback pre{background:#fff}
+.err,#e-booked-warn{color:#b42318!important}
+.dp-pop{background:var(--card);box-shadow:0 10px 28px rgba(20,20,10,.16)}
+.dp-day:disabled,.dp-day.dp-booked{color:var(--line2)}
+.dp-day:not(:disabled):hover{background:var(--ac-bg)}
+.dp-day.dp-start,.dp-day.dp-end{color:#fff}
+.dp-done{color:#fff}
+.about p{color:var(--sub)}
+.rev p{color:var(--ink)}
+.bar{background:rgba(255,255,255,.96)}
+.toast{background:var(--ink);color:#fff}
+
+/* 3D showroom */
+.svc3d::before{background:linear-gradient(var(--card),rgba(255,253,247,0))}
+.svc3d::after{background:linear-gradient(rgba(255,253,247,0),var(--card))}
+.svc3d-hint{color:var(--sub)}
+
+/* service pages */
+.sp-tag{color:var(--gold)}
+.sp-tag::before{background:var(--gold)}
+.sp-price b{color:var(--gold)}
+.sp-scrollcue::after{background:var(--gold)}
+.sp-next-in .sp-k{color:var(--gold)}
+.sp-next-in .sp-h svg{stroke:var(--gold)}
+.sp-desc,.sp-rev p{color:var(--ink)}
+.sp-rev{background:var(--card)}
+.sp-sec:nth-child(odd){background:var(--card)}
+/* the top bar sits clear over the video, then turns cream as you scroll */
+.sp-top{transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+.sp.scrolled .sp-top{background:rgba(246,244,236,.95);border-bottom-color:var(--line);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.sp.scrolled .sp-back{background:#fff;color:var(--ink);border-color:var(--line2)}
+.sp.scrolled .sp-back:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.sp.scrolled .sp-count{color:var(--sub)}
+@media (max-width:699px){.sp-bar{background:rgba(255,255,255,.96)}}
+.sp.enter-tile{animation:none}
+/* keep the headline clear of the menu bar on short phone screens */
+.banner-in{padding-top:96px}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -2422,6 +2528,7 @@ function renderSP(i){
   $("sp-page").innerHTML=spHTML(i);
   $("sp-count").textContent=pad2(i+1)+" / "+pad2(svcs.length);
   $("sp-scroll").scrollTop=0;
+  $("sp").classList.remove("scrolled");
   document.title=s.name+" | "+SITE.name;
 
   // fade the clip in over the photo once it is actually playing
@@ -2505,6 +2612,11 @@ function closeService(){
 function wireServicePage(){
   const sp=$("sp"); if(!sp) return;
   $("sp-back").addEventListener("click",closeService);
+  let spt=false;
+  $("sp-scroll").addEventListener("scroll",()=>{
+    if(spt) return; spt=true;
+    requestAnimationFrame(()=>{ spt=false; sp.classList.toggle("scrolled",$("sp-scroll").scrollTop>60); });
+  },{passive:true});
   document.addEventListener("keydown",e=>{
     if(spIdx<0) return;
     if(e.key==="Escape") closeService();
@@ -2580,7 +2692,10 @@ function init3D(){
         host.hidden=false; sec.classList.add("is-3d");
         const svcs=SITE.services||[], hint=host.querySelector(".svc3d-hint");
         const count=$("lu-count"), bar=$("lu-bar"), live=$("svc3d-live");
+        const cs=getComputedStyle(document.documentElement);
+        const tok=(k,d)=>(cs.getPropertyValue(k)||"").trim()||d;
         svc3d=window.Services3D.create(stage, svcs, {
+          theme:{bg:tok("--card","#fffdf7"), line:tok("--ac","#2f5d3a"), dust:tok("--gold-deep","#c99a1f"), light:true},
           onChange:i=>{
             if(count) count.textContent=pad2(i+1)+" / "+pad2(svcs.length);
             if(bar){ bar.style.width=(100/svcs.length)+"%"; bar.style.transform="translateX("+(i*100)+"%)"; }

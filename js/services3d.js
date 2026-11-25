@@ -13,7 +13,6 @@
 "use strict";
 
 const T = window.THREE;
-const GOLD = 0xf0c14b, BG = 0x0a0c0b;
 const CARD_W = 3, CARD_H = 3*1080/768;     // same shape as the card artwork
 const TEX_W = 768, TEX_H = 1080;
 
@@ -128,6 +127,10 @@ function create(host, services, opts){
   opts = opts || {};
   const n = services.length;
   if(!T || !n) return null;
+  // colours come from the page, so the scene always matches the site theme
+  const th = Object.assign({bg:"#f6f4ec", line:"#2f5d3a", dust:"#c99a1f", light:true}, opts.theme||{});
+  const BG = new T.Color(th.bg), LINE = new T.Color(th.line), DUST_C = new T.Color(th.dust);
+  const LIGHT = !!th.light;
 
   const renderer = new T.WebGLRenderer({antialias:true, alpha:false, powerPreference:"high-performance"});
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio||1));
@@ -137,7 +140,8 @@ function create(host, services, opts){
   renderer.domElement.style.touchAction = "pan-y";   // vertical swipes still scroll the page
 
   const scene = new T.Scene();
-  scene.fog = new T.Fog(BG, 12, 26);
+  // on a light floor fog washes cards out fast, so it starts further back
+  scene.fog = LIGHT ? new T.Fog(BG, 20, 40) : new T.Fog(BG, 12, 26);
   const camera = new T.PerspectiveCamera(36, 1, .1, 100);
 
   // ring layout: wide enough that neighbours never touch, tight enough
@@ -158,7 +162,7 @@ function create(host, services, opts){
     const mesh = new T.Mesh(geo, mat);
     mesh.userData.i = i;
     const rmat = new T.MeshBasicMaterial({color:0x222222, transparent:true, alphaMap:refl,
-      side:T.DoubleSide, depthWrite:false, opacity:.55});
+      side:T.DoubleSide, depthWrite:false, opacity:LIGHT ? .3 : .55});
     const rmesh = new T.Mesh(geo, rmat);
     rmesh.scale.y = -1;
     rmesh.position.y = -CARD_H - .02;
@@ -185,7 +189,7 @@ function create(host, services, opts){
   });
 
   // turntable: two gold hairline rings on the floor
-  const ringMat = new T.MeshBasicMaterial({color:GOLD, transparent:true, opacity:.42, side:T.DoubleSide});
+  const ringMat = new T.MeshBasicMaterial({color:LINE, transparent:true, opacity:LIGHT ? .38 : .42, side:T.DoubleSide});
   [[R+CARD_W*.62, .025],[R-CARD_W*.62, .018],[R+CARD_W*.62+.35, .01]].forEach(([r,w])=>{
     const m = new T.Mesh(new T.RingGeometry(r, r+w, 160), ringMat);
     m.rotation.x = -Math.PI/2; m.position.y = FLOOR - .01;
@@ -195,10 +199,12 @@ function create(host, services, opts){
   const glowC = document.createElement("canvas"); glowC.width = glowC.height = 128;
   const gg = glowC.getContext("2d");
   const ggr = gg.createRadialGradient(64,64,0,64,64,64);
-  ggr.addColorStop(0,"rgba(240,193,75,.55)"); ggr.addColorStop(1,"rgba(240,193,75,0)");
+  if(LIGHT){ ggr.addColorStop(0,"rgba(29,42,32,.30)"); ggr.addColorStop(1,"rgba(29,42,32,0)"); }
+  else { ggr.addColorStop(0,"rgba(240,193,75,.55)"); ggr.addColorStop(1,"rgba(240,193,75,0)"); }
   gg.fillStyle = ggr; gg.fillRect(0,0,128,128);
   const glow = new T.Mesh(new T.PlaneGeometry(CARD_W*2.6, CARD_W*1.3),
-    new T.MeshBasicMaterial({map:new T.CanvasTexture(glowC), transparent:true, depthWrite:false, blending:T.AdditiveBlending}));
+    new T.MeshBasicMaterial({map:new T.CanvasTexture(glowC), transparent:true, depthWrite:false,
+      blending:LIGHT ? T.NormalBlending : T.AdditiveBlending}));
   glow.rotation.x = -Math.PI/2; glow.position.set(0, FLOOR, R+.2);
   scene.add(glow);
 
@@ -213,8 +219,9 @@ function create(host, services, opts){
   }
   const dgeo = new T.BufferGeometry();
   dgeo.setAttribute("position", new T.BufferAttribute(dpos,3));
-  const dust = new T.Points(dgeo, new T.PointsMaterial({color:GOLD, size:.07, map:dotTexture(),
-    transparent:true, opacity:.75, depthWrite:false, blending:T.AdditiveBlending, sizeAttenuation:true}));
+  const dust = new T.Points(dgeo, new T.PointsMaterial({color:DUST_C, size:.07, map:dotTexture(),
+    transparent:true, opacity:LIGHT ? .55 : .75, depthWrite:false,
+    blending:LIGHT ? T.NormalBlending : T.AdditiveBlending, sizeAttenuation:true}));
   scene.add(dust);
 
   // ── camera framing ───────────────────────────────────────────────
@@ -348,8 +355,16 @@ function create(host, services, opts){
     cards.forEach((c,i)=>{
       // how squarely this card faces the camera: 1 in front, -1 behind
       const face = Math.cos(i*STEP - rot);
-      const b = .22 + .78*Math.pow(Math.max(0,face),2.2);
-      c.mat.color.setScalar(b); c.rmat.color.setScalar(b);
+      const f = Math.pow(Math.max(0,face),2.2);
+      if(LIGHT){
+        // neighbours stay clearly visible, cards round the back fade away
+        const o = face>0 ? .45+.55*face : Math.max(.06,.45+.45*face);
+        c.mat.color.setScalar(.86+.14*f); c.rmat.color.setScalar(.86+.14*f);
+        c.mat.opacity = o; c.rmat.opacity = o*.3;
+      } else {
+        const b = .22 + .78*f;
+        c.mat.color.setScalar(b); c.rmat.color.setScalar(b);
+      }
       const isFront = i===idx && state==="idle";
       const lift = (isFront ? .18 : 0) + (i===hover ? .12 : 0);
       c.lift += (lift-c.lift)*Math.min(1,dt*.01);
@@ -369,7 +384,7 @@ function create(host, services, opts){
       if(p[k*3+1] > FLOOR+10) p[k*3+1] = FLOOR;
     }
     dgeo.attributes.position.needsUpdate = true;
-    glow.material.opacity = .75 + Math.sin(time*1.6)*.15;
+    glow.material.opacity = LIGHT ? .9 : .75 + Math.sin(time*1.6)*.15;
 
     rest();
     if(state==="flying-in" || state==="flying-out"){
