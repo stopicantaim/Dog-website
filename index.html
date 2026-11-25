@@ -14,13 +14,13 @@
 <meta property="og:title" content="Dillon's Pet Care | Dog Sitter in Smithfield, NC"/>
 <meta property="og:description" content="Local dog sitter for boarding, house sitting, drop-in visits and walks. Free meet &amp; greet before your first booking."/>
 <meta property="og:type" content="website"/>
-<meta property="og:image" content="photos/social-preview.jpg"/>
+<meta property="og:image" content="https://dillonspetcare.com/photos/social-preview.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Dillon's Pet Care | Dog Sitter in Smithfield, NC"/>
 <meta name="twitter:description" content="Local dog sitter: boarding, house sitting, drop-in visits and walks."/>
-<meta name="twitter:image" content="photos/social-preview.jpg"/>
+<meta name="twitter:image" content="https://dillonspetcare.com/photos/social-preview.jpg"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -317,6 +317,16 @@ body.no-tel a[href^="tel:"]{cursor:copy}
 .stars{color:#f59e0b;font-size:13px;letter-spacing:2px;margin-bottom:8px}
 .rev p{font-size:15px;line-height:1.6}
 .rev-w{font-size:13px;color:var(--sub);margin-top:10px;font-weight:600}
+/* on a phone eight long reviews are a wall of text, so show a few first */
+@media (max-width:699px){
+  #rev-list:not(.all) .rev:nth-child(n+4){display:none}
+}
+.rev-more{display:flex;justify-content:center;margin-top:14px}
+@media (min-width:700px){.rev-more{display:none}}
+.rev-more button{background:#fff;border:1px solid var(--line2);border-radius:10px;
+  padding:11px 20px;font-size:14px;font-weight:600;color:var(--ink);
+  cursor:pointer;font-family:inherit}
+.rev-more button:hover{border-color:var(--ac);color:var(--ac)}
 
 /* faq */
 .faq{border-bottom:1px solid var(--line)}
@@ -771,6 +781,14 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <section id="reviews" class="doodle-host">
+    <img class="doodle" src="ART/dog-2.png" alt="" style="width:178px;top:10px;right:14px;--r:7deg;transform:rotate(var(--r))"/>
+    <h2>What clients say</h2>
+    <p class="lede" id="rev-lede"></p>
+    <div id="rev-list"></div>
+    <div class="rev-more" id="rev-more" hidden><button type="button" id="rev-more-btn"></button></div>
+  </section>
+
   <div class="avail" id="avail" style="display:none">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
     <span id="avail-text"></span>
@@ -831,11 +849,6 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
   <a class="btn" href="#contact">Request booking</a>
 </div></div>
 
-  <section id="reviews" class="doodle-host">
-    <img class="doodle" src="ART/dog-2.png" alt="" style="width:178px;top:10px;right:14px;--r:7deg;transform:rotate(var(--r))"/>
-    <h2>What clients say</h2>
-    <div id="rev-list"></div>
-  </section>
 
 <footer class="wrap doodle-host" style="position:relative">
   <div id="foot-name">Hunter &amp; Dillon Dog Sitting</div>
@@ -1175,6 +1188,15 @@ function render(){
   $("rev-list").innerHTML = (SITE.reviews||[]).map(r=>
     '<div class="rev"><div class="stars">'+"★".repeat(Math.max(1,Math.min(5,r.stars||5)))+'</div>'+
     '<p>'+esc(r.text)+'</p><div class="rev-w">'+esc(r.who)+'</div></div>').join("");
+  const revs=SITE.reviews||[];
+  const rl=$("rev-lede");
+  if(rl) rl.textContent = revs.length ? "Every one of these is from a real, verified stay." : "";
+  const more=$("rev-more"), moreBtn=$("rev-more-btn");
+  if(more && moreBtn && revs.length>3){
+    more.hidden=false;
+    moreBtn.textContent="Read all "+revs.length+" reviews";
+    moreBtn.addEventListener("click",()=>{ $("rev-list").classList.add("all"); more.hidden=true; });
+  }
 
   // faq
   $("faq-list").innerHTML = (SITE.faq||[]).map(f=>
@@ -1551,11 +1573,16 @@ function unitWord(unit){
 function isSpanUnit(unit){
   return /night|day/i.test(unit||"");
 }
-function todayStr(){ return new Date().toISOString().slice(0,10); }
+// Local date, not UTC. toISOString() is UTC, so from about 7pm in North
+// Carolina it already reports tomorrow, and today couldn't be picked.
+function localYMD(d){
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function todayStr(){ return localYMD(new Date()); }
 function addDays(dateStr,n){
   const d=new Date(dateStr+"T00:00:00");
   d.setDate(d.getDate()+n);
-  return d.toISOString().slice(0,10);
+  return localYMD(d);
 }
 function daysBetween(a,b){
   return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/86400000);
