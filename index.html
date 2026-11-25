@@ -1131,6 +1131,45 @@ select.in option{background:#fff;color:var(--ink)}
 .sp.scrolled .sp-count{color:var(--sub)}
 @media (max-width:699px){.sp-bar{background:rgba(255,255,255,.96)}}
 .sp.enter-tile{animation:none}
+/* ── making the 3D showroom obvious to use ── */
+#services.is-3d .lineup-ctl{display:none}
+.svc3d-stage{height:min(64svh,540px);min-height:400px}
+@media (min-width:700px){.svc3d-stage{height:min(66vh,620px)}}
+.svc3d-hint{top:18px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);white-space:nowrap;
+  background:rgba(255,253,247,.92);border:1px solid var(--line);padding:8px 15px 8px 13px;border-radius:99px;color:var(--ink)}
+.svc3d-arrow{position:absolute;top:calc(max(400px,min(64svh,540px))/2);transform:translateY(-50%);z-index:4;
+  width:52px;height:52px;border-radius:50%;border:1px solid var(--line2);background:rgba(255,255,255,.94);
+  color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(20,20,10,.12);transition:background .2s,color .2s,transform .2s}
+@media (min-width:700px){.svc3d-arrow{top:calc(max(400px,min(66vh,620px))/2);width:60px;height:60px}}
+.svc3d-arrow svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.2}
+.svc3d-arrow:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.svc3d-arrow:active{transform:translateY(-50%) scale(.94)}
+.svc3d-arrow.prev{left:max(12px,calc((100% - var(--max))/2))}
+.svc3d-arrow.next{right:max(12px,calc((100% - var(--max))/2))}
+.svc3d-cta{position:relative;z-index:3;text-align:center;padding:4px 20px 0}
+.svc3d-cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:auto;
+  min-width:min(100%,340px);padding:17px 26px}
+.svc3d-cta .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;flex-shrink:0}
+.svc3d-sub{font-size:13px;color:var(--sub);margin-top:9px}
+.svc3d-tabs{position:relative;z-index:3;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+  max-width:var(--max);margin:22px auto 0;padding:0 20px}
+.svc3d-tab{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line2);
+  border-radius:99px;padding:9px 15px 9px 10px;font-size:13.5px;font-weight:600;line-height:1.1;font-family:inherit;color:var(--ink);cursor:pointer;
+  transition:background .2s,border-color .2s,color .2s}
+.svc3d-tab b{font-family:var(--disp);font-stretch:118%;font-size:11px;color:var(--sub);
+  background:var(--bg2);border-radius:99px;padding:4px 6px;letter-spacing:.04em}
+.svc3d-tab:hover{border-color:var(--ac)}
+.svc3d-tab[aria-selected="true"]{background:var(--ac);border-color:var(--ac);color:#fff}
+.svc3d-tab[aria-selected="true"] b{background:rgba(255,255,255,.2);color:#fff}
+/* on a phone the names scroll sideways in one row */
+@media (max-width:699px){
+  .svc3d-tabs{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;
+    padding:0 16px 4px;-webkit-overflow-scrolling:touch}
+  .svc3d-tabs::-webkit-scrollbar{display:none}
+  .svc3d-tab{flex-shrink:0}
+  .svc3d-cta .btn{width:100%}
+}
 /* keep the headline clear of the menu bar on short phone screens */
 .banner-in{padding-top:96px}
 </style>
@@ -1317,7 +1356,15 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
     <div class="svc3d" id="svc3d" hidden>
       <div class="svc3d-stage" id="svc3d-stage" tabindex="0" role="group"
            aria-roledescription="carousel" aria-label="Services. Use the arrow keys to turn, Enter to open."></div>
-      <div class="svc3d-hint" aria-hidden="true"><span class="svc3d-dot"></span><span class="h-wide">Drag to spin &middot; tap the front card to step inside</span><span class="h-narrow">Swipe to spin &middot; tap to open</span></div>
+      <div class="svc3d-hint" aria-hidden="true"><span class="svc3d-dot"></span><span class="h-wide">Swipe, drag or use the arrows to browse</span><span class="h-narrow">Swipe to browse</span></div>
+      <button type="button" class="svc3d-arrow prev" id="s3-prev" aria-label="Previous service"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="svc3d-arrow next" id="s3-next" aria-label="Next service"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="svc3d-cta">
+        <button type="button" class="btn" id="s3-open">See <span id="s3-name">this service</span>
+          <svg viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <p class="svc3d-sub">What&rsquo;s included, photos and reviews</p>
+      </div>
+      <div class="svc3d-tabs" id="s3-tabs" role="tablist" aria-label="Choose a service"></div>
       <div class="sr-only" id="svc3d-live" aria-live="polite"></div>
     </div>
     <div id="svc-list" class="tiles"></div>
@@ -2694,18 +2741,40 @@ function init3D(){
         const count=$("lu-count"), bar=$("lu-bar"), live=$("svc3d-live");
         const cs=getComputedStyle(document.documentElement);
         const tok=(k,d)=>(cs.getPropertyValue(k)||"").trim()||d;
+        const tabs=$("s3-tabs"), nameEl=$("s3-name");
+        if(tabs) tabs.innerHTML=svcs.map((s,i)=>
+          '<button type="button" class="svc3d-tab" role="tab" data-i="'+i+'" aria-selected="'+(i===0)+'">'+
+          '<b>'+pad2(i+1)+'</b>'+esc(s.name)+'</button>').join("");
+        if(nameEl && svcs[0]) nameEl.textContent=svcs[0].name;
+        const lede=$("svc-lede");
+        if(lede) lede.textContent="Five ways we can help. Pick one to see what’s included, photos and reviews.";
         svc3d=window.Services3D.create(stage, svcs, {
+          autoplay:4200,
+          onInteract:()=>{ if(hint) hint.classList.add("gone"); },
           theme:{bg:tok("--card","#fffdf7"), line:tok("--ac","#2f5d3a"), dust:tok("--gold-deep","#c99a1f"), light:true},
           onChange:i=>{
             if(count) count.textContent=pad2(i+1)+" / "+pad2(svcs.length);
             if(bar){ bar.style.width=(100/svcs.length)+"%"; bar.style.transform="translateX("+(i*100)+"%)"; }
             if(live) live.textContent=svcs[i].name+", "+(i+1)+" of "+svcs.length;
-            if(hint && i!==0) hint.classList.add("gone");
+            if(nameEl) nameEl.textContent=svcs[i].name;
+            if(tabs){
+              tabs.querySelectorAll(".svc3d-tab").forEach((t,k)=>t.setAttribute("aria-selected",String(k===i)));
+              const a=tabs.querySelector('[aria-selected="true"]');
+              // keep the chosen name in view on a phone without moving the page
+              if(a && tabs.scrollWidth>tabs.clientWidth)
+                tabs.scrollTo({left:a.offsetLeft-(tabs.clientWidth-a.offsetWidth)/2, behavior:"smooth"});
+            }
           },
           onStart:()=>{ if(hint) hint.classList.add("gone"); },
           onOpen:i=>openService(i,"3d"),
         });
         if(!svc3d) return fallback("no scene");
+        $("s3-prev").addEventListener("click",()=>svc3d.prev());
+        $("s3-next").addEventListener("click",()=>svc3d.next());
+        $("s3-open").addEventListener("click",()=>svc3d.open());
+        if(tabs) tabs.addEventListener("click",e=>{
+          const t=e.target.closest(".svc3d-tab"); if(t) svc3d.goTo(+t.dataset.i);
+        });
         ["lu-prev","lu-next"].forEach(id=>{ const b=$(id); if(b) b.disabled=false; });
         if(bar){ bar.style.width=(100/svcs.length)+"%"; bar.style.transform="translateX(0)"; }
         if(spIdx>=0) svc3d.goTo(spIdx,true);

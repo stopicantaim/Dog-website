@@ -94,7 +94,7 @@ function drawCard(img, s, i){
   g.fillStyle = "rgba(255,255,255,.22)"; g.fillRect(48,TEX_H-108,TEX_W-96,2);
   g.font = "800 24px "+body;
   if("letterSpacing" in g) g.letterSpacing = "4px";
-  g.fillStyle = "#fff"; g.fillText("TAP TO STEP INSIDE  →", 48, TEX_H-56);
+  g.fillStyle = "#fff"; g.fillText("TAP FOR DETAILS  →", 48, TEX_H-56);
   g.restore();
 
   // thin frame
@@ -144,19 +144,16 @@ function create(host, services, opts){
   scene.fog = LIGHT ? new T.Fog(BG, 20, 40) : new T.Fog(BG, 12, 26);
   const camera = new T.PerspectiveCamera(36, 1, .1, 100);
 
-  // ring layout: wide enough that neighbours never touch, tight enough
-  // that they peek in from the sides
-  const R = Math.max(4.6, (CARD_W*1.18)/(2*Math.sin(Math.PI/n)));
-  const STEP = 2*Math.PI/n;
+  // fanned layout: the chosen service stands in front on the turntable,
+  // its neighbours angle in from each side so it's obvious there are more
+  const R = 0;                       // the front card stands at the centre
+  const STEP = 2*Math.PI/n;          // "one card" of turn, used for dragging
   const FLOOR = -CARD_H/2;
+  const signedWrap = x => { x = ((x%n)+n)%n; return x>n/2 ? x-n : x; };
 
-  const ring = new T.Group(); scene.add(ring);
   const refl = reflectionAlpha();
   const cards = services.map((s,i)=>{
     const pivot = new T.Group();
-    const a = i*STEP;
-    pivot.position.set(Math.sin(a)*R, 0, Math.cos(a)*R);
-    pivot.rotation.y = a;
     const geo = new T.PlaneGeometry(CARD_W, CARD_H);
     const mat = new T.MeshBasicMaterial({color:0x222222, transparent:true});
     const mesh = new T.Mesh(geo, mat);
@@ -167,7 +164,7 @@ function create(host, services, opts){
     rmesh.scale.y = -1;
     rmesh.position.y = -CARD_H - .02;
     pivot.add(mesh); pivot.add(rmesh);
-    ring.add(pivot);
+    scene.add(pivot);
     return {pivot, mesh, mat, rmat, lift:0, tx:0, ty:0};
   });
 
@@ -188,9 +185,9 @@ function create(host, services, opts){
     });
   });
 
-  // turntable: two gold hairline rings on the floor
-  const ringMat = new T.MeshBasicMaterial({color:LINE, transparent:true, opacity:LIGHT ? .38 : .42, side:T.DoubleSide});
-  [[R+CARD_W*.62, .025],[R-CARD_W*.62, .018],[R+CARD_W*.62+.35, .01]].forEach(([r,w])=>{
+  // turntable under the front card: hairline rings on the floor
+  const ringMat = new T.MeshBasicMaterial({color:LINE, transparent:true, opacity:LIGHT ? .45 : .42, side:T.DoubleSide});
+  [[CARD_W*.78, .03],[CARD_W*.92, .015],[CARD_W*1.15, .01]].forEach(([r,w])=>{
     const m = new T.Mesh(new T.RingGeometry(r, r+w, 160), ringMat);
     m.rotation.x = -Math.PI/2; m.position.y = FLOOR - .01;
     scene.add(m);
@@ -233,7 +230,8 @@ function create(host, services, opts){
     const t = Math.tan(T.MathUtils.degToRad(camera.fov/2));
     // the front card fills about two thirds of the height, and never
     // more than 80% of the width on a narrow phone
-    const dH = CARD_H/(.66*2*t), dW = CARD_W/(.8*2*t*camera.aspect);
+    // on a phone the front card is a bit narrower so its neighbours show
+    const dH = CARD_H/(.66*2*t), dW = CARD_W/((camera.aspect<1 ? .66 : .8)*2*t*camera.aspect);
     camDist = Math.max(dH,dW);
     dirty = true;
   }
@@ -244,6 +242,9 @@ function create(host, services, opts){
   const ray = new T.Raycaster(), ndc = new T.Vector2();
   let px=0, py=0, hover=-1, dragging=false, downX=0, downY=0, lastX=0, lastT=0, vel=0, moved=false;
   let state = "idle";                 // idle | flying-in | inside | flying-out
+  // moves on by itself every few seconds until the visitor touches it
+  let autoOn = !!opts.autoplay, autoT = 0;
+  function stopAuto(){ if(autoOn){ autoOn = false; if(opts.onInteract) opts.onInteract(); } }
   let dirty = true, visible = true, raf = 0, last = performance.now();
   let fly = {t:0, dur:900, from:new T.Vector3(), to:new T.Vector3(), lookFrom:new T.Vector3(), lookTo:new T.Vector3(), done:null};
 
@@ -270,12 +271,14 @@ function create(host, services, opts){
   const el = renderer.domElement;
   el.addEventListener("pointerdown", e=>{
     if(state!=="idle") return;
+    stopAuto();
     dragging = true; moved = false;
     downX = lastX = e.clientX; downY = e.clientY; lastT = performance.now(); vel = 0;
     try{ el.setPointerCapture(e.pointerId); }catch(_){}
   });
   el.addEventListener("pointermove", e=>{
     const r = el.getBoundingClientRect();
+    autoT = 0;                        // don't move it from under the pointer
     px = ((e.clientX-r.left)/r.width)*2-1;
     py = ((e.clientY-r.top)/r.height)*2-1;
     if(dragging){
@@ -313,6 +316,7 @@ function create(host, services, opts){
 
   host.addEventListener("keydown", e=>{
     if(state!=="idle") return;
+    stopAuto();
     if(e.key==="ArrowRight"){ e.preventDefault(); api.next(); }
     else if(e.key==="ArrowLeft"){ e.preventDefault(); api.prev(); }
     else if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openActive(); }
@@ -347,21 +351,29 @@ function create(host, services, opts){
     const dt = Math.min(50, now-last); last = now;
     const time = now/1000;
 
-    if(!dragging) rot += (rotTarget-rot)*Math.min(1, dt*.009);
-    ring.rotation.y = -rot;
+    if(autoOn && state==="idle" && visible && !dragging){
+      autoT += dt;
+      if(autoT > opts.autoplay){ autoT = 0; setActive(frontIndex()+1); }
+    }
+    if(!dragging) rot += (rotTarget-rot)*Math.min(1, dt*.007);
     const idx = frontIndex();
     if(idx!==active){ active = idx; if(opts.onChange) opts.onChange(idx); }
 
     cards.forEach((c,i)=>{
-      // how squarely this card faces the camera: 1 in front, -1 behind
-      const face = Math.cos(i*STEP - rot);
-      const f = Math.pow(Math.max(0,face),2.2);
+      // where this card sits in the fan: 0 in front, ±1 beside it, ±2 behind
+      const d = signedWrap(i - rot/STEP), ad = Math.abs(d), sd = Math.sign(d);
+      const near = Math.min(ad,1), far = Math.max(0,ad-1);
+      c.pivot.position.set(sd*(near*CARD_W*1.02 + far*CARD_W*.5), 0, -(near*1.5 + far*1.2));
+      c.pivot.rotation.y = -sd*near*.6;
+      const o = ad<=1 ? 1-.2*ad : Math.max(0, .8-(ad-1)*.8);
+      c.pivot.visible = o>.01;
+      c.mesh.renderOrder = Math.round(10-ad*3);
+      const f = 1-near;
       if(LIGHT){
-        // neighbours stay clearly visible, cards round the back fade away
-        const o = face>0 ? .45+.55*face : Math.max(.06,.45+.45*face);
         c.mat.color.setScalar(.86+.14*f); c.rmat.color.setScalar(.86+.14*f);
         c.mat.opacity = o; c.rmat.opacity = o*.3;
       } else {
+        c.mat.opacity = o; c.rmat.opacity = o*.55;
         const b = .22 + .78*f;
         c.mat.color.setScalar(b); c.rmat.color.setScalar(b);
       }
@@ -434,10 +446,10 @@ function create(host, services, opts){
   start();
 
   const api = {
-    next(){ setActive(frontIndex()+1); start(); },
-    prev(){ setActive(frontIndex()-1); start(); },
-    goTo(i, instant){ setActive(i, instant); start(); },
-    open: openActive,
+    next(){ stopAuto(); setActive(frontIndex()+1); start(); },
+    prev(){ stopAuto(); setActive(frontIndex()-1); start(); },
+    goTo(i, instant){ stopAuto(); setActive(i, instant); start(); },
+    open(){ stopAuto(); openActive(); },
     get index(){ return frontIndex(); },
     // called when the service page closes: fly back out to the turntable
     flyBack(i){
