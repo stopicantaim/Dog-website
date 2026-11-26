@@ -51,9 +51,16 @@ function drawSign(name, icon, ink){
   g.lineWidth=10; g.strokeStyle=ink; g.stroke();
   if(icon) g.drawImage(icon, 34, (H-120)/2, 120, 120);
   g.fillStyle=ink;
-  g.font="800 62px Archivo, 'Arial Narrow', Arial, sans-serif";
-  const lines=wrapLines(g,(name||"").toUpperCase(), W-(icon?200:80));
-  const lh=62, top=(H-lines.length*lh)/2+lh*.8;
+  // shrink the lettering until every line fits (long words like
+  // "transportation" can't wrap) and it's no more than two lines
+  const maxW = W-(icon?210:80);
+  let fs=62, lines=[];
+  for(; fs>=30; fs-=2){
+    g.font="800 "+fs+"px Archivo, 'Arial Narrow', Arial, sans-serif";
+    lines=wrapLines(g,(name||"").toUpperCase(), maxW);
+    if(lines.length<=2 && lines.every(l=>g.measureText(l).width<=maxW)) break;
+  }
+  const lh=fs, top=(H-lines.length*lh)/2+lh*.8;
   lines.forEach((l,k)=>g.fillText(l, icon?176:40, top+k*lh));
   return c;
 }

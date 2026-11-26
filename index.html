@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Dillon's Pet Care | Dog Sitter in Smithfield, NC</title>
-<meta name="description" content="Local dog sitter in Smithfield, NC. House sitting, drop-in visits and dog walks in Smithfield, Selma, Clayton, Four Oaks and Johnston County. Book directly, no app fees."/>
+<meta name="description" content="Local dog sitter in Smithfield, NC. House sitting, drop-in visits, dog walks and pet transportation in Smithfield, Selma, Clayton, Four Oaks and Johnston County. Book directly, no app fees."/>
 <meta name="theme-color" content="#2f5d3a"/>
 <link rel="icon" href="favicon.ico"/>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
@@ -12,14 +12,14 @@
 
 <!-- How the link looks when shared in Facebook groups, Nextdoor or a text -->
 <meta property="og:title" content="Dillon's Pet Care | Dog Sitter in Smithfield, NC"/>
-<meta property="og:description" content="Local dog sitter for house sitting, drop-in visits and dog walks. Free meet &amp; greet before your first booking."/>
+<meta property="og:description" content="Local dog sitter for house sitting, drop-in visits, dog walks and pet transportation. Free meet &amp; greet before your first booking."/>
 <meta property="og:type" content="website"/>
 <meta property="og:image" content="https://dillonspetcare.com/photos/social-preview.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Dillon's Pet Care | Dog Sitter in Smithfield, NC"/>
-<meta name="twitter:description" content="Local dog sitter: house sitting, drop-in visits and dog walks."/>
+<meta name="twitter:description" content="Local dog sitter: house sitting, drop-in visits, dog walks and pet transportation."/>
 <meta name="twitter:image" content="https://dillonspetcare.com/photos/social-preview.jpg"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -930,8 +930,8 @@ footer{padding:64px 20px 110px;text-align:left;border-top:1px solid var(--line);
 .sp-tag{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--ac);margin-bottom:14px}
 .sp-tag::before{content:"";width:34px;height:1px;background:var(--ac)}
-.sp-hero h1{font-family:var(--disp);font-stretch:118%;font-size:clamp(42px,8.4vw,120px);line-height:.92;
-  font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin:0 0 18px;color:#fff;max-width:12ch}
+.sp-hero h1{font-family:var(--disp);font-stretch:118%;font-size:clamp(30px,7.8vw,116px);line-height:.92;
+  font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin:0 0 18px;color:#fff;max-width:15ch}
 .sp-price{font-size:15px;color:rgba(255,255,255,.82);margin-bottom:24px}
 .sp-price b{font-family:var(--disp);font-stretch:118%;font-size:28px;color:var(--ac);margin-right:6px}
 .sp-ctas{display:grid;gap:10px;max-width:520px}
@@ -1284,7 +1284,7 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
       <div class="banner-in">
         <div class="eyebrow eyebrow-on-v" id="hero-area"></div>
         <h1 id="hero-h1">Your dog stays happy while you&rsquo;re away</h1>
-        <p id="hero-p">House sitting, drop-in visits and dog walks in Smithfield, so your dog stays home with someone who treats them like one of his own.</p>
+        <p id="hero-p">House sitting, drop-in visits, dog walks and rides to the vet in Smithfield, from someone who treats your dog like one of his own.</p>
         <div class="btn-row">
           <a class="btn" id="cta-text" href="#contact">Request a booking</a>
           <a class="btn alt banner-alt" id="cta-call" href="tel:">Call or text</a>
@@ -1587,7 +1587,7 @@ const SITE = {
   bookedDates: [],
 
   headline: "Your dog stays happy while you're away",
-  intro:    "House sitting, drop-in visits and dog walks in Smithfield, so your dog stays home with someone who treats them like one of his own.",
+  intro:    "House sitting, drop-in visits, dog walks and rides to the vet in Smithfield, from someone who treats your dog like one of his own.",
 
   // The ticks under the booking heading.
   // Only put things here that are true, people rely on these.
@@ -1616,6 +1616,13 @@ const SITE = {
      photos:["photos/morning-walk-in-the-fog.jpg","photos/pair-on-the-lead.jpg","photos/aussie-in-the-field.jpg","photos/fetch-at-the-park.jpg"],
      included:["A full 30 minutes on the leash","Rain or shine","Paced to suit your dog","Paws wiped before we leave"],
      desc:"A full 30 minutes on the leash, rain or shine. Paced to suit your dog, whether that's a brisk loop for a young shepherd or an easy stroll for an older one. Paws wiped before we leave."},
+
+    // price: null shows "we'll quote you" until a rate is set, e.g. price:30
+    {name:"Pet transportation", unit:"per trip", price:null,
+     img:"photos/happy-after-fetch.jpg", tag:"Vet & groomer runs", slug:"pet-transportation",
+     photos:["photos/hello-at-the-fence.jpg","photos/pair-on-the-lead.jpg","photos/poodle-in-the-sun.jpg","photos/collie-close-up.jpg"],
+     included:["Rides to the vet, the groomer or wherever they need to go","Picked up from home and brought back","Secured in a crate or a car harness","A message when they arrive"],
+     desc:"Can't get away for the vet or the groomer? We pick your dog up from home, drive them there safely secured in a crate or car harness, and bring them back. You get a message when they arrive."},
   ],  // Show rates next to each service? false keeps the list clean and lets
   // people ask first. The estimator below still works either way.
   showPrices: false,
@@ -1741,6 +1748,7 @@ const SVC_ICONS = {
   "boarding": "<path d='M2.5 11.5 12 4l9.5 7.5'/><path d='M5 10v10h14V10'/><path d='M9.5 20v-3.6a2.5 2.5 0 0 1 5 0V20'/><path d='M18.6 1.8a2.3 2.3 0 1 0 2.9 2.9 2.6 2.6 0 0 1-2.9-2.9z'/>",
   "house-sitting": "<path d='M2.5 11 12 3.5l9.5 7.5'/><path d='M5 9.5V20h14V9.5'/><circle cx='9.5' cy='14.5' r='2'/><path d='M11.5 14.5h4.5M14.5 14.5v2M16 14.5v1.5'/>",
   "drop-in-visits": "<path d='M3 21h18'/><path d='M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17'/><path d='M6 3l7 2.2V21'/><circle cx='11' cy='12.5' r='.6' fill='currentColor'/>",
+  "pet-transportation": "<path d='M3 16.5v-3.2l1.8-4.6A2 2 0 0 1 6.7 7.4h10.6a2 2 0 0 1 1.9 1.3l1.8 4.6v3.2a1 1 0 0 1-1 1h-1'/><path d='M5 17.5H4a1 1 0 0 1-1-1'/><path d='M9 17.5h6'/><circle cx='7' cy='17.5' r='2'/><circle cx='17' cy='17.5' r='2'/><path d='M4.6 12.5h14.8'/><path d='M12 7.4v5.1'/>",
   "dog-walking": "<path d='M8 21.2c-2.2 0-3.7-1.2-3.7-2.9s1.8-3.4 3.7-3.4 3.7 1.7 3.7 3.4-1.5 2.9-3.7 2.9z'/><circle cx='2.9' cy='12.6' r='1.1'/><circle cx='5.9' cy='9' r='1.1'/><circle cx='10.1' cy='9' r='1.1'/><circle cx='13.1' cy='12.6' r='1.1'/><path d='M12.8 16.4C15.3 12.8 17.1 8.3 19.3 5.1'/><circle cx='20.3' cy='3.6' r='1.6'/>",
   "daycare": "<circle cx='8' cy='8' r='3'/><path d='M8 1.8v1.4M8 12.8v1.4M1.8 8h1.4M12.8 8h1.4M3.6 3.6l1 1M11.4 11.4l1 1M3.6 12.4l1-1M11.4 4.6l1-1'/><circle cx='16.5' cy='16.5' r='5'/><path d='M12 15c2.2.2 4.2 2 4.6 6M21 18c-2.2-.2-4.2-2-4.6-6'/>",
   // used for "Not sure yet" and the specialty badges
@@ -1869,7 +1877,7 @@ function render(){
         '<div class="tile-d">'+esc(s.desc)+'</div>'+
         '<div class="tile-foot">'+
           '<div class="tile-price">'+
-            (showP ? money(s.price)+' <span>'+esc(s.unit)+'</span>'
+            (showP && typeof s.price==="number" ? money(s.price)+' <span>'+esc(s.unit)+'</span>'
                    : '<span>'+esc(s.unit)+'</span>')+
           '</div>'+
           '<a class="tile-btn" href="#service/'+esc(svcSlug(s,i))+'" data-i="'+i+'">Explore</a>'+
@@ -2327,7 +2335,7 @@ function buildStructuredData(){
     "@context":"https://schema.org",
     "@type":"LocalBusiness",
     "name":SITE.name,
-    "description":"Local dog sitter offering house sitting, drop-in visits and dog walks.",
+    "description":"Local dog sitter offering house sitting, drop-in visits, dog walks and pet transportation.",
     "url":location.origin+location.pathname,
     "telephone":tel?("+1"+tel):undefined,
     "email":SITE.email||undefined,
@@ -2554,6 +2562,13 @@ function estimate(){
 
   let dogs=Math.max(1, Math.min(6, parseInt($("e-dogs").value)||1));
 
+  // a service without a price yet gets "we'll quote you" instead of a sum
+  if(typeof s.price!=="number"){
+    $("e-break").innerHTML=line(qty+" "+word+(qty===1?"":"s")+(dogs>1?", "+dogs+" dogs":""), "Quoted");
+    $("e-total").textContent="We'll quote you";
+    const bs=$("f-svc"); if(bs) bs.value=s.name;
+    return;
+  }
   const base=s.price*qty;
   const extraPer=+SITE.extraDogRate||0;
   const extra=extraPer*(dogs-1)*qty;
@@ -2636,7 +2651,7 @@ function spHTML(i){
   const svcs=SITE.services||[], s=svcs[i], n=svcs.length;
   const slug=svcSlug(s,i);
   const showP=SITE.showPrices!==false;
-  const price = showP
+  const price = (showP && typeof s.price==="number")
     ? '<b>'+money(s.price)+'</b>'+esc(s.unit)
     : 'Priced '+esc(s.unit)+' &middot; we quote you the same day';
   const tel=digits(primaryPhone());
@@ -2717,6 +2732,25 @@ function renderSP(i){
   $("sp-count").textContent=pad2(i+1)+" / "+pad2(svcs.length);
   $("sp-scroll").scrollTop=0;
   $("sp").classList.remove("scrolled");
+  // long one-word names ("transportation") must fit on a phone without
+  // breaking mid-word, so shrink the headline until the widest word fits
+  const h1=$("sp-title");
+  if(h1){
+    const fit=()=>{
+      h1.style.fontSize="";
+      const box=h1.parentElement.clientWidth;
+      let fs=parseFloat(getComputedStyle(h1).fontSize)||40;
+      const probe=document.createElement("span");
+      probe.style.cssText="position:absolute;visibility:hidden;white-space:nowrap;font:inherit;letter-spacing:inherit;text-transform:inherit";
+      h1.appendChild(probe);
+      const words=(h1.firstChild&&h1.firstChild.nodeValue||"").split(/\s+/);
+      const widest=()=>Math.max(...words.map(w=>{ probe.textContent=w; return probe.getBoundingClientRect().width; }));
+      while(fs>20 && widest()>box){ fs-=2; h1.style.fontSize=fs+"px"; }
+      probe.remove();
+    };
+    fit();
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  }
   document.title=s.name+" | "+SITE.name;
 
   // big screens: sharp clip in a frame, blurred copy behind it
