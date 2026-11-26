@@ -661,6 +661,7 @@ function create(host, services, opts){
 
   function enterRoom(){
     state = "room";
+    room.t0 = 0;                                   // start fresh: don't replay the last room's camera move
     room.stations = stationsFor(active); room.k = 0;
     tabsEl.innerHTML = room.stations.map((st,k)=>
       '<button type="button" role="tab" data-k="'+k+'" aria-selected="'+(k===0)+'">'+STATION_LABEL[st]+'</button>').join("");
@@ -688,7 +689,7 @@ function create(host, services, opts){
   function leaveRoom(){
     if(state!=="room") return;
     ui.hidden = true;
-    state = "leaving"; syncVideo();
+    state = "leaving"; room.t0 = 0; syncVideo();
     startFly(false, active, null, camera.position.clone(), room.look.clone());
   }
   // which wall did you tap?
