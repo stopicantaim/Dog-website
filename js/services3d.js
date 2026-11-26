@@ -518,7 +518,11 @@ function create(host, services, opts){
     g.fillStyle = "#f0c14b"; g.fillRect(P, y+14, 60, 5);
     y += 76;
     // name
-    y = wrapDraw((s.name||"").toUpperCase(), P, y+ (portrait?10:20), colW, portrait?78:92, "800 "+(portrait?74:88)+"px "+DISP, INK, 2) + 6;
+    // shrink the name until its longest word fits the column ("TRANSPORTATION")
+    let nfs = portrait ? 74 : 88;
+    const words = (s.name||"").toUpperCase().split(/\s+/);
+    for(; nfs > 36; nfs -= 2){ g.font = "800 "+nfs+"px "+DISP; if(words.every(w=>g.measureText(w).width <= colW)) break; }
+    y = wrapDraw((s.name||"").toUpperCase(), P, y+ (portrait?10:20), colW, Math.round(nfs*1.05), "800 "+nfs+"px "+DISP, INK, 2) + 6;
     // price line
     y = wrapDraw(s.priceLine||"", P, y, colW, 40, "600 30px "+BODY, "#5f6b60", 2) + 22;
     // description
