@@ -555,7 +555,7 @@ function create(host, services, opts){
   function pickDog(e){ aim(e); return ray.intersectObjects(dogMeshes,false).length>0; }
   function hop(){ if(dogState.hopT<0) dogState.hopT = 0; start(); }
   let downX=0, downY=0, downT=0, down=false;
-  el.addEventListener("pointerdown", e=>{ if(state==="entering"){ finishInterior(); return; } if(state!=="idle") return; down=true; downX=e.clientX; downY=e.clientY; downT=performance.now(); });
+  el.addEventListener("pointerdown", e=>{ if(state==="flying-in"){ path.done = null; state = "entering"; } if(state==="entering"){ finishInterior(); return; } if(state!=="idle") return; down=true; downX=e.clientX; downY=e.clientY; downT=performance.now(); });
   el.addEventListener("pointermove", e=>{
     const r = el.getBoundingClientRect();
     px = ((e.clientX-r.left)/r.width)*2-1; py = ((e.clientY-r.top)/r.height)*2-1;
