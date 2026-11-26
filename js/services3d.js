@@ -294,7 +294,7 @@ function create(host, services, opts){
 
     // every part of the section answers to a tap
     g.traverse(o=>{ if(o.isMesh) o.userData.i = i; });
-    return {g, hinge, door, signGroup, signMat, open:0, lift:0};
+    return {g, hinge, door, hole, signGroup, signMat, open:0, lift:0};
   });
 
   // signs get their artwork once the icons and the display font are ready
@@ -387,9 +387,6 @@ function create(host, services, opts){
   const sky = new T.Mesh(new T.PlaneGeometry(.86,.66), new T.MeshBasicMaterial({color:col("#bfe6f7")})); sky.position.z = .03; win.add(sky);
   box(.04,.66,.02, IM.trim, 0,0,.04, win); box(.86,.04,.02, IM.trim, 0,0,.04, win);
   box(1.12,.06,.14, IM.trim, 0,-.43,.06, win);
-  // the doorway you came through, in the right-hand wall, bright outside
-  const outside = new T.Mesh(new T.ShapeGeometry(archShape(.95,1.25),24), new T.MeshBasicMaterial({color:col("#d9efc9")}));
-  outside.position.set(RW/2-.004, 0, .5); outside.rotation.y = -Math.PI/2; iscene.add(outside);
   // the service's sign hangs on the back wall
   const plaqueMat = new T.MeshBasicMaterial({color:0xffffff, transparent:true});
   const plaque = new T.Mesh(new T.PlaneGeometry(1.25, 1.25*220/640), plaqueMat); plaque.position.set(.45, 1.95, RB+.02); iscene.add(plaque);
@@ -464,37 +461,41 @@ function create(host, services, opts){
     rooms.forEach((r,k)=>{ r.visible = k===i; });
     plaqueMat.map = sections[i].signMat.map || null; plaqueMat.needsUpdate = true;
   }
-  const IN = { from:new T.Vector3(), to:new T.Vector3(), look:new T.Vector3(0,.95,-1), t0:0, dur:2400, idx:0, timer:0 };
-  const box3 = host.closest ? host.closest(".svc3d") : null;     // to hide the arrows while inside
-  const veil = document.createElement("div");
-  veil.style.cssText = "position:absolute;inset:0;background:#141c16;opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:2";
-  host.appendChild(veil);
-  function enterInterior(i){
-    veil.style.opacity = "1";
-    setTimeout(()=>{
-      showRoom(i); iscene.add(dog);
-      const back = narrow ? 1.6 : 0;
-      IN.from.set(1.4, 2.05, 4.6+back); IN.to.set(.45, 1.7, 3.8+back); IN.t0 = performance.now(); IN.idx = i;
-      // move on to the page after a moment by the real clock, however slow the device
-      clearTimeout(IN.timer); IN.timer = setTimeout(finishInterior, IN.dur + 600);
-      dogState.x = 1.95; dogState.z = .5; dogState.face = -Math.PI/2;   // trots in through the side door
-      state = "interior";
-      if(box3) box3.classList.add("is-inside");
-      camera.position.copy(IN.from); camera.lookAt(IN.look);
-      requestAnimationFrame(()=>{ veil.style.opacity = "0"; });
-      start();
-    }, 300);
+  // ── the doorway is a window into the room ────────────────────────
+  // Each room sits "behind" its door: the open doorway shows that room,
+  // drawn from exactly where you're standing, so the camera can glide
+  // straight through the door into it with no fade and no cut.
+  const ZF = 1.3;                                          // where the room's doorway is
+  const offsetFor = i => new T.Vector3(-xOf(i), -.12, ZF - (D/2 + .004));
+  const icam = new T.PerspectiveCamera(camera.fov, 1, .05, 100);
+  const portalRT = new T.WebGLRenderTarget(2, 2, {minFilter:T.LinearFilter, magFilter:T.LinearFilter});
+  if("encoding" in portalRT.texture) portalRT.texture.encoding = T.sRGBEncoding;
+  const portalMat = new T.ShaderMaterial({
+    uniforms: {tex:{value:portalRT.texture}, res:{value:new T.Vector2(1,1)}},
+    vertexShader: "void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+    fragmentShader: "uniform sampler2D tex; uniform vec2 res; void main(){ gl_FragColor = texture2D(tex, gl_FragCoord.xy/res); }",
+  });
+  let shownRoom = -1;
+  function showRoom(i){
+    if(shownRoom!==i){ rooms.forEach((r,k)=>{ r.visible = k===i; }); shownRoom = i; }
+    const m = sections[i].signMat.map || null;
+    if(plaqueMat.map!==m){ plaqueMat.map = m; plaqueMat.needsUpdate = true; }
+    sections.forEach((s,k)=>{ const want = k===i ? portalMat : M.dark; if(s.hole.material!==want) s.hole.material = want; });
   }
+  // a twin of the pup lives in the room and copies every move, so the dog
+  // you see walking through the doorway is seamless on both sides
+  const twin = buildDog({dogStyle: opts.dogStyle, ink: INK}); iscene.add(twin.dog);
+  const box3 = host.closest ? host.closest(".svc3d") : null;     // to hide the arrows while inside
+  const path = {curve:null, t0:0, dur:2700, dir:1, lookA:new T.Vector3(), lookDoor:new T.Vector3(), lookEnd:new T.Vector3(), startZ:0, endZ:0, done:null};
+  let holdTimer = 0;
   function finishInterior(){
-    clearTimeout(IN.timer);
-    if(state!=="interior") return;
+    clearTimeout(holdTimer);
+    if(state!=="entering") return;
     state = "inside";
-    if(opts.onOpen) opts.onOpen(IN.idx);
+    if(opts.onOpen) opts.onOpen(active);
   }
   function leaveInterior(){
-    if(dog.parent!==scene) scene.add(dog);
     if(box3) box3.classList.remove("is-inside");
-    veil.style.opacity = "0";
   }
   // ── camera framing ────────────────────────────────────────────────
   let narrow=false, camDist=12;
@@ -503,6 +504,9 @@ function create(host, services, opts){
     const Wpx = host.clientWidth||1, Hpx = host.clientHeight||1;
     renderer.setSize(Wpx,Hpx,false);
     camera.aspect = Wpx/Hpx; camera.updateProjectionMatrix();
+    icam.aspect = camera.aspect; icam.fov = camera.fov; icam.updateProjectionMatrix();
+    const buf = renderer.getDrawingBufferSize(new T.Vector2());
+    portalRT.setSize(buf.x, buf.y); portalMat.uniforms.res.value.copy(buf);
     narrow = camera.aspect < 1.05;
     const t = tanH();
     const showW = narrow ? W*1.5 : totalW+2.6;
@@ -510,7 +514,7 @@ function create(host, services, opts){
   }
 
   // ── state ─────────────────────────────────────────────────────────
-  let active = 0, hover = -1, state = "idle";       // idle | flying-in | inside | flying-out
+  let active = 0, hover = -1, state = "idle";       // idle | flying-in | entering | inside | flying-out
   let px=0, py=0, visible=true, raf=0, last=performance.now();
   let autoOn = !!opts.autoplay, autoT = 0;
   const camX = {cur:0, tgt:0};
@@ -520,6 +524,7 @@ function create(host, services, opts){
   function stopAuto(){ if(autoOn){ autoOn=false; if(opts.onInteract) opts.onInteract(); } }
   function setActive(i){
     active = wrapIdx(i,n);
+    showRoom(active);
     if(opts.onChange) opts.onChange(active);
     start();
   }
@@ -550,7 +555,7 @@ function create(host, services, opts){
   function pickDog(e){ aim(e); return ray.intersectObjects(dogMeshes,false).length>0; }
   function hop(){ if(dogState.hopT<0) dogState.hopT = 0; start(); }
   let downX=0, downY=0, downT=0, down=false;
-  el.addEventListener("pointerdown", e=>{ if(state==="interior"){ finishInterior(); return; } if(state!=="idle") return; down=true; downX=e.clientX; downY=e.clientY; downT=performance.now(); });
+  el.addEventListener("pointerdown", e=>{ if(state==="entering"){ finishInterior(); return; } if(state!=="idle") return; down=true; downX=e.clientX; downY=e.clientY; downT=performance.now(); });
   el.addEventListener("pointermove", e=>{
     const r = el.getBoundingClientRect();
     px = ((e.clientX-r.left)/r.width)*2-1; py = ((e.clientY-r.top)/r.height)*2-1;
@@ -580,7 +585,7 @@ function create(host, services, opts){
   el.addEventListener("pointercancel", ()=>{ down=false; });
   el.addEventListener("pointerleave", ()=>{ px=0; py=0; hover=-1; start(); });
   host.addEventListener("keydown", e=>{
-    if(state==="interior" && (e.key==="Enter"||e.key===" "||e.key==="Escape")){ e.preventDefault(); finishInterior(); return; }
+    if(state==="entering" && (e.key==="Enter"||e.key===" "||e.key==="Escape")){ e.preventDefault(); finishInterior(); return; }
     if(state!=="idle") return;
     if(e.key==="ArrowRight"){ e.preventDefault(); stopAuto(); setActive(active+1); }
     else if(e.key==="ArrowLeft"){ e.preventDefault(); stopAuto(); setActive(active-1); }
@@ -589,19 +594,33 @@ function create(host, services, opts){
 
   function startFly(inward, i, done){
     rest();
-    const d = doorSpot(i);
-    fly.t = 0; fly.dur = inward ? 1000 : 850; fly.done = done;
-    if(inward){ fly.from.copy(camera.position); fly.to.copy(d.pos); fly.lf.copy(restLook); fly.lt.copy(d.look); }
-    else { fly.from.copy(d.pos); fly.to.copy(restPos); fly.lf.copy(d.look); fly.lt.copy(restLook); }
+    const o = offsetFor(i), dx = xOf(i), dy = .12 + DOOR_H*.5;
+    const endExt = new T.Vector3(.35, 1.5, ZF + (narrow ? .3 : -.45)).sub(o);   // the room view, in outside terms
+    const outer = inward ? camera.position.clone() : restPos.clone();
+    path.curve = new T.CatmullRomCurve3([
+      outer,
+      new T.Vector3(dx, dy + .3, D/2 + 1.7),
+      new T.Vector3(dx, dy, D/2 + .35),
+      new T.Vector3(dx, dy + .05, D/2 - .35),
+      endExt,
+    ], false, "centripetal");
+    path.lookA.copy(restLook); path.lookDoor.set(dx, dy, -1); path.lookEnd.set(0, .85, -1.1).sub(o);
+    path.startZ = outer.z; path.endZ = endExt.z;
+    path.dir = inward ? 1 : -1; path.dur = inward ? 2700 : 2100;
+    path.t0 = performance.now(); path.done = done;
     state = inward ? "flying-in" : "flying-out";
+    if(inward && box3) box3.classList.add("is-inside");
     start();
   }
   function openActive(){
     if(state!=="idle") return;
     if(opts.onStart) opts.onStart(active);
     camX.cur = camX.tgt = xOf(active);
-    const i = active;
-    startFly(true, i, ()=>enterInterior(i));
+    showRoom(active);
+    startFly(true, active, ()=>{
+      state = "entering";                                  // a moment to look around
+      clearTimeout(holdTimer); holdTimer = setTimeout(finishInterior, 800);
+    });
   }
 
   // ── render loop ───────────────────────────────────────────────────
@@ -619,7 +638,7 @@ function create(host, services, opts){
     camX.cur += (camX.tgt-camX.cur)*Math.min(1, dt*.006);
 
     sections.forEach((s,i)=>{
-      const flying = (state==="flying-in" || state==="interior" || state==="inside") && i===active;
+      const flying = (state==="flying-in" || state==="entering" || state==="inside" || state==="flying-out") && i===active;
       const want = flying ? 1.45 : (i===active || i===hover) ? 1.05 : 0;   // how far the door swings
       s.open += (want - s.open)*Math.min(1, dt*.008);
       s.hinge.rotation.y = -s.open;
@@ -631,12 +650,19 @@ function create(host, services, opts){
     });
     ball.rotation.z = Math.sin(time*.8)*.3;
 
-    // where the pup is headed: beside the chosen door, or in through it
-    const indoors = state==="interior" || (state==="inside" && dog.parent===iscene);
-    const going = !indoors && (state==="flying-in" || state==="inside");
-    const tgt = indoors ? rooms[IN.idx].userData.spot : going ? {x: xOf(active), z: D/2 - .8} : spot(active);
+    // where the pup is headed, all in outside terms: in through the door to
+    // its spot in the room, or back out to its spot beside the door
+    const o = offsetFor(active), doorX = xOf(active), doorZ = D/2;
+    const inward = state==="flying-in" || state==="entering" || state==="inside";
+    const inRoom = dogState.z < doorZ - .05;
+    const rs = rooms[active].userData.spot;
+    let tgt;
+    if(inward) tgt = (!inRoom && dogState.z > doorZ + .1 && Math.abs(dogState.x - doorX) > .06)
+                     ? {x: doorX, z: doorZ + .3} : {x: rs.x - o.x, z: rs.z - o.z};
+    else tgt = (dogState.z < doorZ + .25) ? {x: doorX, z: doorZ + .45} : spot(active);
+    const indoors = inRoom;
     const vx = tgt.x - dogState.x, vz = tgt.z - dogState.z, dist = Math.hypot(vx, vz);
-    const speed = (going ? 4.2 : indoors ? 1.9 : 2.6) * dt/1000;
+    const speed = (inward ? 3.6 : inRoom ? 2.5 : 2.6) * dt/1000;     // hurries in ahead of you
     if(dist > .01){
       const stepLen = Math.min(dist, speed);
       dogState.x += vx/dist*stepLen; dogState.z += vz/dist*stepLen;
@@ -675,21 +701,32 @@ function create(host, services, opts){
     head.rotation.z = Math.sin(time*.9)*.06*still + (hopY>0 ? .12 : 0);
     ears.forEach((ear,k)=>{ ear.rotation.x = -hopY*1.6 + w*Math.sin(time*15+k)*.15; });
     tongue.visible = w > .3 || excited;
+    twin.dog.position.set(dog.position.x + o.x, 0, dog.position.z + o.z);
+    twin.dog.rotation.y = dog.rotation.y;
+    twin.pup.position.y = pup.position.y;
+    twin.legs.forEach((h,k)=>{ h.rotation.x = legs[k].rotation.x; });
+    twin.tail.rotation.copy(tail.rotation); twin.head.rotation.copy(head.rotation);
+    twin.ears.forEach((e,k)=>{ e.rotation.x = ears[k].rotation.x; });
+    twin.tongue.visible = tongue.visible;
 
     rest();
-    if(state==="interior"){
-      const k = ease(Math.min(1, (now - IN.t0)/IN.dur));
-      camera.position.lerpVectors(IN.from, IN.to, k);
-      camera.lookAt(IN.look);
-    } else if(state==="flying-in" || state==="flying-out"){
-      fly.t += dt;
-      const k = ease(Math.min(1, fly.t/fly.dur));
-      camera.position.lerpVectors(fly.from, fly.to, k);
-      look.lerpVectors(fly.lf, fly.lt, k);
+    if(state==="flying-in" || state==="flying-out"){
+      const raw = Math.min(1, Math.max(0, (now - path.t0)/path.dur));   // the first frame can land a hair early
+      const u = path.dir>0 ? ease(raw) : 1 - ease(raw);
+      camera.position.copy(path.curve.getPointAt(u));
+      // look at the door on the way in, then ease round to take in the room
+      const cz = camera.position.z, doorPlane = D/2;
+      if(cz > doorPlane){
+        const f = Math.min(1, Math.max(0, 1 - (cz - doorPlane)/Math.max(.01, path.startZ - doorPlane)));
+        look.lerpVectors(path.lookA, path.lookDoor, ease(f));
+      } else {
+        const f = Math.min(1, Math.max(0, (doorPlane - cz)/Math.max(.01, doorPlane - path.endZ)));
+        look.lerpVectors(path.lookDoor, path.lookEnd, ease(f));
+      }
       camera.lookAt(look);
-      if(fly.t >= fly.dur){
-        const d = fly.done; fly.done = null;
-        if(state==="flying-out") state = "idle";
+      if(raw >= 1){
+        const d = path.done; path.done = null;
+        if(state==="flying-out"){ state = "idle"; leaveInterior(); }
         if(d) d();
       }
     } else if(state==="idle"){
@@ -697,8 +734,18 @@ function create(host, services, opts){
       camera.lookAt(restLook);
     }
 
-    renderer.render(state==="interior" || (state==="inside" && dog.parent===iscene) ? iscene : scene, camera);
-    const moving = Math.abs(camX.tgt-camX.cur)>.002 || state==="flying-in" || state==="flying-out" || state==="interior";
+    icam.position.copy(camera.position).add(o);
+    icam.quaternion.copy(camera.quaternion);
+    const camInside = camera.position.z < D/2 + .12 && Math.abs(camera.position.x - doorX) < .6;
+    if(camInside){
+      renderer.render(iscene, icam);
+    } else {
+      if(sections[active].open > .12){
+        renderer.setRenderTarget(portalRT); renderer.render(iscene, icam); renderer.setRenderTarget(null);
+      }
+      renderer.render(scene, camera);
+    }
+    const moving = Math.abs(camX.tgt-camX.cur)>.002 || state==="flying-in" || state==="flying-out" || state==="entering";
     if((visible && state!=="inside") || moving) raf = requestAnimationFrame(tick);
   }
   function start(){ if(!raf){ last = performance.now(); raf = requestAnimationFrame(tick); } }
@@ -713,7 +760,7 @@ function create(host, services, opts){
   let rt=0;
   addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ frame(); start(); },120); });
 
-  frame(); camX.cur = camX.tgt = xOf(0); rest();
+  frame(); camX.cur = camX.tgt = xOf(0); rest(); showRoom(0);
   camera.position.copy(restPos); camera.lookAt(restLook);
   start();
 
@@ -726,9 +773,12 @@ function create(host, services, opts){
     // called when the service page closes: walk back out of that door
     flyBack(i){
       if(typeof i==="number"){ active = wrapIdx(i,n); camX.cur = camX.tgt = xOf(active); if(opts.onChange) opts.onChange(active); }
-      leaveInterior();
-      dogState.x = xOf(active); dogState.z = D/2 - .6;     // it comes trotting back out of the door
-      frame();
+      showRoom(active);
+      frame(); rest();
+      // start where we left off: in the room, with the pup in its spot
+      const o = offsetFor(active), rs = rooms[active].userData.spot;
+      dogState.x = rs.x - o.x; dogState.z = rs.z - o.z;
+      if(box3) box3.classList.add("is-inside");
       startFly(false, active, null);
     },
   };
