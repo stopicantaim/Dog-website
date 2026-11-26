@@ -2890,6 +2890,7 @@ function goService(i, back){
 }
 
 // ── 3D showroom loader ─────────────────────────────────────────────────
+const ASSET_V = "2026-11-26-dog";
 // The 3D library is about 600KB, so it only loads when the visitor gets
 // near the services, and never on reduced-motion, data-saver or devices
 // without WebGL. If anything goes wrong the flat tiles simply stay.
@@ -2914,8 +2915,10 @@ function init3D(){
   let started=false;
   const go=()=>{
     if(started) return; started=true;
-    (window.THREE ? Promise.resolve() : load("js/three.min.js"))
-      .then(()=>window.Services3D ? null : load("js/services3d.js"))
+    // bump ASSET_V whenever js/services3d.js changes, so browsers fetch
+    // the new file straight away instead of a saved older copy
+    (window.THREE ? Promise.resolve() : load("js/three.min.js?v=r128"))
+      .then(()=>window.Services3D ? null : load("js/services3d.js?v="+ASSET_V))
       .then(()=>{
         host.hidden=false; sec.classList.add("is-3d");
         const svcs=SITE.services||[], hint=host.querySelector(".svc3d-hint");
