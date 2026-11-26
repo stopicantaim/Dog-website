@@ -1222,6 +1222,10 @@ select.in option{background:#fff;color:var(--ink)}
   .svc3d-tab{flex-shrink:0}
   .svc3d-cta .btn{width:100%}
 }
+/* the logo is the full-colour 3D wiener dog, so no white-out filter over the video */
+.brand-logo,.nav.stuck .brand-logo,.nav.menu-open .brand-logo{filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
+  mix-blend-mode:normal;border-radius:0;width:38px;height:38px}
+@media (max-width:430px){.brand-logo{width:27px;height:27px}.brand{gap:6px}}
 /* keep the headline clear of the menu bar on short phone screens */
 .banner-in{padding-top:96px}
 </style>
@@ -1251,7 +1255,7 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
 
 <nav class="nav"><div class="nav-in">
   <a class="brand" href="#top">
-    <img class="brand-logo" src="ART/logo.png" alt=""/>
+    <img class="brand-logo" src="ART/logo-3d.png" alt=""/>
     <span id="nav-name">Hunter &amp; Dillon Dog Sitting</span>
   </a>
   <ul class="nav-links" id="nav-links">
@@ -2890,7 +2894,7 @@ function goService(i, back){
 }
 
 // ── 3D showroom loader ─────────────────────────────────────────────────
-const ASSET_V = "2026-11-26-blacktan";
+const ASSET_V = "2026-11-26-logo";
 // The 3D library is about 600KB, so it only loads when the visitor gets
 // near the services, and never on reduced-motion, data-saver or devices
 // without WebGL. If anything goes wrong the flat tiles simply stay.
