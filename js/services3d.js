@@ -248,9 +248,15 @@ function create(host, services, opts){
     ridge.rotation.x = Math.PI/2; ridge.position.set(0, h+pk+.12, 0); g.add(ridge);
 
     // plank lines across the front, like a real wooden dog house
+    // (each line stops at the door frame, following the arch, so none run across the doorway)
+    const fr = (DOOR_W+.16)/2, fTop = .1 + DOOR_H + .08, fC = fTop - fr;   // frame half-width, top, arch centre
     for(let y=.36; y<h-.05; y+=.3){
-      const pl = new T.Mesh(new T.BoxGeometry(W-.04, .022, .012), M.plank);
-      pl.position.set(0, y, D/2+.006); g.add(pl);
+      const gap = y <= fC ? fr + .015 : y < fTop ? Math.sqrt(fr*fr - (y-fC)*(y-fC)) + .015 : 0;
+      const segs = gap ? [[-W/2+.02, -gap], [gap, W/2-.02]] : [[-W/2+.02, W/2-.02]];
+      segs.forEach(([a,b])=>{
+        const pl = new T.Mesh(new T.BoxGeometry(b-a, .022, .012), M.plank);
+        pl.position.set((a+b)/2, y, D/2+.006); g.add(pl);
+      });
     }
     // green corner posts mark where one section ends and the next begins
     [-1,1].forEach(side=>{
@@ -925,6 +931,9 @@ function create(host, services, opts){
     twin.tail.rotation.copy(tail.rotation); twin.head.rotation.copy(head.rotation);
     twin.ears.forEach((e,k)=>{ e.rotation.x = ears[k].rotation.x; });
     twin.tongue.visible = tongue.visible;
+    // the twin only shows while the pup is in or right at the doorway, so you
+    // never see a second dog through the door while the real one waits outside
+    twin.dog.visible = Math.abs(dogState.x - doorX) < .55 && dogState.z < D/2 + .5;
 
     rest();
     if(state==="flying-in" || state==="flying-out"){
