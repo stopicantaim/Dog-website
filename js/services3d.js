@@ -234,17 +234,26 @@ function create(host, services, opts){
   ball.position.set(xOf(0)-W*.35, .17, D/2+1.0); ball.castShadow = true; scene.add(ball);
 
   // ── the dog ───────────────────────────────────────────────────────
-  // A cartoon wiener dog (dachshund) built from rounded shapes: long low
-  // body, short legs, long snout and long floppy ears. It trots to
-  // whichever door is chosen and sits beside it, wags, follows the
-  // pointer with its head, hops when tapped, and runs in through the
-  // door ahead of you.
+  // A cartoon wiener dog (dachshund) built from rounded shapes. It trots
+  // to whichever door is chosen and waits beside it, wags, follows the
+  // pointer with its head, hops when tapped, and runs in through the door
+  // ahead of you. opts.dogStyle picks the look:
+  //   "red" (default) · "blacktan" · "longhair" · "chunky"
+  const STYLES = {
+    red:      {fur:"#b4622b", ear:"#7a3a14"},
+    blacktan: {fur:"#2b211c", ear:"#1d1612", tan:"#c4843f"},
+    longhair: {fur:"#a85424", ear:"#7d3610", fluff:true},
+    chunky:   {fur:"#c9773a", ear:"#8f4518", chunky:true},
+  };
+  const ST = STYLES[opts.dogStyle] || STYLES.red;
   const DM = {
-    fur:   new T.MeshStandardMaterial({color:col("#b4622b"), roughness:.8}),
-    dark:  new T.MeshStandardMaterial({color:col("#7a3a14"), roughness:.85}),
+    fur:   new T.MeshStandardMaterial({color:col(ST.fur), roughness:.8}),
+    dark:  new T.MeshStandardMaterial({color:col(ST.ear), roughness:.85}),
+    tan:   new T.MeshStandardMaterial({color:col(ST.tan || ST.fur), roughness:.8}),
     nose:  new T.MeshStandardMaterial({color:col("#1b1b1b"), roughness:.35}),
     eye:   new T.MeshStandardMaterial({color:col("#1b1b1b"), roughness:.2}),
     shine: new T.MeshBasicMaterial({color:0xffffff}),
+    cheek: new T.MeshStandardMaterial({color:col("#f2a0a0"), roughness:.9, transparent:true, opacity:.75}),
     tongue:new T.MeshStandardMaterial({color:col("#f07c8a"), roughness:.6}),
     collar:new T.MeshStandardMaterial({color:col(INK), roughness:.6}),
     tag:   new T.MeshStandardMaterial({color:col("#f0c14b"), roughness:.3, metalness:.4}),
@@ -253,46 +262,60 @@ function create(host, services, opts){
     const m = new T.Mesh(new T.SphereGeometry(r, 24, 18), mat);
     m.position.set(x,y,z); m.scale.set(sx,sy,sz); m.castShadow = true; return m;
   };
+  const C = !!ST.chunky;                          // the chunky cartoon is shorter, rounder, bigger-headed
+  const len = C ? .78 : 1;                         // body length
   const dog = new T.Group(); scene.add(dog);       // where it stands and which way it faces
   const pup = new T.Group(); dog.add(pup);         // bobs, hops
   // the long sausage body, with a slightly rounder chest up front
-  pup.add(ball3(.2, DM.fur, 0,.33,-.02, 1,.92,2.75));
-  pup.add(ball3(.19, DM.fur, 0,.33,.3, 1.02,1,1.05));
-  pup.add(ball3(.17, DM.fur, 0,.34,-.36, .98,.95,1));
+  pup.add(ball3(C?.23:.2, DM.fur, 0,.33,-.02, 1,.92,2.75*len));
+  pup.add(ball3(C?.22:.19, DM.fur, 0,.33,.3*len, 1.02,1,1.05));
+  pup.add(ball3(C?.2:.17, DM.fur, 0,.34,-.36*len, .98,.95,1));
+  if(ST.tan) pup.add(ball3(.13, DM.tan, 0,.3,.43*len, 1,1,.5));                 // tan chest
+  if(ST.fluff){                                                                  // soft fringe under the belly
+    for(let z=-.34; z<=.34; z+=.11) pup.add(ball3(.075, DM.dark, 0,.19,z, 1.9,.7,1));
+    pup.add(ball3(.12, DM.dark, 0,.28,.46, 1.1,1.1,.7));                        // chest tuft
+  }
   // short little legs swing from the hip; front legs, then back legs
-  const legs = [[-.1,.36],[.1,.36],[-.1,-.4],[.1,-.4]].map(([lx,lz])=>{
+  const legs = [[-.1,.36*len],[.1,.36*len],[-.1,-.4*len],[.1,-.4*len]].map(([lx,lz])=>{
     const hip = new T.Group(); hip.position.set(lx,.24,lz); pup.add(hip);
-    const leg = new T.Mesh(new T.CylinderGeometry(.05,.048,.17,12), DM.fur); leg.position.y = -.085; leg.castShadow = true; hip.add(leg);
-    hip.add(ball3(.058, DM.fur, 0,-.18,.025, 1,.7,1.35));          // paw
+    const leg = new T.Mesh(new T.CylinderGeometry(C?.058:.05,.048,.17,12), DM.fur); leg.position.y = -.085; leg.castShadow = true; hip.add(leg);
+    hip.add(ball3(.058, ST.tan ? DM.tan : DM.fur, 0,-.18,.025, 1,.7,1.35));     // paw
     return hip;
   });
-  // a thin tail that tapers to a point
-  const tail = new T.Group(); tail.position.set(0,.4,-.54); pup.add(tail);
+  // tail: thin and pointed, or a feathered plume on the long-haired one
+  const tail = new T.Group(); tail.position.set(0,.4,-.54*len); pup.add(tail);
   const tailBone = new T.Mesh(new T.ConeGeometry(.04,.36,12), DM.fur);
   tailBone.position.set(0,.14,-.1); tailBone.rotation.x = -.75; tailBone.castShadow = true; tail.add(tailBone);
+  if(ST.fluff){ [.06,.14,.22].forEach((t,k)=>tail.add(ball3(.07-k*.012, DM.dark, 0,.05+t*.7,-.05-t*.75, 1,.8,1.2))); }
   // head with the long snout (turns to follow the pointer)
-  const head = new T.Group(); head.position.set(0,.5,.5); pup.add(head);
+  const hs = C ? 1.32 : 1;                         // head size
+  const head = new T.Group(); head.position.set(0,.5+(C?.04:0),.5*len+(C?.02:0)); head.scale.setScalar(hs); pup.add(head);
   head.add(ball3(.17, DM.fur, 0,.06,0, 1,.95,1.05));
-  head.add(ball3(.1, DM.fur, 0,-.01,.2, .85,.78,1.75));           // long snout
-  head.add(ball3(.045, DM.nose, 0,.015,.37, 1.2,.9,.9));          // nose
+  head.add(ball3(.1, ST.tan ? DM.tan : DM.fur, 0,-.01,.2, .85,.78, C?1.35:1.75));   // snout
+  head.add(ball3(.045, DM.nose, 0,.015, C?.33:.37, 1.2,.9,.9));                     // nose
   const tongue = ball3(.04, DM.tongue, 0,-.08,.27, .9,.45,1.2); head.add(tongue);
+  const eyeR = C ? .045 : .032;
   [-.075,.075].forEach(ex=>{
-    head.add(ball3(.032, DM.eye, ex,.11,.13));
-    const glint = new T.Mesh(new T.SphereGeometry(.01,8,6), DM.shine);
-    glint.position.set(ex+.01,.122,.158); head.add(glint);
+    head.add(ball3(eyeR, DM.eye, ex,.11,.13));
+    const glint = new T.Mesh(new T.SphereGeometry(eyeR*.33,8,6), DM.shine);
+    glint.position.set(ex+eyeR*.3,.11+eyeR*.38,.13+eyeR*.85); head.add(glint);
+    if(C){ const g2 = new T.Mesh(new T.SphereGeometry(eyeR*.16,8,6), DM.shine); g2.position.set(ex-eyeR*.25,.11-eyeR*.3,.13+eyeR*.9); head.add(g2); }
+    if(ST.tan) head.add(ball3(.024, DM.tan, ex,.17,.11, 1.3,.7,.7));               // tan eyebrow dots
+    if(C) head.add(ball3(.035, DM.cheek, ex*1.45,.03,.12, 1,.7,.5));               // rosy cheeks
   });
-  // long floppy ears hanging down the sides of the head
+  // long floppy ears; feathered on the long-haired one
   const ears = [-1,1].map(side=>{
     const ear = new T.Group(); ear.position.set(side*.15,.13,-.02); head.add(ear);
     const flap = ball3(.1, DM.dark, side*.03,-.13,0, .45,1.8,.75); flap.rotation.z = side*.18; ear.add(flap);
+    if(ST.fluff){ [-.05,-.14,-.23].forEach((y,k)=>ear.add(ball3(.055, DM.dark, side*(.05+k*.012),y-.05,(k%2?.03:-.03), 1,1,1))); }
     return ear;
   });
   // collar and tag
-  const collar = new T.Mesh(new T.TorusGeometry(.15,.026,10,28), DM.collar);
-  collar.position.set(0,.43,.42); collar.rotation.x = Math.PI/2 - .7; pup.add(collar);
+  const collar = new T.Mesh(new T.TorusGeometry(C?.17:.15,.026,10,28), DM.collar);
+  collar.position.set(0,.43,.42*len+(C?.04:0)); collar.rotation.x = Math.PI/2 - .7; pup.add(collar);
   const tag = new T.Mesh(new T.CylinderGeometry(.038,.038,.014,16), DM.tag);
-  tag.position.set(0,.3,.52); tag.rotation.x = Math.PI/2 - .3; pup.add(tag);
-  pup.scale.setScalar(1.12);
+  tag.position.set(0,.3,.52*len+(C?.06:0)); tag.rotation.x = Math.PI/2 - .3; pup.add(tag);
+  pup.scale.setScalar(C ? 1.2 : 1.12);
   const dogMeshes = []; dog.traverse(o=>{ if(o.isMesh) dogMeshes.push(o); });
 
   const spot = i => ({x: xOf(i) + .95, z: D/2 + .8});       // where it waits, beside the door

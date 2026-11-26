@@ -2890,7 +2890,7 @@ function goService(i, back){
 }
 
 // ── 3D showroom loader ─────────────────────────────────────────────────
-const ASSET_V = "2026-11-26-wiener";
+const ASSET_V = "2026-11-26-dogstyles";
 // The 3D library is about 600KB, so it only loads when the visitor gets
 // near the services, and never on reduced-motion, data-saver or devices
 // without WebGL. If anything goes wrong the flat tiles simply stay.
@@ -2937,7 +2937,11 @@ function init3D(){
         const icURL=(s,i)=>"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(
           '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120" fill="none" stroke="'+tok("--ac","#2f5d3a")+
           '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(SVC_ICONS[svcSlug(s,i)]||SVC_ICONS.paw)+'</svg>');
+        // the dog's look; a preview link like ?dog=blacktan tries another one
+        let dogStyle="red";
+        try{ dogStyle=new URLSearchParams(location.search).get("dog")||"red"; }catch(_){}
         svc3d=window.Services3D.create(stage, svcs.map((s,i)=>Object.assign({},s,{iconURL:icURL(s,i)})), {
+          dogStyle,
           autoplay:4200,
           onInteract:()=>{ if(hint) hint.classList.add("gone"); },
           theme:{bg:tok("--card","#fffdf7"), line:tok("--ac","#2f5d3a"), dust:tok("--gold-deep","#c99a1f"), light:true},
