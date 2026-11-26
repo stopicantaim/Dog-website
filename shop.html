@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#2f5d3a"/>
+<title>Shop | Dillon's Pet Care</title>
+<meta name="description" content="Dog gear from Dillon's Pet Care in Smithfield, NC, built and tested on real dogs before we sell it."/>
+<!-- Draft: keep out of search results until there's something to buy.
+     Remove this line when the first product goes on sale. -->
+<meta name="robots" content="noindex"/>
+<link rel="icon" href="favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&display=swap"/>
+<style>
+:root{
+  --bg:#f6f4ec;--bg2:#eee9dc;--card:#fffdf7;
+  --line:#ddd6c4;--line2:#c8bfa8;
+  --ink:#1d2a20;--sub:#5f6b60;
+  --ac:#2f5d3a;--ac2:#24492e;--ac-bg:#e6efe6;
+  --gold:#f0c14b;--gold-ink:#3a2f0b;
+  --r:14px;--max:1080px;
+  --disp:'Archivo','Arial Narrow',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+h1,h2,.disp{font-family:var(--disp);font-stretch:118%;font-variation-settings:"wdth" 118;
+  text-transform:uppercase;font-weight:800;letter-spacing:-.005em}
+
+/* nav, same as the rest of the site */
+.nav{position:sticky;top:0;z-index:40;background:rgba(246,244,236,.95);
+  backdrop-filter:saturate(160%) blur(10px);-webkit-backdrop-filter:saturate(160%) blur(10px);
+  border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:13px 20px;display:flex;align-items:center;
+  justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-stretch:118%;
+  font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);text-decoration:none}
+.brand-logo{width:30px;height:30px;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:18px}
+.nav-links a{color:var(--sub);text-decoration:none;font-size:12.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ac);color:#fff!important;padding:10px 16px;border-radius:2px}
+@media (max-width:560px){.nav-links .hide-sm{display:none}}
+
+/* hero */
+.hero{padding:56px 0 40px}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ac);margin-bottom:16px}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--ac)}
+.hero h1{font-size:clamp(40px,7vw,84px);line-height:.94;max-width:14ch;margin-bottom:18px}
+.hero p{font-size:clamp(16px,1.6vw,19px);color:var(--sub);max-width:46ch}
+
+/* product */
+.product{display:grid;gap:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;margin-bottom:56px}
+@media (min-width:860px){.product{grid-template-columns:1.05fr 1fr}}
+.p-media{position:relative;background:var(--ac-bg);min-height:320px;display:flex;align-items:center;justify-content:center;padding:30px}
+.p-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.p-art{width:min(100%,440px)}
+.p-badge{position:absolute;top:16px;left:16px;z-index:2;background:var(--gold);color:var(--gold-ink);
+  font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:99px}
+.p-body{padding:30px 28px 32px;display:flex;flex-direction:column;gap:16px}
+.p-body h2{font-size:clamp(26px,3vw,38px);line-height:1}
+.p-sub{color:var(--sub);font-size:16px}
+.p-price{font-family:var(--disp);font-stretch:118%;font-weight:800;font-size:28px;color:var(--ac)}
+.p-price small{font-family:inherit;font-size:14px;color:var(--sub);font-weight:600;letter-spacing:.02em}
+.p-k{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sub)}
+.p-feats{list-style:none;border-top:1px solid var(--line)}
+.p-feats li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+.p-feats svg{width:20px;height:20px;flex-shrink:0;stroke:var(--ac);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.p-note{font-size:13px;color:var(--sub)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--ac);color:#fff;
+  border:1px solid var(--ac);border-radius:2px;font-family:inherit;font-size:13.5px;font-weight:800;line-height:1;
+  text-transform:uppercase;letter-spacing:.14em;padding:17px 22px;cursor:pointer;text-decoration:none;
+  transition:background .2s,border-color .2s}
+.btn:hover{background:var(--ac2);border-color:var(--ac2)}
+.btn.alt{background:#fff;color:var(--ink);border-color:var(--line2)}
+.btn.alt:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.btn[disabled]{opacity:.6;pointer-events:none}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* waitlist */
+.wl{display:flex;flex-direction:column;gap:12px;background:var(--bg);border:1px solid var(--line);
+  border-radius:12px;padding:18px}
+.wl label{display:block;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--sub);margin-bottom:6px}
+.in{width:100%;background:#fff;border:1px solid var(--line2);border-radius:2px;color:var(--ink);
+  padding:12px 13px;font-size:16px;font-family:inherit;outline:none}
+.in:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-bg)}
+.wl-row{display:grid;gap:12px}
+@media (min-width:520px){.wl-row{grid-template-columns:1.3fr 1fr}}
+.wl-err{font-size:13px;color:#b42318;min-height:18px}
+.wl-done{text-align:center;padding:10px 4px}
+.wl-done b{display:block;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-size:20px;margin-bottom:4px}
+[hidden]{display:none!important}
+
+/* how we make it */
+.how{padding:56px 0;border-top:1px solid var(--line)}
+.how h2{font-size:clamp(28px,4vw,48px);line-height:1;margin-bottom:28px}
+.steps{display:grid;gap:14px;list-style:none;counter-reset:s}
+@media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 20px}
+.steps li::before{content:counter(s,decimal-leading-zero);display:block;font-family:var(--disp);font-stretch:118%;
+  font-weight:800;font-size:38px;line-height:1;color:var(--ac);margin-bottom:12px}
+.steps b{display:block;font-size:17px;margin-bottom:4px}
+.steps span{color:var(--sub);font-size:15px}
+
+/* questions */
+.qs{padding:56px 0;border-top:1px solid var(--line)}
+.qs h2{font-size:clamp(28px,4vw,48px);line-height:1;margin-bottom:20px}
+.q{border-top:1px solid var(--line);padding:16px 0}
+.q:last-child{border-bottom:1px solid var(--line)}
+.q b{display:block;margin-bottom:3px}
+.q span{color:var(--sub)}
+
+footer{text-align:center;padding:30px 20px 40px;font-size:13px;color:var(--sub);border-top:1px solid var(--line)}
+footer a{color:var(--ac);font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+  <a class="brand" href="index.html"><img class="brand-logo" src="ART/logo.png" alt=""/>Dillon's Pet Care</a>
+  <div class="nav-links">
+    <a class="hide-sm" href="index.html#services">Pet care</a>
+    <a class="hide-sm" href="gallery.html">Photos</a>
+    <a class="nav-cta" href="index.html#contact">Book care</a>
+  </div>
+</div></nav>
+
+<main class="wrap">
+  <header class="hero">
+    <div class="eyebrow">The Dillon's Pet Care shop</div>
+    <h1>Gear we'd put in front of our own dogs</h1>
+    <p id="shop-intro"></p>
+  </header>
+
+  <div id="products"></div>
+
+  <section class="how">
+    <h2>How we make it</h2>
+    <ol class="steps">
+      <li><b>Built by hand first</b><span>Every product starts as a prototype we make ourselves, so we know exactly what goes into it.</span></li>
+      <li><b>Tested on our own dogs</b><span>Weeks of real use: naps, muddy paws, the washing machine. Anything that doesn't hold up gets changed.</span></li>
+      <li><b>Only then made to sell</b><span>We only order from a factory once the prototype has earned it, built to the version our dogs approved.</span></li>
+    </ol>
+  </section>
+
+  <section class="qs">
+    <h2>Questions</h2>
+    <div class="q"><b>When can I buy it?</b><span>It's still being tested. Join the list and you'll be the first to know when it's ready.</span></div>
+    <div class="q"><b>Where will it be sold?</b><span>We plan to sell through Amazon, linked straight from this page.</span></div>
+    <div class="q"><b>Can I suggest something?</b><span>Please do. Tell us what matters most to you in the form above, or <a href="index.html#contact" style="color:var(--ac)">send us a message</a>.</span></div>
+  </section>
+</main>
+
+<footer>
+  Dillon's Pet Care · Smithfield, NC ·
+  <a href="index.html">Pet care</a> · <a href="privacy.html">Privacy</a>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   EDIT THIS BLOCK. Each product shows as a card.
+   status: "testing" shows the sign-up list; "available" shows the
+   price and a Buy on Amazon button (needs amazonUrl).
+   Only list features that are true of the product you're selling.
+   ═══════════════════════════════════════════════════════════════ */
+const SHOP = {
+  intro: "We look after dogs every day, so we see what holds up and what falls apart. We're starting with one product we're building and testing ourselves.",
+  // where sign-ups are emailed (same service as the booking form)
+  formEndpoint: "https://formsubmit.co/ajax/dillon@dillonspetcare.com",
+  products: [
+    {
+      id: "orthopedic-bed",
+      name: "Orthopedic Dog Bed",
+      sub: "A supportive memory foam bed with a cover that's easy to wash.",
+      status: "testing",            // "testing" or "available"
+      price: "",                     // e.g. "$59" once it's on sale
+      priceNote: "",                 // e.g. "Large, 36 × 27 in"
+      amazonUrl: "",                 // the product's Amazon link once it's live
+      image: "",                     // a real photo of the bed, e.g. "photos/bed.jpg"
+      // Shown as "What we're building" while testing,
+      // and "What you get" once it's for sale.
+      features: [
+        "Thick memory foam to cushion joints",
+        "Waterproof liner to protect the foam",
+        "Zip-off cover that goes in the washing machine",
+        "Sized for large dogs first",
+      ],
+      sizes: ["Small or medium", "Large", "Extra large"],
+    },
+  ],
+};
+/* ═════════════ nothing below here needs editing ═════════════ */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+// a simple drawing of the bed, used until there's a real photo
+const BED_ART =
+  '<svg class="p-art" viewBox="0 0 440 260" role="img" aria-label="Drawing of the orthopedic dog bed">'+
+  '<ellipse cx="220" cy="226" rx="190" ry="16" fill="#2f5d3a" opacity=".12"/>'+
+  '<rect x="40" y="128" width="360" height="86" rx="22" fill="#fffdf7" stroke="#2f5d3a" stroke-width="4"/>'+
+  '<rect x="40" y="170" width="360" height="44" rx="0" fill="#2f5d3a" opacity=".1"/>'+
+  '<path d="M54 172h332" stroke="#2f5d3a" stroke-width="2" stroke-dasharray="6 7" opacity=".55"/>'+
+  '<rect x="40" y="96" width="360" height="52" rx="26" fill="#f0c14b" stroke="#2f5d3a" stroke-width="4"/>'+
+  '<path d="M120 122c18-30 70-34 92-12 12-20 50-22 62 2" fill="none" stroke="#2f5d3a" stroke-width="4" stroke-linecap="round"/>'+
+  '<circle cx="250" cy="92" r="4" fill="#2f5d3a"/>'+
+  '<path d="M232 72c-8-14 4-26 14-20M272 70c8-14-4-26-14-20" fill="none" stroke="#2f5d3a" stroke-width="4" stroke-linecap="round"/>'+
+  '<path d="M224 96c0-20 12-34 30-34s30 14 30 34" fill="#fffdf7" stroke="#2f5d3a" stroke-width="4"/>'+
+  '<circle cx="244" cy="82" r="3.5" fill="#2f5d3a"/><circle cx="264" cy="82" r="3.5" fill="#2f5d3a"/>'+
+  '<path d="M252 90h4" stroke="#2f5d3a" stroke-width="4" stroke-linecap="round"/>'+
+  '</svg>';
+
+function productHTML(p){
+  const live = p.status==="available" && p.amazonUrl;
+  const badge = live ? "Available now" : "In testing";
+  return ''+
+  '<article class="product" id="'+esc(p.id)+'">'+
+    '<div class="p-media">'+
+      (p.image ? '<img src="'+esc(p.image)+'" alt="'+esc(p.name)+'"/>' : BED_ART)+
+      '<span class="p-badge">'+badge+'</span>'+
+    '</div>'+
+    '<div class="p-body">'+
+      '<h2>'+esc(p.name)+'</h2>'+
+      '<p class="p-sub">'+esc(p.sub)+'</p>'+
+      (live && p.price ? '<div class="p-price">'+esc(p.price)+(p.priceNote?' <small>'+esc(p.priceNote)+'</small>':'')+'</div>' : '')+
+      '<div class="p-k">'+(live ? "What you get" : "What we're building")+'</div>'+
+      '<ul class="p-feats">'+(p.features||[]).map(f=>'<li>'+CHECK+'<span>'+esc(f)+'</span></li>').join("")+'</ul>'+
+      (live
+        ? '<a class="btn" href="'+esc(p.amazonUrl)+'" target="_blank" rel="noopener">Buy on Amazon '+
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>'+
+          '<p class="p-note">Opens Amazon in a new tab. Sold and shipped through Amazon.</p>'
+        : waitlistHTML(p))+
+    '</div>'+
+  '</article>';
+}
+
+function waitlistHTML(p){
+  const sizes=(p.sizes||[]);
+  return ''+
+  '<form class="wl" data-product="'+esc(p.id)+'" novalidate>'+
+    '<div class="wl-fields">'+
+      '<p style="font-weight:700;margin-bottom:10px">Get told the day it launches</p>'+
+      '<div class="wl-row">'+
+        '<div><label for="wl-mail-'+esc(p.id)+'">Email</label>'+
+          '<input class="in" id="wl-mail-'+esc(p.id)+'" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com"/></div>'+
+        (sizes.length ? '<div><label for="wl-size-'+esc(p.id)+'">Your dog\'s size</label>'+
+          '<select class="in" id="wl-size-'+esc(p.id)+'"><option value="">Choose</option>'+
+          sizes.map(s=>'<option>'+esc(s)+'</option>').join("")+'</select></div>' : '')+
+      '</div>'+
+      '<div style="margin-top:12px"><label for="wl-note-'+esc(p.id)+'">What matters most to you? <span style="text-transform:none;letter-spacing:0;font-weight:500">(optional)</span></label>'+
+        '<input class="in" id="wl-note-'+esc(p.id)+'" placeholder="e.g. easy to wash, my dog chews everything"/></div>'+
+      '<div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">'+
+        '<input tabindex="-1" autocomplete="off" class="wl-hp"/></div>'+
+      '<div class="wl-err" role="alert"></div>'+
+      '<button class="btn" type="submit" style="width:100%">Notify me</button>'+
+      '<p class="p-note" style="margin-top:8px">One email when it\'s ready. We won\'t share your address. '+
+        '<a href="privacy.html" style="color:var(--ac)">Privacy</a></p>'+
+    '</div>'+
+    '<div class="wl-done" hidden><b>You\'re on the list</b><span class="p-note">We\'ll email you the day it launches.</span></div>'+
+  '</form>';
+}
+
+function wireWaitlists(){
+  document.querySelectorAll("form.wl").forEach(form=>{
+    form.addEventListener("submit",e=>{
+      e.preventDefault();
+      const id=form.dataset.product;
+      const p=(SHOP.products||[]).find(x=>x.id===id)||{};
+      const mail=($("wl-mail-"+id).value||"").trim();
+      const size=$("wl-size-"+id) ? $("wl-size-"+id).value : "";
+      const note=($("wl-note-"+id).value||"").trim();
+      const err=form.querySelector(".wl-err"), btn=form.querySelector("button");
+      if(form.querySelector(".wl-hp").value) return;                 // a bot filled the hidden field
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){ err.textContent="Please add a valid email address."; $("wl-mail-"+id).focus(); return; }
+      err.textContent=""; btn.disabled=true; btn.textContent="Sending...";
+      const done=()=>{ form.querySelector(".wl-fields").hidden=true; form.querySelector(".wl-done").hidden=false; };
+      const body={_subject:"Shop waitlist: "+(p.name||id), email:mail, product:p.name||id, dog_size:size, notes:note};
+      const ctrl=(typeof AbortController==="function")?new AbortController():null;
+      const t=setTimeout(()=>{ if(ctrl) ctrl.abort(); },12000);
+      fetch(SHOP.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify(body),signal:ctrl?ctrl.signal:undefined})
+        .then(r=>{ clearTimeout(t); if(!r.ok) throw new Error("status "+r.status); done(); })
+        .catch(()=>{
+          clearTimeout(t);
+          btn.disabled=false; btn.textContent="Notify me";
+          err.innerHTML='That didn\'t go through. <a href="mailto:dillon@dillonspetcare.com?subject='+
+            encodeURIComponent("Waitlist: "+(p.name||id))+'&body='+encodeURIComponent("Please add me: "+mail+(size?"\nDog size: "+size:"")+(note?"\n"+note:""))+
+            '" style="color:var(--ac)">Email us instead</a>.';
+        });
+    });
+  });
+}
+
+try{
+  $("shop-intro").textContent=SHOP.intro||"";
+  $("products").innerHTML=(SHOP.products||[]).map(productHTML).join("");
+  wireWaitlists();
+}catch(e){ console.error("Shop error:",e); }
+</script>
+</body>
+</html>
