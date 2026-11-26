@@ -2,7 +2,7 @@
    3D dog house: one section per service
    A wide dog house split into sections, each with its own peaked
    roof, arched door and a hanging sign. Hover or tap a section and
-   its door swings open (someone peeks out). Tap again, or press the
+   its door swings open. Tap again, or press the
    button under it, and the camera walks in through that door and
    the service page opens.
 
@@ -172,15 +172,6 @@ function create(host, services, opts){
     const hole = new T.Mesh(new T.ShapeGeometry(archShape(DOOR_W, DOOR_H), 24), M.dark);
     hole.position.set(0, .12, front+.004); g.add(hole);
 
-    const peek = new T.Group(); peek.position.set(.14, .12+DOOR_H*.56, front+.01); g.add(peek);   // nudged toward the open side
-    const eyes = [];
-    [-.13,.13].forEach(ex=>{
-      const e = new T.Mesh(new T.SphereGeometry(.075,16,12), M.eye); e.position.x = ex; e.scale.z = .4;
-      const p = new T.Mesh(new T.SphereGeometry(.038,12,10), M.pupil); p.position.set(0,-.01,.03); e.add(p);
-      peek.add(e); eyes.push(e);
-    });
-    const nose = new T.Mesh(new T.SphereGeometry(.05,12,10), M.pupil); nose.position.set(0,-.13,.02); nose.scale.set(1.3,.9,.5); peek.add(nose);
-    peek.scale.setScalar(.001);
 
     const hinge = new T.Group(); hinge.position.set(-DOOR_W/2, .12, front+.03); g.add(hinge);
     const doorGeo = new T.ExtrudeGeometry(archShape(DOOR_W, DOOR_H), {depth:.05, bevelEnabled:false, curveSegments:24});
@@ -207,7 +198,7 @@ function create(host, services, opts){
 
     // every part of the section answers to a tap
     g.traverse(o=>{ if(o.isMesh) o.userData.i = i; });
-    return {g, hinge, door, peek, eyes, signGroup, signMat, open:0, lift:0, blinkAt: 2+Math.random()*4, blinkUntil:0};
+    return {g, hinge, door, signGroup, signMat, open:0, lift:0};
   });
 
   // signs get their artwork once the icons and the display font are ready
@@ -243,13 +234,14 @@ function create(host, services, opts){
   ball.position.set(xOf(0)-W*.35, .17, D/2+1.0); ball.castShadow = true; scene.add(ball);
 
   // ── the dog ───────────────────────────────────────────────────────
-  // A cartoon pup built from rounded shapes. It trots to whichever door
-  // is chosen and sits beside it, wags, follows the pointer with its
-  // head, hops when tapped, and runs in through the door ahead of you.
+  // A cartoon wiener dog (dachshund) built from rounded shapes: long low
+  // body, short legs, long snout and long floppy ears. It trots to
+  // whichever door is chosen and sits beside it, wags, follows the
+  // pointer with its head, hops when tapped, and runs in through the
+  // door ahead of you.
   const DM = {
-    fur:   new T.MeshStandardMaterial({color:col("#c98d4e"), roughness:.85}),
-    dark:  new T.MeshStandardMaterial({color:col("#8a5a2b"), roughness:.85}),
-    white: new T.MeshStandardMaterial({color:col("#fff6e8"), roughness:.85}),
+    fur:   new T.MeshStandardMaterial({color:col("#b4622b"), roughness:.8}),
+    dark:  new T.MeshStandardMaterial({color:col("#7a3a14"), roughness:.85}),
     nose:  new T.MeshStandardMaterial({color:col("#1b1b1b"), roughness:.35}),
     eye:   new T.MeshStandardMaterial({color:col("#1b1b1b"), roughness:.2}),
     shine: new T.MeshBasicMaterial({color:0xffffff}),
@@ -258,51 +250,53 @@ function create(host, services, opts){
     tag:   new T.MeshStandardMaterial({color:col("#f0c14b"), roughness:.3, metalness:.4}),
   };
   const ball3 = (r, mat, x,y,z, sx=1,sy=1,sz=1) => {
-    const m = new T.Mesh(new T.SphereGeometry(r, 22, 16), mat);
+    const m = new T.Mesh(new T.SphereGeometry(r, 24, 18), mat);
     m.position.set(x,y,z); m.scale.set(sx,sy,sz); m.castShadow = true; return m;
   };
   const dog = new T.Group(); scene.add(dog);       // where it stands and which way it faces
   const pup = new T.Group(); dog.add(pup);         // bobs, hops
-  pup.add(ball3(.28, DM.fur, 0,.5,0, 1,.9,1.5));                 // body
-  pup.add(ball3(.2, DM.white, 0,.46,.27, 1,1,.6));               // chest
-  // legs swing from the hip; front legs, then back legs
-  const legs = [[-.14,.26],[.14,.26],[-.14,-.26],[.14,-.26]].map(([lx,lz])=>{
-    const hip = new T.Group(); hip.position.set(lx,.42,lz); pup.add(hip);
-    const leg = new T.Mesh(new T.CylinderGeometry(.06,.055,.32,12), DM.fur); leg.position.y = -.16; leg.castShadow = true; hip.add(leg);
-    hip.add(ball3(.072, DM.white, 0,-.33,.02, 1,.75,1.25));       // paw
+  // the long sausage body, with a slightly rounder chest up front
+  pup.add(ball3(.2, DM.fur, 0,.33,-.02, 1,.92,2.75));
+  pup.add(ball3(.19, DM.fur, 0,.33,.3, 1.02,1,1.05));
+  pup.add(ball3(.17, DM.fur, 0,.34,-.36, .98,.95,1));
+  // short little legs swing from the hip; front legs, then back legs
+  const legs = [[-.1,.36],[.1,.36],[-.1,-.4],[.1,-.4]].map(([lx,lz])=>{
+    const hip = new T.Group(); hip.position.set(lx,.24,lz); pup.add(hip);
+    const leg = new T.Mesh(new T.CylinderGeometry(.05,.048,.17,12), DM.fur); leg.position.y = -.085; leg.castShadow = true; hip.add(leg);
+    hip.add(ball3(.058, DM.fur, 0,-.18,.025, 1,.7,1.35));          // paw
     return hip;
   });
-  // tail
-  const tail = new T.Group(); tail.position.set(0,.6,-.4); pup.add(tail);
-  const tailBone = new T.Mesh(new T.CylinderGeometry(.03,.045,.32,10), DM.fur);
-  tailBone.position.set(0,.13,-.06); tailBone.rotation.x = -.45; tailBone.castShadow = true; tail.add(tailBone);
-  tail.add(ball3(.045, DM.white, 0,.28,-.13));
-  // head (turns to follow the pointer)
-  const head = new T.Group(); head.position.set(0,.76,.36); pup.add(head);
-  head.add(ball3(.25, DM.fur, 0,.08,0, 1,.95,1));
-  head.add(ball3(.13, DM.white, 0,0,.2, 1,.78,1.25));            // muzzle
-  head.add(ball3(.05, DM.nose, 0,.04,.36, 1.25,.9,.9));          // nose
-  const tongue = ball3(.05, DM.tongue, 0,-.08,.27, .9,.45,1.1); head.add(tongue);
-  [-.1,.1].forEach(ex=>{
-    head.add(ball3(.04, DM.eye, ex,.14,.2));
-    const glint = new T.Mesh(new T.SphereGeometry(.012,8,6), DM.shine);
-    glint.position.set(ex+.012,.155,.238); head.add(glint);
+  // a thin tail that tapers to a point
+  const tail = new T.Group(); tail.position.set(0,.4,-.54); pup.add(tail);
+  const tailBone = new T.Mesh(new T.ConeGeometry(.04,.36,12), DM.fur);
+  tailBone.position.set(0,.14,-.1); tailBone.rotation.x = -.75; tailBone.castShadow = true; tail.add(tailBone);
+  // head with the long snout (turns to follow the pointer)
+  const head = new T.Group(); head.position.set(0,.5,.5); pup.add(head);
+  head.add(ball3(.17, DM.fur, 0,.06,0, 1,.95,1.05));
+  head.add(ball3(.1, DM.fur, 0,-.01,.2, .85,.78,1.75));           // long snout
+  head.add(ball3(.045, DM.nose, 0,.015,.37, 1.2,.9,.9));          // nose
+  const tongue = ball3(.04, DM.tongue, 0,-.08,.27, .9,.45,1.2); head.add(tongue);
+  [-.075,.075].forEach(ex=>{
+    head.add(ball3(.032, DM.eye, ex,.11,.13));
+    const glint = new T.Mesh(new T.SphereGeometry(.01,8,6), DM.shine);
+    glint.position.set(ex+.01,.122,.158); head.add(glint);
   });
+  // long floppy ears hanging down the sides of the head
   const ears = [-1,1].map(side=>{
-    const ear = new T.Group(); ear.position.set(side*.2,.24,-.02); head.add(ear);
-    const flap = ball3(.11, DM.dark, side*.04,-.11,0, .55,1.35,.35); flap.rotation.z = side*.25; ear.add(flap);
+    const ear = new T.Group(); ear.position.set(side*.15,.13,-.02); head.add(ear);
+    const flap = ball3(.1, DM.dark, side*.03,-.13,0, .45,1.8,.75); flap.rotation.z = side*.18; ear.add(flap);
     return ear;
   });
   // collar and tag
-  const collar = new T.Mesh(new T.TorusGeometry(.17,.03,10,28), DM.collar);
-  collar.position.set(0,.66,.32); collar.rotation.x = Math.PI/2 - .55; pup.add(collar);
-  const tag = new T.Mesh(new T.CylinderGeometry(.045,.045,.015,16), DM.tag);
-  tag.position.set(0,.56,.46); tag.rotation.x = Math.PI/2 - .3; pup.add(tag);
-  pup.scale.setScalar(1.05);
+  const collar = new T.Mesh(new T.TorusGeometry(.15,.026,10,28), DM.collar);
+  collar.position.set(0,.43,.42); collar.rotation.x = Math.PI/2 - .7; pup.add(collar);
+  const tag = new T.Mesh(new T.CylinderGeometry(.038,.038,.014,16), DM.tag);
+  tag.position.set(0,.3,.52); tag.rotation.x = Math.PI/2 - .3; pup.add(tag);
+  pup.scale.setScalar(1.12);
   const dogMeshes = []; dog.traverse(o=>{ if(o.isMesh) dogMeshes.push(o); });
 
-  const spot = i => ({x: xOf(i) + .74, z: D/2 + .78});       // where it waits, beside the door
-  const dogState = {x: spot(0).x, z: spot(0).z, face: -.35, hopT: -1, walking: 0};
+  const spot = i => ({x: xOf(i) + .95, z: D/2 + .8});       // where it waits, beside the door
+  const dogState = {x: spot(0).x, z: spot(0).z, face: -1.0, hopT: -1, walking: 0};
   dog.position.set(dogState.x, 0, dogState.z);
 
   // ── camera framing ────────────────────────────────────────────────
@@ -431,14 +425,6 @@ function create(host, services, opts){
       const want = flying ? 1.45 : (i===active || i===hover) ? 1.05 : 0;   // how far the door swings
       s.open += (want - s.open)*Math.min(1, dt*.008);
       s.hinge.rotation.y = -s.open;
-      // the dog inside peeks out once the door is open
-      const show = Math.min(1, Math.max(0, (s.open-.35)/.5));
-      s.peek.scale.setScalar(Math.max(.001, show));
-      s.peek.position.y = .12+DOOR_H*.56 - (1-show)*.2;
-      // blink now and then
-      if(time > s.blinkAt){ s.blinkAt = time + 2.5 + Math.random()*4; s.blinkUntil = time + .12; }
-      const shut = time < s.blinkUntil;
-      s.eyes.forEach(e=>{ e.scale.y = shut ? .12 : 1; });
       // the chosen section's sign swings a little and stands out
       const lift = i===active ? 1 : 0;
       s.lift += (lift - s.lift)*Math.min(1, dt*.008);
@@ -462,8 +448,8 @@ function create(host, services, opts){
       dogState.face += dA*Math.min(1, dt*.012);
     } else {
       dogState.walking = Math.max(0, dogState.walking - dt*.005);
-      // settled: turn three-quarters toward you, looking at the door
-      let dA = -.35 - dogState.face; dA = Math.atan2(Math.sin(dA), Math.cos(dA));
+      // settled: mostly side-on (so you see that long body), facing its door
+      let dA = -1.0 - dogState.face; dA = Math.atan2(Math.sin(dA), Math.cos(dA));
       dogState.face += dA*Math.min(1, dt*.006);
     }
     dog.position.set(dogState.x, 0, dogState.z);
@@ -484,7 +470,7 @@ function create(host, services, opts){
     tail.rotation.x = -.15;
     // head follows the pointer when it's sitting still
     const still = 1 - w;
-    head.rotation.y += ((px*.6 - (dogState.face+.35)*.6)*still - head.rotation.y)*Math.min(1, dt*.008);
+    head.rotation.y += ((px*.6 + .55)*still - head.rotation.y)*Math.min(1, dt*.008);
     head.rotation.x += ((py*.25)*still - head.rotation.x)*Math.min(1, dt*.008);
     head.rotation.z = Math.sin(time*.9)*.06*still + (hopY>0 ? .12 : 0);
     ears.forEach((ear,k)=>{ ear.rotation.x = -hopY*1.6 + w*Math.sin(time*15+k)*.15; });
