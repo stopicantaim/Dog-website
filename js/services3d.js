@@ -238,14 +238,14 @@ function create(host, services, opts){
   // to whichever door is chosen and waits beside it, wags, follows the
   // pointer with its head, hops when tapped, and runs in through the door
   // ahead of you. opts.dogStyle picks the look:
-  //   "red" (default) · "blacktan" · "longhair" · "chunky"
+  //   "blacktan" (used on the site) · "red" · "longhair" · "chunky"
   const STYLES = {
     red:      {fur:"#b4622b", ear:"#7a3a14"},
     blacktan: {fur:"#2b211c", ear:"#1d1612", tan:"#c4843f"},
     longhair: {fur:"#a85424", ear:"#7d3610", fluff:true},
     chunky:   {fur:"#c9773a", ear:"#8f4518", chunky:true},
   };
-  const ST = STYLES[opts.dogStyle] || STYLES.red;
+  const ST = STYLES[opts.dogStyle] || STYLES.blacktan;
   const DM = {
     fur:   new T.MeshStandardMaterial({color:col(ST.fur), roughness:.8}),
     dark:  new T.MeshStandardMaterial({color:col(ST.ear), roughness:.85}),
