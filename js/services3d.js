@@ -242,6 +242,69 @@ function create(host, services, opts){
   const ball = new T.Mesh(new T.SphereGeometry(.17,20,16), M.ball);
   ball.position.set(xOf(0)-W*.35, .17, D/2+1.0); ball.castShadow = true; scene.add(ball);
 
+  // ── the dog ───────────────────────────────────────────────────────
+  // A cartoon pup built from rounded shapes. It trots to whichever door
+  // is chosen and sits beside it, wags, follows the pointer with its
+  // head, hops when tapped, and runs in through the door ahead of you.
+  const DM = {
+    fur:   new T.MeshStandardMaterial({color:col("#c98d4e"), roughness:.85}),
+    dark:  new T.MeshStandardMaterial({color:col("#8a5a2b"), roughness:.85}),
+    white: new T.MeshStandardMaterial({color:col("#fff6e8"), roughness:.85}),
+    nose:  new T.MeshStandardMaterial({color:col("#1b1b1b"), roughness:.35}),
+    eye:   new T.MeshStandardMaterial({color:col("#1b1b1b"), roughness:.2}),
+    shine: new T.MeshBasicMaterial({color:0xffffff}),
+    tongue:new T.MeshStandardMaterial({color:col("#f07c8a"), roughness:.6}),
+    collar:new T.MeshStandardMaterial({color:col(INK), roughness:.6}),
+    tag:   new T.MeshStandardMaterial({color:col("#f0c14b"), roughness:.3, metalness:.4}),
+  };
+  const ball3 = (r, mat, x,y,z, sx=1,sy=1,sz=1) => {
+    const m = new T.Mesh(new T.SphereGeometry(r, 22, 16), mat);
+    m.position.set(x,y,z); m.scale.set(sx,sy,sz); m.castShadow = true; return m;
+  };
+  const dog = new T.Group(); scene.add(dog);       // where it stands and which way it faces
+  const pup = new T.Group(); dog.add(pup);         // bobs, hops
+  pup.add(ball3(.28, DM.fur, 0,.5,0, 1,.9,1.5));                 // body
+  pup.add(ball3(.2, DM.white, 0,.46,.27, 1,1,.6));               // chest
+  // legs swing from the hip; front legs, then back legs
+  const legs = [[-.14,.26],[.14,.26],[-.14,-.26],[.14,-.26]].map(([lx,lz])=>{
+    const hip = new T.Group(); hip.position.set(lx,.42,lz); pup.add(hip);
+    const leg = new T.Mesh(new T.CylinderGeometry(.06,.055,.32,12), DM.fur); leg.position.y = -.16; leg.castShadow = true; hip.add(leg);
+    hip.add(ball3(.072, DM.white, 0,-.33,.02, 1,.75,1.25));       // paw
+    return hip;
+  });
+  // tail
+  const tail = new T.Group(); tail.position.set(0,.6,-.4); pup.add(tail);
+  const tailBone = new T.Mesh(new T.CylinderGeometry(.03,.045,.32,10), DM.fur);
+  tailBone.position.set(0,.13,-.06); tailBone.rotation.x = -.45; tailBone.castShadow = true; tail.add(tailBone);
+  tail.add(ball3(.045, DM.white, 0,.28,-.13));
+  // head (turns to follow the pointer)
+  const head = new T.Group(); head.position.set(0,.76,.36); pup.add(head);
+  head.add(ball3(.25, DM.fur, 0,.08,0, 1,.95,1));
+  head.add(ball3(.13, DM.white, 0,0,.2, 1,.78,1.25));            // muzzle
+  head.add(ball3(.05, DM.nose, 0,.04,.36, 1.25,.9,.9));          // nose
+  const tongue = ball3(.05, DM.tongue, 0,-.08,.27, .9,.45,1.1); head.add(tongue);
+  [-.1,.1].forEach(ex=>{
+    head.add(ball3(.04, DM.eye, ex,.14,.2));
+    const glint = new T.Mesh(new T.SphereGeometry(.012,8,6), DM.shine);
+    glint.position.set(ex+.012,.155,.238); head.add(glint);
+  });
+  const ears = [-1,1].map(side=>{
+    const ear = new T.Group(); ear.position.set(side*.2,.24,-.02); head.add(ear);
+    const flap = ball3(.11, DM.dark, side*.04,-.11,0, .55,1.35,.35); flap.rotation.z = side*.25; ear.add(flap);
+    return ear;
+  });
+  // collar and tag
+  const collar = new T.Mesh(new T.TorusGeometry(.17,.03,10,28), DM.collar);
+  collar.position.set(0,.66,.32); collar.rotation.x = Math.PI/2 - .55; pup.add(collar);
+  const tag = new T.Mesh(new T.CylinderGeometry(.045,.045,.015,16), DM.tag);
+  tag.position.set(0,.56,.46); tag.rotation.x = Math.PI/2 - .3; pup.add(tag);
+  pup.scale.setScalar(1.05);
+  const dogMeshes = []; dog.traverse(o=>{ if(o.isMesh) dogMeshes.push(o); });
+
+  const spot = i => ({x: xOf(i) + .74, z: D/2 + .78});       // where it waits, beside the door
+  const dogState = {x: spot(0).x, z: spot(0).z, face: -.35, hopT: -1, walking: 0};
+  dog.position.set(dogState.x, 0, dogState.z);
+
   // ── camera framing ────────────────────────────────────────────────
   let narrow=false, camDist=12;
   const tanH = () => Math.tan(T.MathUtils.degToRad(camera.fov/2));
@@ -283,13 +346,18 @@ function create(host, services, opts){
   const el = renderer.domElement;
   const ray = new T.Raycaster(), ndc = new T.Vector2();
   const meshes = []; sections.forEach(s=>s.g.traverse(o=>{ if(o.isMesh) meshes.push(o); }));
-  function pick(e){
+  function aim(e){
     const r = el.getBoundingClientRect();
     ndc.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1);
     ray.setFromCamera(ndc, camera);
+  }
+  function pick(e){
+    aim(e);
     const hit = ray.intersectObjects(meshes,false)[0];
     return hit ? hit.object.userData.i : -1;
   }
+  function pickDog(e){ aim(e); return ray.intersectObjects(dogMeshes,false).length>0; }
+  function hop(){ if(dogState.hopT<0) dogState.hopT = 0; start(); }
   let downX=0, downY=0, downT=0, down=false;
   el.addEventListener("pointerdown", e=>{ if(state!=="idle") return; down=true; downX=e.clientX; downY=e.clientY; downT=performance.now(); });
   el.addEventListener("pointermove", e=>{
@@ -297,6 +365,7 @@ function create(host, services, opts){
     px = ((e.clientX-r.left)/r.width)*2-1; py = ((e.clientY-r.top)/r.height)*2-1;
     autoT = 0;
     if(e.pointerType==="mouse" && state==="idle"){
+      if(pickDog(e)){ el.style.cursor = "pointer"; start(); return; }
       const h = pick(e);
       if(h!==hover){ hover=h; el.style.cursor = h>=0 ? "pointer" : "default"; if(h>=0){ stopAuto(); setActive(h); } }
     }
@@ -311,6 +380,7 @@ function create(host, services, opts){
       setActive(active + (dx<0?1:-1)); return;
     }
     if(Math.abs(dx)<8 && Math.abs(dy)<8){
+      if(pickDog(e)){ hop(); return; }               // a tap on the pup makes it hop
       const h = pick(e);
       if(h<0) return;
       if(h===active) openActive(); else setActive(h);
@@ -377,6 +447,49 @@ function create(host, services, opts){
     });
     ball.rotation.z = Math.sin(time*.8)*.3;
 
+    // where the pup is headed: beside the chosen door, or in through it
+    const going = state==="flying-in" || state==="inside";
+    const tgt = going ? {x: xOf(active), z: D/2 - .8} : spot(active);
+    const vx = tgt.x - dogState.x, vz = tgt.z - dogState.z, dist = Math.hypot(vx, vz);
+    const speed = (going ? 4.2 : 2.6) * dt/1000;
+    if(dist > .01){
+      const stepLen = Math.min(dist, speed);
+      dogState.x += vx/dist*stepLen; dogState.z += vz/dist*stepLen;
+      dogState.walking = Math.min(1, dogState.walking + dt*.006);
+      // face the way it's going
+      const want = Math.atan2(vx, vz);
+      let dA = want - dogState.face; dA = Math.atan2(Math.sin(dA), Math.cos(dA));
+      dogState.face += dA*Math.min(1, dt*.012);
+    } else {
+      dogState.walking = Math.max(0, dogState.walking - dt*.005);
+      // settled: turn three-quarters toward you, looking at the door
+      let dA = -.35 - dogState.face; dA = Math.atan2(Math.sin(dA), Math.cos(dA));
+      dogState.face += dA*Math.min(1, dt*.006);
+    }
+    dog.position.set(dogState.x, 0, dogState.z);
+    dog.rotation.y = dogState.face;
+    const w = dogState.walking, stride = Math.sin(time*15);
+    legs.forEach((hip,k)=>{ hip.rotation.x = w*(k===0||k===3 ? stride : -stride)*.55; });
+    // a hop when tapped
+    let hopY = 0;
+    if(dogState.hopT >= 0){
+      dogState.hopT += dt/520;
+      hopY = Math.sin(Math.min(1,dogState.hopT)*Math.PI)*.38;
+      if(dogState.hopT >= 1) dogState.hopT = -1;
+    }
+    pup.position.y = hopY + w*Math.abs(Math.sin(time*15))*.04;
+    // happy tail, faster when you're pointing at its door or it's hopping
+    const excited = (hover===active || dogState.hopT>=0) ? 1 : 0;
+    tail.rotation.z = Math.sin(time*(11 + excited*9))*(.45 + excited*.25);
+    tail.rotation.x = -.15;
+    // head follows the pointer when it's sitting still
+    const still = 1 - w;
+    head.rotation.y += ((px*.6 - (dogState.face+.35)*.6)*still - head.rotation.y)*Math.min(1, dt*.008);
+    head.rotation.x += ((py*.25)*still - head.rotation.x)*Math.min(1, dt*.008);
+    head.rotation.z = Math.sin(time*.9)*.06*still + (hopY>0 ? .12 : 0);
+    ears.forEach((ear,k)=>{ ear.rotation.x = -hopY*1.6 + w*Math.sin(time*15+k)*.15; });
+    tongue.visible = w > .3 || excited;
+
     rest();
     if(state==="flying-in" || state==="flying-out"){
       fly.t += dt;
@@ -423,6 +536,7 @@ function create(host, services, opts){
     // called when the service page closes: walk back out of that door
     flyBack(i){
       if(typeof i==="number"){ active = wrapIdx(i,n); camX.cur = camX.tgt = xOf(active); if(opts.onChange) opts.onChange(active); }
+      dogState.x = xOf(active); dogState.z = D/2 - .6;     // it comes trotting back out of the door
       frame();
       startFly(false, active, null);
     },
