@@ -162,7 +162,7 @@ footer a{color:var(--ac);font-weight:600;text-decoration:none}
 
   <section class="qs">
     <h2>Questions</h2>
-    <div class="q"><b>When can I buy it?</b><span>Both are still being tested. Join the list and you'll be the first to know when each one is ready.</span></div>
+    <div class="q"><b>When can I buy it?</b><span>It's still being tested. Join the list and you'll be the first to know when it's ready.</span></div>
     <div class="q"><b>Where will it be sold?</b><span>Right here first, for our clients and neighbors, then on Amazon, linked from this page.</span></div>
     <div class="q"><b>Can I suggest something?</b><span>Please do. Tell us what matters most to you in the form above, or <a href="index.html#contact" style="color:var(--ac)">send us a message</a>.</span></div>
   </section>
@@ -181,30 +181,10 @@ footer a{color:var(--ac);font-weight:600;text-decoration:none}
    Only list features that are true of the product you're selling.
    ═══════════════════════════════════════════════════════════════ */
 const SHOP = {
-  intro: "We look after dogs every day, so we see what holds up and what falls apart. We're starting small, with gear we use on our own walks and test ourselves first.",
+  intro: "We look after dogs every day, so we see what holds up and what falls apart. We're starting with one product: a dog bed we're building and testing ourselves.",
   // where sign-ups are emailed (same service as the booking form)
   formEndpoint: "https://formsubmit.co/ajax/dillon@dillonspetcare.com",
   products: [
-    {
-      id: "treat-pouch",
-      name: "Walker's Treat Pouch",
-      sub: "A hands-free treat pouch built for daily walks and training, by someone who walks dogs every day.",
-      art: "pouch",
-      status: "testing",            // "testing" or "available"
-      price: "",                     // e.g. "$15" once it's on sale
-      priceNote: "",
-      amazonUrl: "",                 // or any link where people can buy it
-      image: "",
-      features: [
-        "Clips to a belt or waistband, or wears on a strap",
-        "Opens with one hand and closes so treats don't spill",
-        "Holder for poop bags built in",
-        "Easy to wipe out and wash",
-      ],
-      // the question asked on the sign-up list
-      askLabel: "How you'd use it",
-      askOptions: ["Daily walks", "Training a puppy", "Both"],
-    },
     {
       id: "orthopedic-bed",
       name: "Orthopedic Dog Bed",
@@ -225,7 +205,6 @@ const SHOP = {
       ],
       askLabel: "Your dog's size",
       askOptions: ["Small or medium", "Large", "Extra large"],
-      badge: "Coming later",
     },
   ],
 };
