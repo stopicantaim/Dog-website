@@ -50,6 +50,9 @@ h1,h2,.disp{font-family:var(--disp);font-stretch:118%;font-variation-settings:"w
 .nav-links a:hover{color:var(--ink)}
 .nav-cta{background:var(--ac);color:#fff!important;padding:10px 16px;border-radius:2px}
 @media (max-width:560px){.nav-links .hide-sm{display:none}}
+.brand,.nav-cta{white-space:nowrap}
+@media (max-width:400px){.brand{font-size:12.5px;letter-spacing:.03em}.brand-logo{width:26px;height:26px}
+  .nav-in{padding:11px 14px}.nav-cta{padding:9px 12px;letter-spacing:.08em}}
 
 /* hero */
 .hero{padding:56px 0 40px}
@@ -159,8 +162,8 @@ footer a{color:var(--ac);font-weight:600;text-decoration:none}
 
   <section class="qs">
     <h2>Questions</h2>
-    <div class="q"><b>When can I buy it?</b><span>It's still being tested. Join the list and you'll be the first to know when it's ready.</span></div>
-    <div class="q"><b>Where will it be sold?</b><span>We plan to sell through Amazon, linked straight from this page.</span></div>
+    <div class="q"><b>When can I buy it?</b><span>Both are still being tested. Join the list and you'll be the first to know when each one is ready.</span></div>
+    <div class="q"><b>Where will it be sold?</b><span>Right here first, for our clients and neighbors, then on Amazon, linked from this page.</span></div>
     <div class="q"><b>Can I suggest something?</b><span>Please do. Tell us what matters most to you in the form above, or <a href="index.html#contact" style="color:var(--ac)">send us a message</a>.</span></div>
   </section>
 </main>
@@ -178,10 +181,30 @@ footer a{color:var(--ac);font-weight:600;text-decoration:none}
    Only list features that are true of the product you're selling.
    ═══════════════════════════════════════════════════════════════ */
 const SHOP = {
-  intro: "We look after dogs every day, so we see what holds up and what falls apart. We're starting with one product we're building and testing ourselves.",
+  intro: "We look after dogs every day, so we see what holds up and what falls apart. We're starting small, with gear we use on our own walks and test ourselves first.",
   // where sign-ups are emailed (same service as the booking form)
   formEndpoint: "https://formsubmit.co/ajax/dillon@dillonspetcare.com",
   products: [
+    {
+      id: "treat-pouch",
+      name: "Walker's Treat Pouch",
+      sub: "A hands-free treat pouch built for daily walks and training, by someone who walks dogs every day.",
+      art: "pouch",
+      status: "testing",            // "testing" or "available"
+      price: "",                     // e.g. "$15" once it's on sale
+      priceNote: "",
+      amazonUrl: "",                 // or any link where people can buy it
+      image: "",
+      features: [
+        "Clips to a belt or waistband, or wears on a strap",
+        "Opens with one hand and closes so treats don't spill",
+        "Holder for poop bags built in",
+        "Easy to wipe out and wash",
+      ],
+      // the question asked on the sign-up list
+      askLabel: "How you'd use it",
+      askOptions: ["Daily walks", "Training a puppy", "Both"],
+    },
     {
       id: "orthopedic-bed",
       name: "Orthopedic Dog Bed",
@@ -191,6 +214,7 @@ const SHOP = {
       priceNote: "",                 // e.g. "Large, 36 × 27 in"
       amazonUrl: "",                 // the product's Amazon link once it's live
       image: "",                     // a real photo of the bed, e.g. "photos/bed.jpg"
+      art: "bed",
       // Shown as "What we're building" while testing,
       // and "What you get" once it's for sale.
       features: [
@@ -199,7 +223,9 @@ const SHOP = {
         "Zip-off cover that goes in the washing machine",
         "Sized for large dogs first",
       ],
-      sizes: ["Small or medium", "Large", "Extra large"],
+      askLabel: "Your dog's size",
+      askOptions: ["Small or medium", "Large", "Extra large"],
+      badge: "Coming later",
     },
   ],
 };
@@ -225,13 +251,31 @@ const BED_ART =
   '<path d="M252 90h4" stroke="#2f5d3a" stroke-width="4" stroke-linecap="round"/>'+
   '</svg>';
 
+// a simple drawing of the treat pouch, used until there's a real photo
+const POUCH_ART =
+  '<svg class="p-art" viewBox="0 0 440 280" role="img" aria-label="Drawing of the treat pouch">'+
+  '<ellipse cx="220" cy="250" rx="140" ry="14" fill="#2f5d3a" opacity=".12"/>'+
+  '<path d="M60 70h320" stroke="#2f5d3a" stroke-width="10" stroke-linecap="round" opacity=".35"/>'+
+  '<rect x="196" y="56" width="48" height="40" rx="8" fill="#fffdf7" stroke="#2f5d3a" stroke-width="4"/>'+
+  '<path d="M130 112h180l-14 116a18 18 0 0 1-18 16H162a18 18 0 0 1-18-16z" fill="#f0c14b" stroke="#2f5d3a" stroke-width="4" stroke-linejoin="round"/>'+
+  '<path d="M124 100h192a8 8 0 0 1 8 8v8a8 8 0 0 1-8 8H124a8 8 0 0 1-8-8v-8a8 8 0 0 1 8-8z" fill="#fffdf7" stroke="#2f5d3a" stroke-width="4"/>'+
+  '<path d="M158 150h124" stroke="#2f5d3a" stroke-width="3" stroke-dasharray="6 7" opacity=".55"/>'+
+  '<circle cx="220" cy="190" r="22" fill="#fffdf7" stroke="#2f5d3a" stroke-width="4"/>'+
+  '<path d="M220 202c-6 0-10-3-10-7s4-8 10-8 10 4 10 8-4 7-10 7z" fill="#2f5d3a"/>'+
+  '<circle cx="209" cy="182" r="3" fill="#2f5d3a"/><circle cx="216" cy="177" r="3" fill="#2f5d3a"/>'+
+  '<circle cx="224" cy="177" r="3" fill="#2f5d3a"/><circle cx="231" cy="182" r="3" fill="#2f5d3a"/>'+
+  '<rect x="322" y="150" width="34" height="56" rx="10" fill="#fffdf7" stroke="#2f5d3a" stroke-width="4"/>'+
+  '<path d="M330 206v18" stroke="#2f5d3a" stroke-width="4" stroke-linecap="round"/>'+
+  '</svg>';
+const ARTS = {bed: () => BED_ART, pouch: () => POUCH_ART};
+
 function productHTML(p){
   const live = p.status==="available" && p.amazonUrl;
-  const badge = live ? "Available now" : "In testing";
+  const badge = live ? "Available now" : (p.badge || "In testing");
   return ''+
   '<article class="product" id="'+esc(p.id)+'">'+
     '<div class="p-media">'+
-      (p.image ? '<img src="'+esc(p.image)+'" alt="'+esc(p.name)+'"/>' : BED_ART)+
+      (p.image ? '<img src="'+esc(p.image)+'" alt="'+esc(p.name)+'"/>' : (ARTS[p.art]||ARTS.bed)())+
       '<span class="p-badge">'+badge+'</span>'+
     '</div>'+
     '<div class="p-body">'+
@@ -241,16 +285,16 @@ function productHTML(p){
       '<div class="p-k">'+(live ? "What you get" : "What we're building")+'</div>'+
       '<ul class="p-feats">'+(p.features||[]).map(f=>'<li>'+CHECK+'<span>'+esc(f)+'</span></li>').join("")+'</ul>'+
       (live
-        ? '<a class="btn" href="'+esc(p.amazonUrl)+'" target="_blank" rel="noopener">Buy on Amazon '+
+        ? '<a class="btn" href="'+esc(p.amazonUrl)+'" target="_blank" rel="noopener">'+(/amazon\./i.test(p.amazonUrl)?'Buy on Amazon':'Buy now')+' '+
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>'+
-          '<p class="p-note">Opens Amazon in a new tab. Sold and shipped through Amazon.</p>'
+          '<p class="p-note">Opens in a new tab.</p>'
         : waitlistHTML(p))+
     '</div>'+
   '</article>';
 }
 
 function waitlistHTML(p){
-  const sizes=(p.sizes||[]);
+  const opts=(p.askOptions||[]);
   return ''+
   '<form class="wl" data-product="'+esc(p.id)+'" novalidate>'+
     '<div class="wl-fields">'+
@@ -258,9 +302,9 @@ function waitlistHTML(p){
       '<div class="wl-row">'+
         '<div><label for="wl-mail-'+esc(p.id)+'">Email</label>'+
           '<input class="in" id="wl-mail-'+esc(p.id)+'" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com"/></div>'+
-        (sizes.length ? '<div><label for="wl-size-'+esc(p.id)+'">Your dog\'s size</label>'+
+        (opts.length ? '<div><label for="wl-size-'+esc(p.id)+'">'+esc(p.askLabel||"Choose one")+'</label>'+
           '<select class="in" id="wl-size-'+esc(p.id)+'"><option value="">Choose</option>'+
-          sizes.map(s=>'<option>'+esc(s)+'</option>').join("")+'</select></div>' : '')+
+          opts.map(s=>'<option>'+esc(s)+'</option>').join("")+'</select></div>' : '')+
       '</div>'+
       '<div style="margin-top:12px"><label for="wl-note-'+esc(p.id)+'">What matters most to you? <span style="text-transform:none;letter-spacing:0;font-weight:500">(optional)</span></label>'+
         '<input class="in" id="wl-note-'+esc(p.id)+'" placeholder="e.g. easy to wash, my dog chews everything"/></div>'+
@@ -289,7 +333,8 @@ function wireWaitlists(){
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){ err.textContent="Please add a valid email address."; $("wl-mail-"+id).focus(); return; }
       err.textContent=""; btn.disabled=true; btn.textContent="Sending...";
       const done=()=>{ form.querySelector(".wl-fields").hidden=true; form.querySelector(".wl-done").hidden=false; };
-      const body={_subject:"Shop waitlist: "+(p.name||id), email:mail, product:p.name||id, dog_size:size, notes:note};
+      const body={_subject:"Shop waitlist: "+(p.name||id), email:mail, product:p.name||id, notes:note};
+      if(size) body[(p.askLabel||"answer")]=size;
       const ctrl=(typeof AbortController==="function")?new AbortController():null;
       const t=setTimeout(()=>{ if(ctrl) ctrl.abort(); },12000);
       fetch(SHOP.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
