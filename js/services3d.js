@@ -381,15 +381,12 @@ function create(host, services, opts){
     if(ry!==0) low.position.x = x + (x<0?.004:-.004);
     const rail = new T.Mesh(new T.BoxGeometry(ry===0?w:.05, .06, ry===0?.05:w), IM.trim); rail.position.set(x+(ry===0?0:(x<0?.02:-.02)), .86, z+(ry===0?.02:0)); iscene.add(rail);
   });
-  // window on the back wall, with a bit of sky
-  const win = new T.Group(); win.position.set(-1.25, 1.6, RB+.01); iscene.add(win);
+  // a window in the right-hand wall near the front, with a bit of sky
+  const win = new T.Group(); win.position.set(RW/2-.01, 1.6, 1.35); win.rotation.y = -Math.PI/2; iscene.add(win);
   box(1.0, .8, .05, IM.trim, 0,0,0, win);
   const sky = new T.Mesh(new T.PlaneGeometry(.86,.66), new T.MeshBasicMaterial({color:col("#bfe6f7")})); sky.position.z = .03; win.add(sky);
   box(.04,.66,.02, IM.trim, 0,0,.04, win); box(.86,.04,.02, IM.trim, 0,0,.04, win);
   box(1.12,.06,.14, IM.trim, 0,-.43,.06, win);
-  // the service's sign hangs on the back wall
-  const plaqueMat = new T.MeshBasicMaterial({color:0xffffff, transparent:true});
-  const plaque = new T.Mesh(new T.PlaneGeometry(1.25, 1.25*220/640), plaqueMat); plaque.position.set(.45, 1.95, RB+.02); iscene.add(plaque);
 
   // props for each kind of room
   function roomFor(slug){
@@ -420,8 +417,8 @@ function create(host, services, opts){
       g.userData.spot = {x:.25, z:-.6};
     } else if(/walk/.test(slug)){                // mudroom
       box(1.6,.08,.5, IM.wood, -.9,.45,-1.55, g); [-1.6,-.2].forEach(x=>box(.08,.45,.45, IM.wood, x,.22,-1.55, g));
-      box(1.5,.08,.08, IM.wood, 1.2,1.6,RB+.05, g);
-      [[.75,IM.low],[1.2,IM.red],[1.65,IM.gold]].forEach(([x,m])=>{
+      box(1.05,.08,.08, IM.wood, 1.55,1.6,RB+.05, g);
+      [[1.2,IM.low],[1.55,IM.red],[1.9,IM.gold]].forEach(([x,m])=>{
         cyl(.02,.02,.7, m, x,1.22,RB+.12, g, 8);
         const loop = new T.Mesh(new T.TorusGeometry(.1,.025,8,20), m); loop.position.set(x,1.62,RB+.12); g.add(loop);
         box(.06,.08,.06, IM.gold, x,.86,RB+.12, g);
@@ -450,22 +447,18 @@ function create(host, services, opts){
       mg.fillStyle="#d9534f"; mg.beginPath(); mg.arc(200,70,16,0,Math.PI*2); mg.fill();
       mg.strokeStyle="#2f5d3a"; mg.lineWidth=10; mg.strokeRect(5,5,310,210);
       const mapTex = new T.CanvasTexture(mapC); if("encoding" in mapTex) mapTex.encoding = T.sRGBEncoding;
-      const map = new T.Mesh(new T.PlaneGeometry(.9,.62), new T.MeshBasicMaterial({map:mapTex})); map.position.set(1.45,1.45,RB+.02); g.add(map);
+      const map = new T.Mesh(new T.PlaneGeometry(.8,.55), new T.MeshBasicMaterial({map:mapTex})); map.position.set(1.55,1.45,RB+.02); g.add(map);
       box(1.2,.012,.8, IM.low, .1,.007,-.25, g);
       g.userData.spot = {x:.2, z:-.45};
     }
     return g;
   }
   const rooms = services.map((s,i)=>roomFor(svcSlugOf(s,i)));
-  function showRoom(i){
-    rooms.forEach((r,k)=>{ r.visible = k===i; });
-    plaqueMat.map = sections[i].signMat.map || null; plaqueMat.needsUpdate = true;
-  }
   // ── the doorway is a window into the room ────────────────────────
   // Each room sits "behind" its door: the open doorway shows that room,
   // drawn from exactly where you're standing, so the camera can glide
   // straight through the door into it with no fade and no cut.
-  const ZF = 1.3;                                          // where the room's doorway is
+  const ZF = 2.1;                                          // where the room's doorway is (in front of every viewing spot)
   const offsetFor = i => new T.Vector3(-xOf(i), -.12, ZF - (D/2 + .004));
   const icam = new T.PerspectiveCamera(camera.fov, 1, .05, 100);
   const portalRT = new T.WebGLRenderTarget(2, 2, {minFilter:T.LinearFilter, magFilter:T.LinearFilter});
@@ -478,25 +471,223 @@ function create(host, services, opts){
   let shownRoom = -1;
   function showRoom(i){
     if(shownRoom!==i){ rooms.forEach((r,k)=>{ r.visible = k===i; }); shownRoom = i; }
-    const m = sections[i].signMat.map || null;
-    if(plaqueMat.map!==m){ plaqueMat.map = m; plaqueMat.needsUpdate = true; }
+    fillWalls(i);
     sections.forEach((s,k)=>{ const want = k===i ? portalMat : M.dark; if(s.hole.material!==want) s.hole.material = want; });
+  }
+
+  // ── the service's information, on the walls of its room ───────────
+  // Back wall: a noticeboard with the details and what's included.
+  // Left wall: framed photos, and review notes pinned to a corkboard.
+  // Right wall: a screen playing the service's clip.
+  const BODY = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif";
+  const DISP = "Archivo, 'Arial Narrow', Arial, sans-serif";
+  const texOf = c => { const t = new T.CanvasTexture(c); if("encoding" in t) t.encoding = T.sRGBEncoding;
+    t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); return t; };
+  const plain = (map) => new T.MeshBasicMaterial({color:0xffffff, map:map||null});
+
+  // noticeboard
+  const boardG = new T.Group(); boardG.position.set(-.2, 1.87, RB+.04); iscene.add(boardG);
+  const boardFrame = new T.Mesh(new T.BoxGeometry(1,1,.06), IM.wood); boardFrame.castShadow = true; boardG.add(boardFrame);
+  const boardMat = plain(); const board = new T.Mesh(new T.PlaneGeometry(1,1), boardMat); board.position.z = .035; boardG.add(board);
+  board.userData.station = "details"; boardFrame.userData.station = "details";
+  let boardPortrait = null;
+  function boardSize(portrait){ return portrait ? {w:1.05, h:1.5, y:1.78} : {w:2.1, h:1.05, y:1.87}; }
+  function drawBoard(s, portrait){
+    const W = portrait ? 840 : 1680, H = portrait ? 1200 : 840, P = portrait ? 56 : 70;
+    const c = document.createElement("canvas"); c.width = W; c.height = H; const g = c.getContext("2d");
+    g.fillStyle = "#fffdf7"; g.fillRect(0,0,W,H);
+    g.strokeStyle = INK; g.lineWidth = 6; g.strokeRect(18,18,W-36,H-36);
+    const ls = px => { if("letterSpacing" in g) g.letterSpacing = px; };
+    const wrapDraw = (text, x, y, maxW, lh, font, color, maxLines) => {
+      g.font = font; g.fillStyle = color;
+      let lines = wrapLines(g, text, maxW);
+      if(maxLines && lines.length > maxLines){ lines = lines.slice(0,maxLines); lines[maxLines-1] += "…"; }
+      lines.forEach((l,k)=>g.fillText(l, x, y + k*lh)); return y + lines.length*lh;
+    };
+    const colW = portrait ? W-2*P : W*.5 - P*1.2;
+    let y = P + 40;
+    // tag
+    g.font = "700 26px "+BODY; ls("6px"); g.fillStyle = "#8a6a1f";
+    g.fillText((s.tag||"").toUpperCase(), P, y); ls("0px");
+    g.fillStyle = "#f0c14b"; g.fillRect(P, y+14, 60, 5);
+    y += 76;
+    // name
+    y = wrapDraw((s.name||"").toUpperCase(), P, y+ (portrait?10:20), colW, portrait?78:92, "800 "+(portrait?74:88)+"px "+DISP, INK, 2) + 6;
+    // price line
+    y = wrapDraw(s.priceLine||"", P, y, colW, 40, "600 30px "+BODY, "#5f6b60", 2) + 22;
+    // description
+    y = wrapDraw(s.desc||"", P, y, colW, portrait?44:46, "400 "+(portrait?32:34)+"px "+BODY, "#1d2a20", portrait?6:7) + 30;
+    // what's included: beside it on the wide board, below it on the tall one
+    let x2 = P, y2 = y;
+    if(!portrait){ x2 = W*.5 + P*.4; y2 = P + 40; g.fillStyle = "#e8e0cc"; g.fillRect(W*.5 - 4, P, 3, H - 2*P); }
+    g.font = "700 26px "+BODY; ls("6px"); g.fillStyle = "#8a6a1f"; g.fillText("WHAT'S INCLUDED", x2, y2); ls("0px");
+    y2 += 30;
+    const inc = (s.included||[]).slice(0,5), rowH = portrait ? 74 : 96, iw = portrait ? W-2*P-60 : W*.5 - P*1.6 - 60;
+    inc.forEach((t,k)=>{
+      const ry = y2 + 24 + k*rowH;
+      g.fillStyle = INK; g.beginPath(); g.arc(x2+20, ry+10, 20, 0, Math.PI*2); g.fill();
+      g.strokeStyle = "#fff"; g.lineWidth = 5; g.lineCap = "round"; g.lineJoin = "round";
+      g.beginPath(); g.moveTo(x2+11, ry+11); g.lineTo(x2+18, ry+18); g.lineTo(x2+30, ry+3); g.stroke();
+      wrapDraw(t, x2+58, ry+20, iw, 38, "500 "+(portrait?28:32)+"px "+BODY, "#1d2a20", 2);
+    });
+    return c;
+  }
+
+  // photo wall: four frames
+  const photoG = new T.Group(); photoG.position.set(-RW/2+.04, 1.6, -.75); photoG.rotation.y = Math.PI/2; iscene.add(photoG);
+  const photoMats = [];
+  [[-.36,.3],[.36,.3],[-.36,-.3],[.36,-.3]].forEach(([x,y],k)=>{
+    const fr = box(.64,.52,.05, k%2 ? IM.low : IM.wood, x,y,0, photoG); fr.userData.station = "photos";
+    const m = plain(); photoMats.push(m);
+    const pic = new T.Mesh(new T.PlaneGeometry(.56,.44), m); pic.position.set(x,y,.03); pic.userData.station = "photos"; photoG.add(pic);
+  });
+  // review corkboard near the front of the left wall
+  const notesG = new T.Group(); notesG.position.set(-RW/2+.04, 1.5, 1.05); notesG.rotation.y = Math.PI/2; iscene.add(notesG);
+  const cork = box(1.45,1.1,.05, new T.MeshStandardMaterial({color:col("#c9a26b"), roughness:1}), 0,0,0, notesG); cork.userData.station = "reviews";
+  const noteMats = [plain(), plain()], notes = noteMats.map((m,k)=>{
+    const n = new T.Mesh(new T.PlaneGeometry(.62,.86), m); n.position.set(k ? .33 : -.33, 0, .035); n.rotation.z = k ? -.04 : .035;
+    n.userData.station = "reviews"; notesG.add(n);
+    sph(.03, IM.red, n.position.x, .4, .05, notesG); return n;
+  });
+  function drawNote(r, tint){
+    const W = 620, H = 860, c = document.createElement("canvas"); c.width = W; c.height = H; const g = c.getContext("2d");
+    g.fillStyle = tint; g.fillRect(0,0,W,H);
+    g.fillStyle = "#c99a1f"; g.font = "40px "+BODY; g.fillText("★★★★★", 48, 100);
+    g.font = "italic 400 33px "+BODY; g.fillStyle = "#1d2a20";
+    let lines = wrapLines(g, "“"+(r.text||"")+"”", W-96); if(lines.length>15){ lines = lines.slice(0,15); lines[14] += "…"; }
+    lines.forEach((l,k)=>g.fillText(l, 48, 170 + k*42));
+    g.font = "700 30px "+BODY; g.fillStyle = INK; g.fillText("— "+(r.who||""), 48, H-56);
+    return c;
+  }
+  // a screen on the right wall
+  const screenG = new T.Group(); screenG.position.set(RW/2-.04, 1.5, -.55); screenG.rotation.y = -Math.PI/2; iscene.add(screenG);
+  const bezel = box(.76,1.28,.06, IM.dark, 0,0,0, screenG); bezel.userData.station = "video";
+  const screenMat = plain(); const screen = new T.Mesh(new T.PlaneGeometry(.68,1.2), screenMat); screen.position.z = .035; screen.userData.station = "video"; screenG.add(screen);
+
+  // fill the walls for room i (made once per room, then reused)
+  const wallCache = {};
+  let roomVideo = null;
+  function coverCanvas(img, w, h){
+    const c = document.createElement("canvas"); c.width = w; c.height = h; const g = c.getContext("2d");
+    g.fillStyle = "#e8e0cc"; g.fillRect(0,0,w,h);
+    if(img){ const k = Math.max(w/img.width, h/img.height); g.drawImage(img, (w-img.width*k)/2, (h-img.height*k)/2, img.width*k, img.height*k); }
+    return c;
+  }
+  function fillWalls(i){
+    const s = services[i];
+    const portrait = !!narrow;
+    let C = wallCache[i];
+    if(!C){
+      C = wallCache[i] = {photos:[null,null,null,null], notes:[]};
+      (s.photos||[]).slice(0,4).forEach((src,k)=>loadImage(src).then(img=>{
+        C.photos[k] = texOf(coverCanvas(img, 560, 440)); if(shownRoom===i){ photoMats[k].map = C.photos[k]; photoMats[k].needsUpdate = true; start(); }
+      }));
+      const revs = (s.reviews||[]).slice(0,2);
+      C.notes = revs.map((r,k)=>texOf(drawNote(r, k ? "#fff3c4" : "#fdfbf3")));
+      if(s.clip){
+        const v = document.createElement("video");
+        v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline",""); v.preload = "none"; v.src = s.clip;
+        C.video = v; C.screen = new T.VideoTexture(v); if("encoding" in C.screen) C.screen.encoding = T.sRGBEncoding;
+      } else {
+        loadImage(s.img).then(img=>{ C.screen = texOf(coverCanvas(img, 680, 1200)); if(shownRoom===i){ screenMat.map = C.screen; screenMat.needsUpdate = true; start(); } });
+      }
+    }
+    if(C.boardPortrait!==portrait || !C.board){ C.board = texOf(drawBoard(s, portrait)); C.boardPortrait = portrait; }
+    const bs = boardSize(portrait);
+    boardFrame.scale.set(bs.w+.12, bs.h+.12, 1); board.scale.set(bs.w, bs.h, 1); boardG.position.y = bs.y;
+    boardMat.map = C.board; boardMat.needsUpdate = true;
+    photoMats.forEach((m,k)=>{ m.map = C.photos[k] || null; m.needsUpdate = true; });
+    notes.forEach((n,k)=>{ n.visible = !!C.notes[k]; if(C.notes[k]){ noteMats[k].map = C.notes[k]; noteMats[k].needsUpdate = true; } });
+    if(C.notes.length===1){ notes[0].position.x = 0; } else { notes[0].position.x = -.33; }
+    screenMat.map = C.screen || null; screenMat.needsUpdate = true;
+    if(roomVideo && roomVideo!==C.video) roomVideo.pause();
+    roomVideo = C.video || null;
+  }
+  // the stops the camera makes inside a room
+  function stationsFor(i){
+    const s = services[i], st = ["details", "photos"];
+    if(s.clip) st.push("video");
+    if((s.reviews||[]).length) st.push("reviews");
+    return st;
+  }
+  const STATION_LABEL = {details:"Details", photos:"Photos", video:"Video", reviews:"Reviews"};
+  function stationPose(name){
+    const bs = boardSize(!!narrow);
+    const S = {
+      details: {c:new T.Vector3(-.2, bs.y, RB+.07), n:new T.Vector3(0,0,1), w:bs.w+.2, h:bs.h+.2},
+      photos:  {c:new T.Vector3(-RW/2+.05, 1.6, -.75), n:new T.Vector3(1,0,0), w:1.5, h:1.25},
+      video:   {c:new T.Vector3(RW/2-.05, 1.5, -.55), n:new T.Vector3(-1,0,0), w:.95, h:1.4},
+      reviews: {c:new T.Vector3(-RW/2+.05, 1.5, 1.05), n:new T.Vector3(1,0,0), w:1.55, h:1.2},
+    }[name] || null;
+    const t = Math.tan(T.MathUtils.degToRad(camera.fov/2));
+    const d = Math.max(S.w/(.86*2*t*camera.aspect), S.h/(.86*2*t), .9);
+    return {pos: S.c.clone().addScaledVector(S.n, d), look: S.c.clone()};
   }
   // a twin of the pup lives in the room and copies every move, so the dog
   // you see walking through the doorway is seamless on both sides
   const twin = buildDog({dogStyle: opts.dogStyle, ink: INK}); iscene.add(twin.dog);
   const box3 = host.closest ? host.closest(".svc3d") : null;     // to hide the arrows while inside
-  const path = {curve:null, t0:0, dur:2700, dir:1, lookA:new T.Vector3(), lookDoor:new T.Vector3(), lookEnd:new T.Vector3(), startZ:0, endZ:0, done:null};
-  let holdTimer = 0;
-  function finishInterior(){
-    clearTimeout(holdTimer);
-    if(state!=="entering") return;
-    state = "inside";
-    if(opts.onOpen) opts.onOpen(active);
-  }
+  const path = {curve:null, t0:0, dur:2700, dir:1, u:0, uD:.85, lookA:new T.Vector3(), lookDoor:new T.Vector3(), lookEnd:new T.Vector3(), startZ:0, endZ:0, done:null};
   function leaveInterior(){
     if(box3) box3.classList.remove("is-inside");
   }
+
+  // ── being in a room: gliding between its walls ────────────────────
+  const room = {stations:[], k:0, from:new T.Vector3(), to:new T.Vector3(), lf:new T.Vector3(), lt:new T.Vector3(),
+                t0:0, dur:950, look:new T.Vector3()};
+  // the small controls over the room: back outside, the stops, and Book this
+  const ui = document.createElement("div");
+  ui.className = "room-ui"; ui.hidden = true;
+  ui.innerHTML =
+    '<button type="button" class="room-out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Outside</button>'+
+    '<div class="room-nav">'+
+      '<button type="button" class="room-step" data-step="-1" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>'+
+      '<div class="room-tabs" role="tablist" aria-label="Look around the room"></div>'+
+      '<button type="button" class="room-step" data-step="1" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>'+
+    '</div>'+
+    '<button type="button" class="room-book">Book this</button>';
+  host.appendChild(ui);
+  const tabsEl = ui.querySelector(".room-tabs");
+  ui.querySelector(".room-out").addEventListener("click", ()=>leaveRoom());
+  ui.querySelectorAll(".room-step").forEach(b=>b.addEventListener("click", ()=>goStation(room.k + (+b.dataset.step))));
+  ui.querySelector(".room-book").addEventListener("click", ()=>{ const i = active; leaveRoom(); if(opts.onBook) opts.onBook(i); });
+  tabsEl.addEventListener("click", e=>{ const t = e.target.closest("[data-k]"); if(t) goStation(+t.dataset.k); });
+
+  function enterRoom(){
+    state = "room";
+    room.stations = stationsFor(active); room.k = 0;
+    tabsEl.innerHTML = room.stations.map((st,k)=>
+      '<button type="button" role="tab" data-k="'+k+'" aria-selected="'+(k===0)+'">'+STATION_LABEL[st]+'</button>').join("");
+    ui.hidden = false;
+    syncVideo();
+    if(opts.onRoom) opts.onRoom(active);
+    start();
+  }
+  function goStation(k){
+    if(state!=="room" || !room.stations.length) return;
+    room.k = wrapIdx(k, room.stations.length);
+    const o = offsetFor(active), p = stationPose(room.stations[room.k]);
+    room.from.copy(camera.position); room.to.copy(p.pos).sub(o);
+    room.lf.copy(room.look); room.lt.copy(p.look).sub(o);
+    room.t0 = performance.now();
+    tabsEl.querySelectorAll("[data-k]").forEach(b=>b.setAttribute("aria-selected", String(+b.dataset.k===room.k)));
+    syncVideo();
+    start();
+  }
+  function syncVideo(){
+    if(!roomVideo) return;
+    if(state==="room" && room.stations[room.k]==="video"){ const pr = roomVideo.play(); if(pr && pr.catch) pr.catch(()=>{}); }
+    else roomVideo.pause();
+  }
+  function leaveRoom(){
+    if(state!=="room") return;
+    ui.hidden = true;
+    state = "leaving"; syncVideo();
+    startFly(false, active, null, camera.position.clone(), room.look.clone());
+  }
+  // which wall did you tap?
+  const stationMeshes = []; [boardG, photoG, notesG, screenG].forEach(g=>g.traverse(o=>{ if(o.isMesh && o.userData.station) stationMeshes.push(o); }));
+  const twinMeshes = []; twin.dog.traverse(o=>{ if(o.isMesh) twinMeshes.push(o); });
   // ── camera framing ────────────────────────────────────────────────
   let narrow=false, camDist=12;
   const tanH = () => Math.tan(T.MathUtils.degToRad(camera.fov/2));
@@ -555,7 +746,11 @@ function create(host, services, opts){
   function pickDog(e){ aim(e); return ray.intersectObjects(dogMeshes,false).length>0; }
   function hop(){ if(dogState.hopT<0) dogState.hopT = 0; start(); }
   let downX=0, downY=0, downT=0, down=false;
-  el.addEventListener("pointerdown", e=>{ if(state==="flying-in"){ path.done = null; state = "entering"; } if(state==="entering"){ finishInterior(); return; } if(state!=="idle") return; down=true; downX=e.clientX; downY=e.clientY; downT=performance.now(); });
+  el.addEventListener("pointerdown", e=>{
+    if(state==="flying-in"){ path.t0 = performance.now() - path.dur; return; }     // a tap skips to the room
+    if(state!=="idle" && state!=="room") return;
+    down=true; downX=e.clientX; downY=e.clientY; downT=performance.now();
+  });
   el.addEventListener("pointermove", e=>{
     const r = el.getBoundingClientRect();
     px = ((e.clientX-r.left)/r.width)*2-1; py = ((e.clientY-r.top)/r.height)*2-1;
@@ -571,6 +766,19 @@ function create(host, services, opts){
     if(!down) return; down=false;
     const dx = e.clientX-downX, dy = e.clientY-downY;
     stopAuto();
+    if(state==="room"){
+      // swipe to the next wall, tap a wall to look at it, tap the pup to make it hop
+      if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)*1.3 && performance.now()-downT<900){ goStation(room.k + (dx<0?1:-1)); return; }
+      if(Math.abs(dx)<8 && Math.abs(dy)<8){
+        const r = el.getBoundingClientRect();
+        ndc.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1);
+        ray.setFromCamera(ndc, icam);
+        if(ray.intersectObjects(twinMeshes,false).length){ hop(); return; }
+        const hit = ray.intersectObjects(stationMeshes,false)[0];
+        if(hit){ const k = room.stations.indexOf(hit.object.userData.station); if(k>=0) goStation(k); }
+      }
+      return;
+    }
     // a sideways swipe walks along the house
     if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)*1.3 && performance.now()-downT<900){
       setActive(active + (dx<0?1:-1)); return;
@@ -585,17 +793,25 @@ function create(host, services, opts){
   el.addEventListener("pointercancel", ()=>{ down=false; });
   el.addEventListener("pointerleave", ()=>{ px=0; py=0; hover=-1; start(); });
   host.addEventListener("keydown", e=>{
-    if(state==="entering" && (e.key==="Enter"||e.key===" "||e.key==="Escape")){ e.preventDefault(); finishInterior(); return; }
+    if(state==="room"){
+      if(e.key==="ArrowRight"){ e.preventDefault(); goStation(room.k+1); }
+      else if(e.key==="ArrowLeft"){ e.preventDefault(); goStation(room.k-1); }
+      else if(e.key==="Escape"){ e.preventDefault(); leaveRoom(); }
+      return;
+    }
     if(state!=="idle") return;
     if(e.key==="ArrowRight"){ e.preventDefault(); stopAuto(); setActive(active+1); }
     else if(e.key==="ArrowLeft"){ e.preventDefault(); stopAuto(); setActive(active-1); }
     else if(e.key==="Enter"||e.key===" "){ e.preventDefault(); stopAuto(); openActive(); }
   });
 
-  function startFly(inward, i, done){
+  function startFly(inward, i, done, fromInside, lookInside){
     rest();
     const o = offsetFor(i), dx = xOf(i), dy = .12 + DOOR_H*.5;
-    const endExt = new T.Vector3(.35, 1.5, ZF + (narrow ? .3 : -.45)).sub(o);   // the room view, in outside terms
+    // the room end of the trip, in outside terms: the noticeboard on the way
+    // in, or wherever you're standing on the way out
+    const first = stationPose("details");
+    const endExt = fromInside ? fromInside.clone() : first.pos.clone().sub(o);
     const outer = inward ? camera.position.clone() : restPos.clone();
     path.curve = new T.CatmullRomCurve3([
       outer,
@@ -604,8 +820,12 @@ function create(host, services, opts){
       new T.Vector3(dx, dy + .05, D/2 - .35),
       endExt,
     ], false, "centripetal");
-    path.lookA.copy(restLook); path.lookDoor.set(dx, dy, -1); path.lookEnd.set(0, .85, -1.1).sub(o);
+    path.lookA.copy(restLook); path.lookDoor.set(dx, dy, -1);
+    if(lookInside) path.lookEnd.copy(lookInside); else path.lookEnd.copy(first.look).sub(o);
     path.startZ = outer.z; path.endZ = endExt.z;
+    // how far along the path the camera passes through the doorway
+    path.uD = .85;
+    for(let k=0; k<=200; k++){ if(path.curve.getPointAt(k/200).z < D/2){ path.uD = k/200; break; } }
     path.dir = inward ? 1 : -1; path.dur = inward ? 2700 : 2100;
     path.t0 = performance.now(); path.done = done;
     state = inward ? "flying-in" : "flying-out";
@@ -617,10 +837,7 @@ function create(host, services, opts){
     if(opts.onStart) opts.onStart(active);
     camX.cur = camX.tgt = xOf(active);
     showRoom(active);
-    startFly(true, active, ()=>{
-      state = "entering";                                  // a moment to look around
-      clearTimeout(holdTimer); holdTimer = setTimeout(finishInterior, 800);
-    });
+    startFly(true, active, ()=>enterRoom());
   }
 
   // ── render loop ───────────────────────────────────────────────────
@@ -638,7 +855,7 @@ function create(host, services, opts){
     camX.cur += (camX.tgt-camX.cur)*Math.min(1, dt*.006);
 
     sections.forEach((s,i)=>{
-      const flying = (state==="flying-in" || state==="entering" || state==="inside" || state==="flying-out") && i===active;
+      const flying = (state==="flying-in" || state==="room" || state==="leaving" || state==="inside" || state==="flying-out") && i===active;
       const want = flying ? 1.45 : (i===active || i===hover) ? 1.05 : 0;   // how far the door swings
       s.open += (want - s.open)*Math.min(1, dt*.008);
       s.hinge.rotation.y = -s.open;
@@ -653,7 +870,7 @@ function create(host, services, opts){
     // where the pup is headed, all in outside terms: in through the door to
     // its spot in the room, or back out to its spot beside the door
     const o = offsetFor(active), doorX = xOf(active), doorZ = D/2;
-    const inward = state==="flying-in" || state==="entering" || state==="inside";
+    const inward = state==="flying-in" || state==="room" || state==="inside";
     const inRoom = dogState.z < doorZ - .05;
     const rs = rooms[active].userData.spot;
     let tgt;
@@ -715,20 +932,19 @@ function create(host, services, opts){
       const u = path.dir>0 ? ease(raw) : 1 - ease(raw);
       camera.position.copy(path.curve.getPointAt(u));
       // look at the door on the way in, then ease round to take in the room
-      const cz = camera.position.z, doorPlane = D/2;
-      if(cz > doorPlane){
-        const f = Math.min(1, Math.max(0, 1 - (cz - doorPlane)/Math.max(.01, path.startZ - doorPlane)));
-        look.lerpVectors(path.lookA, path.lookDoor, ease(f));
-      } else {
-        const f = Math.min(1, Math.max(0, (doorPlane - cz)/Math.max(.01, doorPlane - path.endZ)));
-        look.lerpVectors(path.lookDoor, path.lookEnd, ease(f));
-      }
+      if(u < path.uD) look.lerpVectors(path.lookA, path.lookDoor, ease(u/path.uD));
+      else look.lerpVectors(path.lookDoor, path.lookEnd, ease((u - path.uD)/Math.max(.01, 1 - path.uD)));
+      path.u = u;
       camera.lookAt(look);
+      room.look.copy(look);
       if(raw >= 1){
         const d = path.done; path.done = null;
         if(state==="flying-out"){ state = "idle"; leaveInterior(); }
         if(d) d();
       }
+    } else if(state==="room"){
+      const k = ease(Math.min(1, Math.max(0, (now - room.t0)/room.dur)));
+      if(room.t0){ camera.position.lerpVectors(room.from, room.to, k); look.lerpVectors(room.lf, room.lt, k); camera.lookAt(look); room.look.copy(look); }
     } else if(state==="idle"){
       camera.position.lerp(restPos, Math.min(1, dt*.005));
       camera.lookAt(restLook);
@@ -736,7 +952,8 @@ function create(host, services, opts){
 
     icam.position.copy(camera.position).add(o);
     icam.quaternion.copy(camera.quaternion);
-    const camInside = camera.position.z < D/2 + .12 && Math.abs(camera.position.x - doorX) < .6;
+    // inside once the camera is through the doorway (a hair early, so the wall never clips the view)
+    const camInside = state==="room" || ((state==="flying-in" || state==="flying-out" || state==="leaving") && path.u > path.uD - .015);
     if(camInside){
       renderer.render(iscene, icam);
     } else {
@@ -745,7 +962,7 @@ function create(host, services, opts){
       }
       renderer.render(scene, camera);
     }
-    const moving = Math.abs(camX.tgt-camX.cur)>.002 || state==="flying-in" || state==="flying-out" || state==="entering";
+    const moving = Math.abs(camX.tgt-camX.cur)>.002 || state==="flying-in" || state==="flying-out" || state==="room";
     if((visible && state!=="inside") || moving) raf = requestAnimationFrame(tick);
   }
   function start(){ if(!raf){ last = performance.now(); raf = requestAnimationFrame(tick); } }
@@ -758,7 +975,9 @@ function create(host, services, opts){
   }
   document.addEventListener("visibilitychange",()=>{ visible = !document.hidden; if(visible) start(); });
   let rt=0;
-  addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ frame(); start(); },120); });
+  addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ frame();
+    if(state==="room"){ fillWalls(active); goStation(room.k); }           // the noticeboard reshapes for the screen
+    start(); },120); });
 
   frame(); camX.cur = camX.tgt = xOf(0); rest(); showRoom(0);
   camera.position.copy(restPos); camera.lookAt(restLook);

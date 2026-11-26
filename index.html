@@ -1184,6 +1184,30 @@ select.in option{background:#fff;color:var(--ink)}
   .sp-hero.framed .sp-hero-in{padding-right:calc((100vh - 200px)*.5625 + 120px)}
   .sp-hero.framed .sp-scrollcue{display:none}
 }
+/* ── controls over the room inside the dog house ── */
+.room-ui{position:absolute;left:0;right:0;top:0;bottom:0;z-index:5;pointer-events:none}
+.room-ui>*{pointer-events:auto}
+.room-out{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:6px;background:rgba(255,253,247,.94);
+  color:var(--ink);border:1px solid var(--line2);border-radius:99px;padding:9px 15px 9px 10px;font:inherit;font-size:13px;
+  font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(20,20,10,.12)}
+.room-out svg,.room-step svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.room-out:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.room-book{position:absolute;top:14px;right:14px;background:var(--ac);color:#fff;border:1px solid var(--ac);border-radius:99px;
+  padding:10px 18px;font:inherit;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+  box-shadow:0 4px 14px rgba(20,20,10,.18)}
+.room-book:hover{background:var(--ac2)}
+.room-nav{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;
+  background:rgba(255,253,247,.94);border:1px solid var(--line2);border-radius:99px;padding:5px;
+  box-shadow:0 6px 18px rgba(20,20,10,.14);max-width:calc(100% - 24px)}
+.room-step{width:34px;height:34px;flex-shrink:0;border-radius:50%;border:none;background:transparent;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;cursor:pointer}
+.room-step:hover{background:var(--ac-bg)}
+.room-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.room-tabs::-webkit-scrollbar{display:none}
+.room-tabs button{border:none;background:transparent;font:inherit;font-size:13px;font-weight:700;color:var(--sub);
+  padding:8px 12px;border-radius:99px;cursor:pointer;white-space:nowrap}
+.room-tabs button[aria-selected="true"]{background:var(--ac);color:#fff}
+@media (max-width:480px){.room-tabs button{padding:8px 9px;font-size:12.5px}.room-step{width:30px;height:30px}}
 .sp.enter-tile{animation:none}
 /* ── making the 3D showroom obvious to use ── */
 #services.is-3d .lineup-ctl{display:none}
@@ -2896,7 +2920,7 @@ function goService(i, back){
 }
 
 // ── 3D showroom loader ─────────────────────────────────────────────────
-const ASSET_V = "2026-11-27-portal2";
+const ASSET_V = "2026-11-27-walls2";
 // The 3D library is about 600KB, so it only loads when the visitor gets
 // near the services, and never on reduced-motion, data-saver or devices
 // without WebGL. If anything goes wrong the flat tiles simply stay.
@@ -2946,8 +2970,25 @@ function init3D(){
         // the dog's look; a preview link like ?dog=blacktan tries another one
         let dogStyle="blacktan";
         try{ dogStyle=new URLSearchParams(location.search).get("dog")||"blacktan"; }catch(_){}
-        svc3d=window.Services3D.create(stage, svcs.map((s,i)=>Object.assign({},s,{iconURL:icURL(s,i)})), {
+        // what each room shows on its walls: price line and a couple of reviews
+        const roomData=(s,i)=>{
+          const slug=svcSlug(s,i), showP=SITE.showPrices!==false;
+          const tagged=(SITE.reviews||[]).filter(r=>String(r.for||"").split(",").map(x=>x.trim()).indexOf(slug)>=0);
+          return {
+            iconURL:icURL(s,i),
+            priceLine:(showP && typeof s.price==="number") ? money(s.price)+" "+s.unit : "Priced "+s.unit+" · we quote you the same day",
+            reviews:(tagged.length?tagged:(SITE.reviews||[])).slice(0,2).map(r=>({text:r.text, who:r.who})),
+          };
+        };
+        svc3d=window.Services3D.create(stage, svcs.map((s,i)=>Object.assign({},s,roomData(s,i))), {
           dogStyle,
+          // "Book this" inside a room: pick the service on the form and go to it
+          onBook:i=>{
+            const s=svcs[i]; if(s && $("f-svc")) $("f-svc").value=s.name;
+            const c=$("contact");
+            if(c) c.scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"start"});
+            const f=$("f-name"); if(f) setTimeout(()=>{ try{ f.focus({preventScroll:true}); }catch(_){} },700);
+          },
           autoplay:4200,
           onInteract:()=>{ if(hint) hint.classList.add("gone"); },
           theme:{bg:tok("--card","#fffdf7"), line:tok("--ac","#2f5d3a"), dust:tok("--gold-deep","#c99a1f"), light:true},
