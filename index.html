@@ -1330,38 +1330,16 @@ section>h2::before,.how-head h2::before{font-family:'Caveat',cursive!important;f
 .svc3d-arrow:hover,.lineup-btn:hover:not(:disabled){background:var(--gold)!important}
 .rev-more button{border-radius:999px!important;font-family:'Fredoka',sans-serif!important;text-transform:none!important;letter-spacing:0!important;font-size:16px!important;box-shadow:4px 4px 0 var(--plum)}
 
-/* hero: words on the left, the video in a tilted snapshot on the right */
-.hero{background:var(--bg)!important}
-.banner{min-height:0!important;background:var(--bg)!important;display:grid!important;grid-template-columns:1fr;gap:34px;
-  align-items:center;padding:96px 22px 36px!important;max-width:1240px;margin:0 auto!important;overflow:visible!important}
-@media (min-width:900px){.banner{grid-template-columns:1.15fr .85fr;padding:124px 32px 56px!important}}
-.banner-scrim,.media-blur{display:none!important}
-.banner-in{position:relative!important;order:1;padding:0!important;max-width:none!important;margin:0!important;text-align:left!important}
-.banner-in>*{animation:none!important}
-.banner-in h1{color:var(--plum)!important;text-shadow:none!important;font-weight:700!important;font-size:clamp(42px,6.2vw,78px)!important;
-  line-height:1.02!important;max-width:14ch!important}
-.banner-in p{color:var(--sub)!important;text-shadow:none!important;font-size:clamp(17px,1.6vw,20px)!important;max-width:32em!important}
-.banner .eyebrow.eyebrow-on-v{display:inline-flex!important;background:var(--sky)!important;color:var(--plum)!important;border:3px solid var(--plum)!important;
-  border-radius:999px!important;padding:6px 16px!important;font-family:'Nunito',sans-serif!important;font-weight:800!important;
-  letter-spacing:0!important;text-transform:none!important;font-size:14px!important;margin-bottom:18px!important}
+/* hero: the full-screen video stays, with Storybook lettering over it */
+.banner-in h1{font-weight:700!important;font-size:clamp(42px,7vw,96px)!important;line-height:1!important}
+.banner .eyebrow.eyebrow-on-v{display:inline-flex!important;background:var(--sky)!important;color:var(--plum)!important;
+  border:3px solid var(--plum)!important;border-radius:999px!important;padding:6px 16px!important;
+  font-family:'Nunito',sans-serif!important;font-weight:800!important;letter-spacing:0!important;text-transform:none!important;font-size:14px!important}
 .banner .eyebrow.eyebrow-on-v::before{display:none!important}
-.banner-v,.banner.framed .banner-v{position:relative!important;inset:auto!important;left:auto!important;right:auto!important;top:auto!important;
-  order:2;justify-self:center;width:min(100%,400px)!important;height:auto!important;aspect-ratio:4/5;object-fit:cover;
-  border:12px solid #fff!important;border-bottom-width:52px!important;border-radius:6px!important;
-  box-shadow:0 0 0 3px var(--plum),10px 10px 0 3px var(--plum)!important;transform:rotate(3deg);z-index:1}
-.banner.framed .banner-in{padding-right:0!important}
-@media (max-width:899px){.banner-v{width:min(80%,330px)!important;transform:rotate(-2deg)}}
-@media (max-width:699px){.banner-in .banner-alt{display:block!important}}
-.clips-n{color:var(--sub)!important}
-.clips-bars i{background:rgba(43,35,64,.2)!important}
-.clips-bars i::after{background:var(--ac)!important}
-.specs{order:3;grid-column:1/-1;background:none!important;border:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation:none!important}
-.specs-in{gap:14px;max-width:none!important}
-.spec{background:#fff!important;border:3px solid var(--plum)!important;border-radius:22px;box-shadow:5px 5px 0 var(--plum);padding:16px 18px!important}
-.spec b{color:var(--plum)!important;font-weight:700!important}
-.spec b em{color:var(--gold-deep)!important}
-.spec span{color:var(--sub)!important;letter-spacing:0!important;text-transform:none!important;font-size:14px!important;font-weight:700}
-@media (prefers-reduced-motion:reduce){.banner{background:var(--bg)!important}}
+.spec b{font-weight:700!important}
+.spec b em{color:var(--gold)!important}
+.spec span{letter-spacing:.06em!important;text-transform:none!important;font-size:13px!important;font-weight:700}
+.clips-bars i::after{background:var(--gold)!important}
 
 /* cards: white, outlined, sticker shadow */
 .note,.cs-card,.est,.rev,.policy .p,.steps li,.f-fallback,.sp-rev,.f-sent{background:#fff!important;border:3px solid var(--plum)!important;
@@ -3080,7 +3058,7 @@ function goService(i, back){
 }
 
 // ── 3D showroom loader ─────────────────────────────────────────────────
-const ASSET_V = "2026-11-27-story";
+const ASSET_V = "2026-11-27-story2";
 // The 3D library is about 600KB, so it only loads when the visitor gets
 // near the services, and never on reduced-motion, data-saver or devices
 // without WebGL. If anything goes wrong the flat tiles simply stay.
