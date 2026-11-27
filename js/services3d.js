@@ -18,6 +18,8 @@
 "use strict";
 
 const T = window.THREE;
+// the lettering on signs and noticeboards follows the site's display font
+let SIGN_FONT = "Archivo", SIGN_W = 800;
 const ease = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
 const wrapIdx = (i,n) => ((i%n)+n)%n;
 
@@ -56,7 +58,7 @@ function drawSign(name, icon, ink){
   const maxW = W-(icon?210:80);
   let fs=62, lines=[];
   for(; fs>=30; fs-=2){
-    g.font="800 "+fs+"px Archivo, 'Arial Narrow', Arial, sans-serif";
+    g.font=SIGN_W+" "+fs+"px "+SIGN_FONT+", 'Arial Narrow', Arial, sans-serif";
     lines=wrapLines(g,(name||"").toUpperCase(), maxW);
     if(lines.length<=2 && lines.every(l=>g.measureText(l).width<=maxW)) break;
   }
@@ -175,6 +177,7 @@ function create(host, services, opts){
   const n = services.length;
   if(!T || !n) return null;
   const th = Object.assign({bg:"#fffdf7", line:"#2f5d3a", dust:"#c99a1f", light:true}, opts.theme||{});
+  if(th.font){ SIGN_FONT = th.font; SIGN_W = th.fontWeight || 700; }
   const col = hex => new T.Color(hex).convertSRGBToLinear();
   const INK = th.line;
 
@@ -305,7 +308,7 @@ function create(host, services, opts){
 
   // signs get their artwork once the icons and the display font are ready
   const fontReady = (document.fonts && document.fonts.load)
-    ? Promise.race([document.fonts.load("800 62px Archivo"), new Promise(r=>setTimeout(r,1500))]).catch(()=>{})
+    ? Promise.race([document.fonts.load(SIGN_W+" 62px "+SIGN_FONT), new Promise(r=>setTimeout(r,1500))]).catch(()=>{})
     : Promise.resolve();
   fontReady.then(()=>{
     services.forEach((s,i)=>{
@@ -486,7 +489,7 @@ function create(host, services, opts){
   // Left wall: framed photos, and review notes pinned to a corkboard.
   // Right wall: a screen playing the service's clip.
   const BODY = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif";
-  const DISP = "Archivo, 'Arial Narrow', Arial, sans-serif";
+  const DISP = SIGN_FONT+", 'Arial Narrow', Arial, sans-serif";
   const texOf = c => { const t = new T.CanvasTexture(c); if("encoding" in t) t.encoding = T.sRGBEncoding;
     t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); return t; };
   const plain = (map) => new T.MeshBasicMaterial({color:0xffffff, map:map||null});
@@ -521,8 +524,8 @@ function create(host, services, opts){
     // shrink the name until its longest word fits the column ("TRANSPORTATION")
     let nfs = portrait ? 74 : 88;
     const words = (s.name||"").toUpperCase().split(/\s+/);
-    for(; nfs > 36; nfs -= 2){ g.font = "800 "+nfs+"px "+DISP; if(words.every(w=>g.measureText(w).width <= colW)) break; }
-    y = wrapDraw((s.name||"").toUpperCase(), P, y+ (portrait?10:20), colW, Math.round(nfs*1.05), "800 "+nfs+"px "+DISP, INK, 2) + 6;
+    for(; nfs > 36; nfs -= 2){ g.font = SIGN_W+" "+nfs+"px "+DISP; if(words.every(w=>g.measureText(w).width <= colW)) break; }
+    y = wrapDraw((s.name||"").toUpperCase(), P, y+ (portrait?10:20), colW, Math.round(nfs*1.05), SIGN_W+" "+nfs+"px "+DISP, INK, 2) + 6;
     // price line
     y = wrapDraw(s.priceLine||"", P, y, colW, 40, "600 30px "+BODY, "#5f6b60", 2) + 22;
     // description
