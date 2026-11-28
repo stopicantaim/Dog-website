@@ -1397,6 +1397,9 @@ footer{border-top:3px solid var(--plum)!important}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&display=swap"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap"/>
 
+<!-- Google Ads tracking: fill in js/ads.js to switch it on -->
+<script src="js/ads.js?v=1"></script>
+<link rel="canonical" href="https://dillonspetcare.com/"/>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -1709,6 +1712,14 @@ src="https://www.facebook.com/tr?id=2278204926271393&ev=PageView&noscript=1"
     <a href="shop.html" style="color:var(--ac);font-weight:600;text-decoration:none">Shop</a>
     &nbsp;·&nbsp;
     <a href="pay.html" style="color:var(--ac);font-weight:600;text-decoration:none">Pay an invoice</a>
+    &nbsp;·&nbsp;
+    <a href="privacy.html" style="color:var(--ac);font-weight:600;text-decoration:none">Privacy</a>
+  </div>
+  <div style="margin-top:10px;font-size:13px">
+    <a href="house-sitting.html" style="color:var(--ac);text-decoration:none">House sitting</a> &nbsp;·&nbsp;
+    <a href="drop-in-visits.html" style="color:var(--ac);text-decoration:none">Drop-in visits</a> &nbsp;·&nbsp;
+    <a href="dog-walking.html" style="color:var(--ac);text-decoration:none">Dog walking</a> &nbsp;·&nbsp;
+    <a href="pet-transportation.html" style="color:var(--ac);text-decoration:none">Pet transportation</a>
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -2350,6 +2361,8 @@ function submitRequest(){
     dates:   $("f-dates").value.trim(),
     notes:   $("f-msg").value.trim(),
   };
+  // which ad (if any) brought them here
+  try{ if(window.AdTrack) Object.assign(payload, AdTrack.source()); }catch(_){}
 
   // don't leave someone staring at "Sending..." if the network stalls
   let delivered=false;
@@ -2370,6 +2383,7 @@ function submitRequest(){
     if(typeof fbq==="function"){
       try{ fbq('track','Lead'); }catch(e){ console.error("Pixel Lead event error:",e); }
     }
+    try{ if(window.AdTrack) AdTrack.lead(payload.service); }catch(_){}
     try{ showSent(); }catch(e){ console.error("Confirmation display error:",e); }
   })
   .catch(err=>{
